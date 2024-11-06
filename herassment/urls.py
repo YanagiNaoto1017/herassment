@@ -19,5 +19,4 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("app.urls")) # accounts.urls.pyを読み込むための設定を追加
 ]
