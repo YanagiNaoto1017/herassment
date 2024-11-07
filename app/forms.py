@@ -10,3 +10,7 @@ class SignUpForm(UserCreationForm):
             "email",
             "password",
         )
+
+class LoginForm(AuthenticationForm):
+    class Meta:
+        model = Admin
