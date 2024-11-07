@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>へらすめんと</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body id="page-top">
+
+    <!-- ページラッパー -->
+    <div id="wrapper">
+
+        <!-- サイドバー -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="user_signup.html">ユーザー登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="company_signup.html">企業登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin_signup.html">管理者登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin_delete.html">管理者削除</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">一覧</div>
+            <li class="nav-item"><a class="nav-link" href="user_list.html">登録者</a></li>
+            <li class="nav-item"><a class="nav-link" href="company_list.html">企業</a></li>
+            <li class="nav-item"><a class="nav-link" href="error_list.html">エラー報告</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin_list.html">管理者</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        <!-- サイドバーの終了 -->
+
+        <!-- コンテンツラッパー -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- メインコンテンツ -->
+            <div id="content">
+                {% block header %}
+                <!-- ヘッダーはここに挿入されます -->
+                {% endblock %}
+
+                {% block content %}
+                <!-- ここに各ページのコンテンツが挿入されます -->
+                {% endblock %}
+            </div>
+
+            <!-- フッター -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>© へらすめんと</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- フッターの終了 -->
+
+        </div>
+        <!-- コンテンツラッパーの終了 -->
+
+    </div>
+    <!-- ページラッパーの終了 -->
+
+</body>
+</html>
