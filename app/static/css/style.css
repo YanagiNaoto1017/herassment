@@ -11,6 +11,19 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 影の効果 */
 }
 
+/* サイドバーの見出し */
+.sidebar-heading {
+    font-size: 1.2em; /* 見出しのサイズ */
+    margin: 20px 0 10px; /* 上下の余白 */
+    text-transform: uppercase; /* 大文字に変換 */
+}
+
+/* サイドバーの区切り線 */
+.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* 区切り線のスタイル */
+    margin: 10px 0; /* 上下の余白 */
+}
+
 /* リストアイテムのスタイル */
 .nav-item {
     margin: 10px 0; /* 各アイテムの間隔 */
@@ -31,38 +44,63 @@
     background-color: #9bd9ee; /* ホバー時の背景色 */
 }
 
-/* サイドバーの見出し */
-.sidebar-heading {
-    font-size: 1.2em; /* 見出しのサイズ */
-    margin: 20px 0 10px; /* 上下の余白 */
-    text-transform: uppercase; /* 大文字に変換 */
+/* コンテンツラッパーのスタイル */
+#content-wrapper {
+    margin-left: 250px; /* サイドバーの幅分だけ左にマージンを設定 */
 }
 
-/* サイドバーの区切り線 */
-.sidebar-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* 区切り線のスタイル */
-    margin: 10px 0; /* 上下の余白 */
-}
-
-/* 中央ボックスのスタイル */
-.center-box {
-    border: 2px solid #007bff; /* 枠の色 */
-    border-radius: 8px; /* 角を丸くする */
+/* メインコンテンツのスタイル */
+#content {
     padding: 20px; /* 内側の余白 */
-    background-color: #f8f9fa; /* 背景色 */
-    margin: 10px; /* ボックスの周りの余白 */
-    flex: 1; /* ボックスが均等に成長するようにする */
+    background-color: #f8f9fa; /* メインコンテンツの背景色 */
+    min-height: 100vh; /* ビューポートの高さに合わせる */
 }
 
-/* ボックスのためのフレックスコンテナ */
+/* フレックスコンテナのスタイル */
 .flex-container {
     display: flex; /* フレックスボックスを有効にする */
-    justify-content: center; /* ボックスを中央に配置 */
+    justify-content: flex-start; /* ボックスを左寄せにする */
     align-items: flex-start; /* アイテムを上部に揃える */
     margin: 20px 0; /* フレックスコンテナの余白 */
 }
 
-/* リストグループアイテム */
-.list-group-item {
-    padding: 10px; /* リストアイテムの内側の余白 */
+/* リストグループのスタイル */
+.list-group {
+    list-style: none; /* リストのドットを消す */
+    padding: 0; /* パディングをリセット */
+    margin: 0; /* マージンをリセット */
+}
+
+/* 中央ボックスのスタイル */
+.center-box {
+    border: 2px solid #0595c5; /* 枠の色 */
+    border-radius: 8px; /* 角を丸くする */
+    padding: 10px; /* 内側の余白 */
+    background-color: #ffffff; /* 背景色 */
+    margin: 30px; /* ボックスの周りの余白 */
+    flex: 0 0 600px; /* 横幅を300pxに固定 */
+    text-align: center; /* テキストを中央に配置 */
+}
+
+
+
+/* ヘッダーのスタイル */
+header {
+    background-color: #f8f9fa; /* ヘッダーの背景色 */
+    padding: 20px; /* 内側の余白 */
+    text-align: center; /* テキストを中央に配置 */
+}
+
+/* ヘッダー内のタイトルスタイル */
+header h1 {
+    margin: 0; /* マージンをリセット */
+    font-size: 2em; /* フォントサイズ */
+    color: #333; /* テキストの色 */
+}
+
+/* フッターのスタイル */
+footer {
+    background-color: #8f959c; /* ヘッダーの背景色 */
+    padding: 20px; /* 内側の余白 */
+    text-align: center; /* テキストを中央に配置 */
 }
