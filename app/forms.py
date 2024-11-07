@@ -10,3 +10,5 @@ class SignUpForm(UserCreationForm):
             "email",
             "password",
         )
+
+# class AdminListForm()

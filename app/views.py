@@ -26,4 +26,4 @@ class ListView(LoginRequiredMixin, ListView):
 
     model = Admin
     form_class = AdminListForm
-    template_name = 'admin_list.html'   
+    template_name = 'admin_list.html'
