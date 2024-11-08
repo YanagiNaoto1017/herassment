@@ -25,6 +25,6 @@ class ListView(LoginRequiredMixin, ListView):
     """管理者一覧"""
 
     model = Admin
-    form_class = 'AdminListForm'
+    form_class = AdminListForm
     template_name = 'admin_list.html'
     success_url = reverse_lazy("app:index")
