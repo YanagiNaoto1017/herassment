@@ -1,94 +1,34 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <title>herassment</title>
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-
-<body id="page-top">
-
-    <!-- ページラッパー -->
-    <div id="wrapper">
-
-        <!-- サイドバー -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
-            <hr class="sidebar-divider my-0">
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">アカウント</div>
-            <li class="nav-item"><a class="nav-link" href="charts.html">ユーザー登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="charts.html">企業登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="charts.html">管理者登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="charts.html">管理者削除</a></li>
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">一覧</div>
-            <li class="nav-item"><a class="nav-link" href="charts.html">登録者</a></li>
-            <li class="nav-item"><a class="nav-link" href="charts.html">企業</a></li>
-            <li class="nav-item"><a class="nav-link" href="tables.html">エラー報告</a></li>
-            <li class="nav-item"><a class="nav-link" href="tables.html">管理者</a></li>
-            <hr class="sidebar-divider d-none d-md-block">
-        </ul>
-        <!-- サイドバーの終了 -->
-
-        <!-- コンテンツラッパー -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- メインコンテンツ -->
-            <div id="content">
-                <h1>へらすめんと</h1>
-
-                <!-- トップバー -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                </nav>
-
-                <!-- フレックスコンテナ内の中央リスト -->
-                <div class="flex-container">
-                    <div class="center-box">
-                        <h2>アカウント一覧</h2>
-                        <ul class="list-group">
-                            <li class="list-group-item"><a href="charts.html">ユーザー登録</a></li>
-                            <li class="list-group-item"><a href="charts.html">企業登録</a></li>
-                            <li class="list-group-item"><a href="charts.html">管理者登録</a></li>
-                            <li class="list-group-item"><a href="charts.html">管理者削除</a></li>
-                        </ul>
-                    </div>
-                    <div class="center-box">
-                        <h2>登録者一覧</h2>
-                        <ul class="list-group">
-                            <li class="list-group-item"><a href="charts.html">登録者</a></li>
-                            <li class="list-group-item"><a href="charts.html">企業</a></li>
-                            <li class="list-group-item"><a href="tables.html">エラー報告</a></li>
-                            <li class="list-group-item"><a href="tables.html">管理者</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- フッター -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>© へらすめんと</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- フッターの終了 -->
-
-        </div>
-        <!-- コンテンツラッパーの終了 -->
-
+{% block header %}
+<header class="bg-light py-3">
+    <div class="container">
+        <h1 class="text-center">へらすめんと</h1>
     </div>
-    <!-- ページラッパーの終了 -->
+</header>
+{% endblock %}
 
-    <!-- トップに戻るボタン -->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-</body>
-
-</html>
+{% block content %}
+{% if user.is_admin %}
+{% elif user.is_superuser %}
+{% else %}
+{% endif %}
+<div class="flex-container">
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="user_signup">ユーザー登録</a></li>
+            <li class="list-group-item"><a href="company_signup">企業登録</a></li>
+            <li class="list-group-item"><a href="admin_signup">管理者登録</a></li>
+            <li class="list-group-item"><a href="admin_delete">管理者削除</a></li>
+        </ul>
+    </div>
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="user_list">登録者</a></li>
+            <li class="list-group-item"><a href="company_list">企業</a></li>
+            <li class="list-group-item"><a href="error_list">エラー報告</a></li>
+            <li class="list-group-item"><a href="admin_list">管理者</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
