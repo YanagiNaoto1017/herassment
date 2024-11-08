@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者一覧</title>
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block content %}
 <h1>管理者一覧</h1>
 <table>
     <thead>
@@ -16,44 +10,43 @@
             <th>削除</th>
         </tr>
     </thead>
-    <tbody>
-        <!-- 管理者データの例 -->
-        <tr>
-            <td>1</td>
-            <td>山田太郎</td>
-            <td><button onclick="confirmDelete(1)">削除</button></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>鈴木花子</td>
-            <td><button onclick="confirmDelete(2)">削除</button></td>
-        </tr>
-        <!-- 他の管理者データもここに追加 -->
+    <tbody id="adminTableBody">
+        <!-- 管理者データがここに挿入されます -->
     </tbody>
 </table>
 
-<div>
-    <p>削除しますか？</p>
-    <p>※削除したらもとには戻せません</p>
-    <button onclick="submitDelete()">削除</button>
-</div>
-
 <script>
+    // サンプルデータ（実際にはサーバーから取得）
+    const admins = [
+        { id: 1, name: "オーライダー" },
+        { id: 2, name: "ちむ" },
+        { id: 3, name: "やん" },
+        { id: 4, name: "ちむ" },
+        { id: 5, name: "やん" },
+        { id: 6, name: "ちむ" },
+        { id: 7, name: "やん" },
+        { id: 8, name: "ちむ" },
+        // 他の管理者データもここに追加
+    ];
+
+    // 管理者データをテーブルに表示
+    const tableBody = document.getElementById('adminTableBody');
+    admins.forEach(admin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${admin.id}</td>
+            <td>${admin.name}</td>
+            <td><button onclick="confirmDelete(${admin.id})">削除</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+
     function confirmDelete(id) {
-        // 確認ダイアログを表示
         if (confirm("本当に削除しますか？")) {
-            // 削除処理を呼び出す
             console.log("管理者ID " + id + " を削除しました。");
             // 実際の削除処理をここに追加
         }
     }
-
-    function submitDelete() {
-        // 削除処理を実行
-        console.log("削除が確定しました。");
-        // 実際の削除処理をここに追加
-    }
 </script>
 
-</body>
-</html>
+{% endblock %}

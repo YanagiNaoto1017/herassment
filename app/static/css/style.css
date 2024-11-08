@@ -9,6 +9,7 @@
     left: 0;
     padding: 20px; /* 内側の余白 */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 影の効果 */
+    z-index: 1000;
 }
 
 /* サイドバーの見出し */
@@ -16,6 +17,7 @@
     font-size: 1.2em; /* 見出しのサイズ */
     margin: 20px 0 10px; /* 上下の余白 */
     text-transform: uppercase; /* 大文字に変換 */
+    
 }
 
 /* サイドバーの区切り線 */
@@ -47,6 +49,7 @@
 /* コンテンツラッパーのスタイル */
 #content-wrapper {
     margin-left: 250px; /* サイドバーの幅分だけ左にマージンを設定 */
+    padding: 20px;
 }
 
 /* メインコンテンツのスタイル */
@@ -74,15 +77,13 @@
 /* 中央ボックスのスタイル */
 .center-box {
     border: 2px solid #0595c5; /* 枠の色 */
-    border-radius: 8px; /* 角を丸くする */
+    border-radius: 16px; /* 角を丸くする */
     padding: 10px; /* 内側の余白 */
     background-color: #ffffff; /* 背景色 */
-    margin: 30px; /* ボックスの周りの余白 */
-    flex: 0 0 650px; /* 横幅を300pxに固定 */
+    margin: 30px auto; /* ボックスの周りの余白 */
+    flex: 0 0 600px; /* 横幅を300pxに固定 */
     text-align: center; /* テキストを中央に配置 */
 }
-
-
 
 /* ヘッダーのスタイル */
 header {
@@ -105,26 +106,46 @@ footer {
     text-align: center; /* テキストを中央に配置 */
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+button {
+    background-color: #f44336; /* 赤色 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #d32f2f;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        button {
-            background-color: #f44336; /* 赤色 */
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #d32f2f;
-        }
+.fixed-button {
+    position: fixed;
+    margin: 20px 0; /* 上下の余白 */
+    z-index: 1000; /* 他の要素の上に表示 */
+    position: relative; /* フッターの一部として動かす */
+}
+
+.btn-primary {
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    border: none; /* 枠線をなしに */
+    border-radius: 5px; /* 角を丸くする */
+    text-decoration: none; /* 下線をなしに */
+    transition: background-color 0.3s; /* ホバー時のアニメーション */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
