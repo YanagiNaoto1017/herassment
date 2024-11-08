@@ -104,3 +104,27 @@ footer {
     padding: 20px; /* 内側の余白 */
     text-align: center; /* テキストを中央に配置 */
 }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #f44336; /* 赤色 */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
