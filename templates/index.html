@@ -9,7 +9,10 @@
 {% endblock %}
 
 {% block content %}
-<!-- フレックスコンテナ内の中央リスト -->
+{% if user.is_admin %}
+{% elif user.is_superuser %}
+{% else %}
+{% endif %}
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
