@@ -21,7 +21,7 @@ class SignupView(TemplateView):
     template_name = 'admin_signup.html'
     success_url = reverse_lazy("app:index")
 
-class ListView(LoginRequiredMixin, ListView):
+class ListView(ListView):
     """管理者一覧"""
 
     model = Admin
