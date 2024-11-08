@@ -11,4 +11,9 @@ class SignUpForm(UserCreationForm):
             "password",
         )
 
-# class AdminListForm()
+class AdminListForm():
+    class Meta:
+        model = Admin
+        fields = (
+
+        )
