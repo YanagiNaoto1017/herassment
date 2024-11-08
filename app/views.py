@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from .forms import SignUpForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import AdminListForm
+# from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Admin
 
 class IndexView(TemplateView):
@@ -21,9 +22,10 @@ class SignupView(TemplateView):
     template_name = 'admin_signup.html'
     success_url = reverse_lazy("app:index")
 
-class ListView(LoginRequiredMixin, ListView):
+class ListView(ListView):
     """管理者一覧"""
 
     model = Admin
     form_class = AdminListForm
     template_name = 'admin_list.html'
+    success_url = reverse_lazy("app:index")
