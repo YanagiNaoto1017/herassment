@@ -9,6 +9,7 @@
     left: 0;
     padding: 20px; /* 内側の余白 */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 影の効果 */
+    z-index: 1000; /* メインコンテンツより手前に表示 */
 }
 
 /* サイドバーの見出し */
@@ -47,11 +48,13 @@
 /* コンテンツラッパーのスタイル */
 #content-wrapper {
     margin-left: 250px; /* サイドバーの幅分だけ左にマージンを設定 */
+    padding: 20px; /* 内側の余白 */
+    background-color: #f8f9fa; /* メインコンテンツの背景色 */
 }
 
 /* メインコンテンツのスタイル */
 #content {
-    padding: 20px; /* 内側の余白 */
+    padding: 20px;
     background-color: #f8f9fa; /* メインコンテンツの背景色 */
     min-height: 100vh; /* ビューポートの高さに合わせる */
 }
