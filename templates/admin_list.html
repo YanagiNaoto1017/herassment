@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者一覧</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #f44336; /* 赤色 */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+<h1>管理者一覧</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>削除</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 管理者データの例 -->
+        <tr>
+            <td>1</td>
+            <td>山田太郎</td>
+            <td><button onclick="confirmDelete(1)">削除</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>鈴木花子</td>
+            <td><button onclick="confirmDelete(2)">削除</button></td>
+        </tr>
+        <!-- 他の管理者データもここに追加 -->
+    </tbody>
+</table>
+
+<div>
+    <p>削除しますか？</p>
+    <p>※削除したらもとには戻せません</p>
+    <button onclick="submitDelete()">削除</button>
+</div>
+
+<script>
+    function confirmDelete(id) {
+        // 確認ダイアログを表示
+        if (confirm("本当に削除しますか？")) {
+            // 削除処理を呼び出す
+            console.log("管理者ID " + id + " を削除しました。");
+            // 実際の削除処理をここに追加
+        }
+    }
+
+    function submitDelete() {
+        // 削除処理を実行
+        console.log("削除が確定しました。");
+        // 実際の削除処理をここに追加
+    }
+</script>
+
+</body>
+</html>
