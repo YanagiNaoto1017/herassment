@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,14 @@
             height: 100vh;
             background-color: #f4f4f4;
         }
+
         form {
             background: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         input {
             margin-bottom: 15px;
             padding: 10px;
@@ -26,6 +29,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             padding: 10px;
             width: 100%;
@@ -35,17 +39,20 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .link {
             text-align: center;
             margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
-    <form action="../admin_home.html" method="POST">
+    <!-- <form action="../admin_home.html" method="POST">
         <label for="email">メールアドレス</label>
         <input type="email" id="email" name="admin_address" required>
 
@@ -57,6 +64,22 @@
         <div class="link">
             <a href="../forgot_password.html">パスワードをお忘れの場合</a>
         </div>
+    </form> -->
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        {{ field.label }}
+        {{ field }}
+        {{ field.errors }}
+        <br>
+        {% endfor %}
+        <div>
+            <button type="submit">Login</button>
+            <a href="{% url 'app:admin_signup' %}">新規登録</a>
+        </div>
     </form>
 </body>
+
 </html>
