@@ -1,44 +1,71 @@
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.core.mail import send_mail
 
-class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, password, **extra_fields):
+class UserManager(BaseUserManager):
+    def _create_user(self, email, account_id, password, **extra_fields):
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, account_id=account_id, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('Email is required')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+    def create_user(self, email, account_id, password=None, **extra_fields):
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(
+            email=email,
+            account_id=account_id,
+            password=password,
+            **extra_fields,
+        )
 
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
-    
-class Admin(AbstractBaseUser):
-    id = models.AutoField(primary_key=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=50)
-    is_staff = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=False)
+    def create_superuser(self, email, account_id, password, **extra_fields):
+        extra_fields['is_active'] = True
+        extra_fields['is_staff'] = True
+        extra_fields['is_superuser'] = True
+        return self._create_user(
+            email=email,
+            account_id=account_id,
+            password=password,
+            **extra_fields,
+        )
+
+class Admin(AbstractBaseUser,PermissionsMixin):
+    account_id = models.CharField(
+        verbose_name=_("account_id"),
+        unique=True,
+        max_length=10,
+        blank=True,
+        null=True
+    )
+    email = models.EmailField(unique=True,max_length=255)
+    password = models.CharField(max_length=255,null=True,blank=True)
+    is_superuser = models.BooleanField(
+        verbose_name=_("is_superuer"),
+        default=False
+    )
+    is_staff = models.BooleanField(
+        verbose_name=_('staff status'),
+        default=False,
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('active'),
+        default=True,
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
+    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
-        return self.email
+        return self.account_id
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
