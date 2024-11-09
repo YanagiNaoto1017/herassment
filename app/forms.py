@@ -3,17 +3,14 @@ from django import forms
 from .models import Admin
 
 
-class SignUpForm(UserCreationForm):
+class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Admin
         fields = (
+            "account_id",
             "email",
-            "password",
         )
 
-class AdminListForm():
+class AdminLoginFrom(AuthenticationForm):
     class Meta:
         model = Admin
-        fields = (
-
-        )
