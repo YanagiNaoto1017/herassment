@@ -1,23 +1,85 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="ja">
 
-{% block content %}
-<h2>管理者登録</h2>
-<form method="post" action="{% url 'app:admin_signup' %}">
-    {% csrf_token %}
-    <div>
-        <label for="email">メールアドレス：</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password1">パスワード:</label>
-        <input type="password" id="password1" name="password1" required>
-    </div>
-    <div>
-        <label for="password2">再入力:</label>
-        <input type="password" id="password2" name="password2" required>
-    </div>
-    <div>
-        <button type="submit">登録</button>
-    </div>
-</form>
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <form action="../admin_home.html" method="POST">
+        <label for="email">メールアドレス</label>
+        <input type="email" id="email" name="admin_address" required>
+
+        <label for="password">パスワード</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">ログイン</button>
+
+        <div class="link">
+            <a href="../forgot_password.html">パスワードをお忘れの場合</a>
+        </div>
+    </form> -->
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        {{ field.label }}
+        {{ field }}
+        {{ field.errors }}
+        <br>
+        {% endfor %}
+        <div>
+            <button type="submit">Signup</button>
+            <a href="{% url 'app:login' %}">戻る</a>
+        </div>
+    </form>
+</body>
+
+</html>

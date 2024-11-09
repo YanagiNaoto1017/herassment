@@ -1,15 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="utf-8">
     <title>へらすめんと</title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
+
 <body id="page-top">
 
     <!-- ページラッパー -->
     <div id="wrapper">
+        <form action='{% url "app:logout" %}' method='post' name='logout'>
+            {% csrf_token %}
+            <a href="javascript:logout.submit()">Logout</a>
+        </form>
 
         <!-- サイドバー -->
         {% if user.is_admin %}
@@ -69,7 +75,7 @@
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
         {% endif %}
-        
+
         <!-- サイドバーの終了 -->
 
         <!-- コンテンツラッパー -->
@@ -106,4 +112,5 @@
     <!-- ページラッパーの終了 -->
 
 </body>
+
 </html>
