@@ -7,6 +7,7 @@ class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Admin
         fields = ("account_id","email",)
+        labels = {'account_id':'ID', 'email':'メールアドレス'}
 
 # 管理者ログイン
 class AdminLoginFrom(AuthenticationForm):

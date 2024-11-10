@@ -15,20 +15,11 @@ class IndexView(TemplateView,LoginRequiredMixin):
     template_name = 'index.html'
 
 # 管理者新規登録
-class SignupView(CreateView):
+class SignupView(LoginRequiredMixin,CreateView):
 
     form_class = AdminSignUpForm
     template_name = 'admin_signup.html'
-    success_url = reverse_lazy("app:index")
-
-    def form_valid(self, form):
-        # ユーザー作成後にそのままログイン状態にする設定
-        response = super().form_valid(form)
-        account_id = form.cleaned_data.get("account_id")
-        password = form.cleaned_data.get("password1")
-        user = authenticate(account_id=account_id, password=password)
-        login(self.request, user)
-        return response
+    success_url = reverse_lazy("app:complete")
     
 # 管理者ログイン
 class LoginView(BaseLoginView):
