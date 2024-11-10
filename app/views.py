@@ -43,6 +43,7 @@ class LogoutView(BaseLogoutView):
         logout(request)
         return redirect('login')
     
+# 企業登録
 class CompanySignupView(LoginRequiredMixin,CreateView):
 
     model = Company

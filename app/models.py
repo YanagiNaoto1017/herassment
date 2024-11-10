@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
             **extra_fields,
         )
 
+# 管理者
 class Admin(AbstractBaseUser,PermissionsMixin):
     account_id = models.CharField(
         verbose_name=_("account_id"),
@@ -67,6 +68,7 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         return self.account_id
 
+# 企業
 class Company(models.Model):
     id = models.BigIntegerField(primary_key=True,null=False,blank=False,unique=True)
     company_name = models.CharField(max_length=50,null=False,blank=False,unique=True)
@@ -75,17 +77,20 @@ class Company(models.Model):
     def __str__(self):
         return self.company_name  # 企業名を返す
 
+# ハラスメント報告
 class Harassment_report(models.Model):
     id = models.AutoField(primary_key=True)
-    report_detail = models.TextField(null=False)
+    report_detail = models.TextField(null=False) # 報告内容
     report_image = models.CharField(max_length=100,null=True)
     report_time = models.DateTimeField(default=timezone.now)
 
+# エラー報告
 class Error_report(models.Model):
     id = models.AutoField(primary_key=True)
-    error_detail = models.TextField(null=False)
+    error_detail = models.TextField(null=False) # 報告内容
     report_time = models.DateTimeField(default=timezone.now)
 
+# 文章
 class Text(models.Model):
     id = models.AutoField(primary_key=True)
     input_text = models.TextField(null=False)
@@ -93,15 +98,17 @@ class Text(models.Model):
     text_flag = models.BooleanField(default=False)
     detected_words = models.CharField(max_length=100,null=True)
 
+# 辞書
 class Dictionary(models.Model):
     id = models.AutoField(primary_key=True)
-    keyword = models.CharField(max_length=100,null=False)
+    keyword = models.CharField(max_length=100,null=False) # 単語
 
+# ユーザー
 class Users(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE) # 企業ID
     password = models.CharField(max_length=50,null=False)
-    start_password = models.CharField(max_length=50,null=False)
+    start_password = models.CharField(max_length=50,null=False) # 初期パスワード
     email = models.EmailField(null=True)
-    superuser_flag = models.BooleanField(default=False)
+    superuser_flag = models.BooleanField(default=False) # スーパーユーザーフラグ
     created_at = models.DateTimeField(default=timezone.now)

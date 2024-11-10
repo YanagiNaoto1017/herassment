@@ -2,17 +2,18 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Admin,Company,Users
 
-
+# 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Admin
         fields = ("account_id","email",)
 
+# 管理者ログイン
 class AdminLoginFrom(AuthenticationForm):
     class Meta:
         model = Admin
 
-
+# 企業登録
 class CompanySignUpForm(forms.ModelForm):
     class Meta:
         model = Company
