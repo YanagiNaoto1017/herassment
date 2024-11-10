@@ -29,8 +29,13 @@ class SuperUserSignUpForm(forms.ModelForm):
         labels = {'id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
 
     def save(self, commit=True):
+        # superuse_flagをTrue
         user = super().save(commit=False)  # インスタンスはまだ保存しない
         user.superuser_flag = True         # superuser_flagをTrueに設定
+        # 入力したパスワードをstart_passwordにも保存
+        raw_password = self.cleaned_data['password']  # 入力されたパスワードを取得
+        user.password = raw_password                  # passwordフィールドに設定
+        user.start_password = raw_password            # start_passwordフィールドにも設定
         if commit:
             user.save()                    # データベースに保存
         return user
