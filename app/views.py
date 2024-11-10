@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginFrom,CompanySignUpForm,SuperUserSignUpForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users
 from django.contrib.auth import logout
@@ -24,7 +24,7 @@ class SignupView(LoginRequiredMixin,CreateView):
 # 管理者ログイン
 class LoginView(BaseLoginView):
 
-    form_class = AdminLoginFrom
+    form_class = AdminLoginForm
     template_name = "admin_login.html"
 
 # ログアウト
@@ -32,7 +32,7 @@ class LogoutView(BaseLogoutView):
 
     def get(self, request):
         logout(request)
-        return redirect('login')
+        return redirect('user_login')
     
 # 企業登録
 class CompanySignupView(LoginRequiredMixin,CreateView):
@@ -49,6 +49,11 @@ class SuperUserSignupView(LoginRequiredMixin,CreateView):
     form_class = SuperUserSignUpForm
     template_name = 'superuser_signup.html'
     success_url = reverse_lazy("app:complete")
+
+# ユーザーログイン
+class UserLoginView(BaseLoginView):
+    form_class = UserLoginForm
+    template_name = 'user_login.html'
 
 # 完了画面
 class CompleteView(LoginRequiredMixin,TemplateView):

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Admin,Company,Users
+from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
@@ -10,7 +11,7 @@ class AdminSignUpForm(UserCreationForm):
         labels = {'account_id':'ID', 'email':'メールアドレス'}
 
 # 管理者ログイン
-class AdminLoginFrom(AuthenticationForm):
+class AdminLoginForm(AuthenticationForm):
     class Meta:
         model = Admin
 
@@ -30,13 +31,29 @@ class SuperUserSignUpForm(forms.ModelForm):
         labels = {'id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
 
     def save(self, commit=True):
-        # superuse_flagをTrue
-        user = super().save(commit=False)  # インスタンスはまだ保存しない
-        user.superuser_flag = True         # superuser_flagをTrueに設定
-        # 入力したパスワードをstart_passwordにも保存
-        raw_password = self.cleaned_data['password']  # 入力されたパスワードを取得
-        user.password = raw_password                  # passwordフィールドに設定
-        user.start_password = raw_password            # start_passwordフィールドにも設定
+        # ユーザーインスタンスを作成
+        user = super().save(commit=False)
+        
+        # パスワードがハッシュ化されていなければハッシュ化
+        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
+            user.password = make_password(user.password)  # パスワードをハッシュ化
+
+        # superuser_flagをTrueに設定
+        user.superuser_flag = True
+
+        # 入力したパスワードをstart_passwordにも設定
+        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
+        
+        # データベースに保存
         if commit:
-            user.save()                    # データベースに保存
+            user.save()
         return user
+    
+    
+# ユーザーログイン
+class UserLoginForm(AuthenticationForm):
+    class Meta:
+
+        model = Users
+        username = Users.id
+        password = Users.password
