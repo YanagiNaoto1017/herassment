@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者ログイン画面</title>
+    <title>ユーザーログイン画面</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,7 +52,7 @@
 </head>
 
 <body>
-    <h1>管理者ログイン</h1>
+    <h1>ユーザーログイン</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -64,7 +64,7 @@
         {% endfor %}
         <div>
             <button type="submit">Login</button>
-            <a href="{% url 'app:user_login' %}">ユーザーログイン</a>
+            <a href="{% url 'app:admin_login' %}">管理者ログイン</a>
         </div>
     </form>
 </body>
