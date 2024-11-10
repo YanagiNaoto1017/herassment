@@ -72,6 +72,9 @@ class Company(models.Model):
     company_name = models.CharField(max_length=50,null=False,blank=False,unique=True)
     created_at = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.company_name  # 企業名を返す
+
 class Harassment_report(models.Model):
     id = models.AutoField(primary_key=True)
     report_detail = models.TextField(null=False)
@@ -96,7 +99,7 @@ class Dictionary(models.Model):
 
 class Users(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    company_id = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     password = models.CharField(max_length=50,null=False)
     start_password = models.CharField(max_length=50,null=False)
     email = models.EmailField(null=True)

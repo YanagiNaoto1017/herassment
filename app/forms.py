@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Admin,Company
+from .models import Admin,Company,Users
 
 
 class AdminSignUpForm(UserCreationForm):
@@ -18,3 +18,18 @@ class CompanySignUpForm(forms.ModelForm):
         model = Company
         fields = ("id","company_name",)
         labels = {'id':'企業ID', 'company_name':'企業名'}
+
+# スーパーユーザー登録
+class SuperUserSignUpForm(forms.ModelForm):
+
+    class Meta:
+        model = Users
+        fields = ("id","company","email","password")
+        labels = {'id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
+
+    def save(self, commit=True):
+        user = super().save(commit=False)  # インスタンスはまだ保存しない
+        user.superuser_flag = True         # superuser_flagをTrueに設定
+        if commit:
+            user.save()                    # データベースに保存
+        return user
