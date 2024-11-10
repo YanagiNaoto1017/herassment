@@ -68,8 +68,8 @@ class Admin(AbstractBaseUser,PermissionsMixin):
         return self.account_id
 
 class Company(models.Model):
-    id = models.AutoField(primary_key=True)
-    company_name = models.CharField(max_length=50,null=False)
+    id = models.BigIntegerField(primary_key=True,null=False,blank=False,unique=True)
+    company_name = models.CharField(max_length=50,null=False,blank=False,unique=True)
     created_at = models.DateTimeField(default=timezone.now)
 
 class Harassment_report(models.Model):

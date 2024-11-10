@@ -2,9 +2,9 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginFrom
+from .forms import AdminSignUpForm,AdminLoginFrom,CompanySignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Admin
+from .models import Company
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -42,3 +42,10 @@ class LogoutView(BaseLogoutView):
     def get(self, request):
         logout(request)
         return redirect('login')
+    
+class CompanySignupView(LoginRequiredMixin,CreateView):
+
+    model = Company
+    form_class = CompanySignUpForm
+    template_name = 'company_signup.html'
+    success_url = reverse_lazy("app:index")

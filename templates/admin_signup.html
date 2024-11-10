@@ -52,20 +52,6 @@
 </head>
 
 <body>
-    <!-- <form action="../admin_home.html" method="POST">
-        <label for="email">メールアドレス</label>
-        <input type="email" id="email" name="admin_address" required>
-
-        <label for="password">パスワード</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit">ログイン</button>
-
-        <div class="link">
-            <a href="../forgot_password.html">パスワードをお忘れの場合</a>
-        </div>
-    </form> -->
-
     <form method="POST">
         {% csrf_token %}
         {{ form.non_field_errors }}
