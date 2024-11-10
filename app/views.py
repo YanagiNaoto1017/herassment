@@ -49,7 +49,7 @@ class CompanySignupView(LoginRequiredMixin,CreateView):
     model = Company
     form_class = CompanySignUpForm
     template_name = 'company_signup.html'
-    success_url = reverse_lazy("app:index")
+    success_url = reverse_lazy("app:complete")
 
 # スーパーユーザー登録
 class SuperUserSignupView(LoginRequiredMixin,CreateView):
@@ -57,4 +57,8 @@ class SuperUserSignupView(LoginRequiredMixin,CreateView):
     model = Users
     form_class = SuperUserSignUpForm
     template_name = 'superuser_signup.html'
-    success_url = reverse_lazy("app:index")
+    success_url = reverse_lazy("app:complete")
+
+# 完了画面
+class CompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'complete.html'

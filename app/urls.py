@@ -10,4 +10,5 @@ urlpatterns = [
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
     path('company_signup', views.CompanySignupView.as_view(), name='company_signup'), # 企業登録
     path('superuser_signup', views.SuperUserSignupView.as_view(), name='superuser_signup'), # スーパーユーザー登録
+    path('complete', views.CompleteView.as_view(), name='complete'), # 完了画面
 ]
