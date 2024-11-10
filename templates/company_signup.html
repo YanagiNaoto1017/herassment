@@ -1,7 +1,7 @@
 {% extends "base_admin.html" %}
 
 {% block content %}
-<h1>管理者登録</h1>
+<h1>企業登録</h1>
 <form method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -15,4 +15,5 @@
         <button type="submit">新規登録</button>
     </div>
 </form>
+
 {% endblock %}
