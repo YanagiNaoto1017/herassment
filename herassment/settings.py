@@ -87,6 +87,9 @@ DATABASES = {
         'NAME': 'herassment_db', # プロジェクトで使用するデータベース名
         'USER': 'root', # パソコンにインストールしたMySQLのユーザー名
         'PASSWORD': '', # 同上。そのパスワード
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
  

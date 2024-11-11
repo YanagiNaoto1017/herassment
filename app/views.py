@@ -14,13 +14,10 @@ class IndexView(TemplateView,LoginRequiredMixin):
 
     template_name = 'index.html'
 
-class LoginView(TemplateView):
-    form_class = LoginForm  # 修正
-    template_name = 'admin_login.html'
+# 管理者新規登録
+class SignupView(LoginRequiredMixin,CreateView):
 
-class SignupView(TemplateView):
-    """管理者登録用ビュー"""
-    form_class = SignUpForm
+    form_class = AdminSignUpForm
     template_name = 'admin_signup.html'
     success_url = reverse_lazy("app:complete")
     
