@@ -1,10 +1,10 @@
 from django.contrib.auth import login, authenticate
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin
+from .models import Company,Users
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -58,8 +58,3 @@ class UserLoginView(BaseLoginView):
 # 完了画面
 class CompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'complete.html'
-
-# 管理者一覧画面
-class AdminListView(LoginRequiredMixin,ListView):
-    model = Admin
-    template_name = 'admin_list.html'
