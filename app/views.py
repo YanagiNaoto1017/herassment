@@ -1,10 +1,10 @@
 from django.contrib.auth import login, authenticate
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin
+from .models import Company,Users,Admin,Error_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -13,6 +13,11 @@ from django.shortcuts import render
 class IndexView(TemplateView,LoginRequiredMixin):
 
     template_name = 'index.html'
+
+# ホーム
+class UserIndexView(TemplateView):
+
+    template_name = 'user_index.html'
 
 # 管理者新規登録
 class SignupView(LoginRequiredMixin,CreateView):
@@ -68,3 +73,13 @@ class AdminListView(LoginRequiredMixin,ListView):
 class CompanyListView(LoginRequiredMixin,ListView):
     model = Company
     template_name = 'company_list.html'
+
+# ユーザー一覧画面
+class UserListView(LoginRequiredMixin,ListView):
+    model = Users
+    template_name = 'user_list.html'
+
+# エラー一覧画面
+class ErrorReportListView(LoginRequiredMixin,ListView):
+    model = Error_report
+    template_name = 'error_list.html'

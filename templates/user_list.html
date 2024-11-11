@@ -1,48 +1,24 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 
 {% block content %}
-<h1>ユーザー一覧</h1>
-<table>
-    <thead>
+<h1>登録者一覧</h1>
+<table class="table">
+    <thead class="table-dark">
         <tr>
-            <th>ID</th>
-            <th>企業名</th>
-            <th>削除</th>
+            <th scope="col">ID</th>
+            <th scope="col">企業名</th>
+            <th scope="col">登録日時</th>
         </tr>
     </thead>
-    <tbody id="userTableBody">
-        <!-- ユーザーデータがここに挿入されます -->
+    <tbody>
+        {% csrf_token %}
+        {% for item in object_list %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.created_at }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
-
-<script>
-    // サンプルデータ（実際にはサーバーから取得）
-    const users = [
-        { id: 1, name: "ユーザーA" },
-        { id: 2, name: "ユーザーB" },
-        { id: 3, name: "ユーザーC" },
-        { id: 4, name: "ユーザーD" },
-        // 他のユーザーデータもここに追加
-    ];
-
-    // ユーザーデータをテーブルに表示
-    const tableBody = document.getElementById('userTableBody');
-    users.forEach(user, company => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${company.name}</td>
-            <td><button onclick="confirmDelete(${user.id})">削除</button></td>
-        `;
-        tableBody.appendChild(row);
-    });
-
-    function confirmDelete(id) {
-        if (confirm("本当に削除しますか？")) {
-            console.log("ユーザーID " + id + " を削除しました。");
-            // 実際の削除処理をここに追加
-        }
-    }
-</script>
-
 {% endblock %}

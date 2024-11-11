@@ -1,0 +1,30 @@
+{% extends 'base_admin.html' %}
+
+{% block header %}
+<header class="bg-light py-3">
+    <div class="container">
+        <h1 class="text-center">へらすめんと</h1>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+{% if user.is_admin %}
+{% elif user.is_superuser %}
+{% else %}
+{% endif %}
+<div class="flex-container">
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="proofreading">校正</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+</div>
+{% endblock %}
