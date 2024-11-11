@@ -1,12 +1,13 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 
 {% block content %}
+
 <body>
-    {% for list in object_list %}  #モデルのデータを一つずつ取り出す。
-        <h1>{{ list.title }}</h1>  #タイトルを表示
-        <p>{{ list.admin_id }}</p>  #IDを表示
-        <p>{{ list.admin_name }}</p>  #名前を表示
-        #削除ボタン
+    {% for list in object_list %} #モデルのデータを一つずつ取り出す。
+    <h1>{{ list.title }}</h1> #タイトルを表示
+    <p>{{ list.admin_id }}</p> #IDを表示
+    <p>{{ list.admin_name }}</p> #名前を表示
+    #削除ボタン
     {% endfor %}
 </body>
 {% endblock %}
