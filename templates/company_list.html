@@ -1,48 +1,24 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 
 {% block content %}
 <h1>企業一覧</h1>
-<table>
-    <thead>
+<table class="table">
+    <thead class="table-dark">
         <tr>
-            <th>企業ID</th>
-            <th>企業名</th>
-            <th>削除</th>
+            <th scope="col">企業ID</th>
+            <th scope="col">企業名</th>
+            <th scope="col">登録日時</th>
         </tr>
     </thead>
-    <tbody id="companyTableBody">
-        <!-- 企業データがここに挿入されます -->
+    <tbody>
+        {% csrf_token %}
+        {% for item in object_list %}
+        <tr>
+            <td>{{ item.company_id }}</td>
+            <td>{{ item.company_name }}</td>
+            <td>{{ item.created_at }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
-
-<script>
-    // サンプルデータ（実際にはサーバーから取得）
-    const companies = [
-        { id: 1, name: "株式会社A" },
-        { id: 2, name: "株式会社B" },
-        { id: 3, name: "株式会社C" },
-        { id: 4, name: "株式会社D" },
-        // 他の企業データもここに追加
-    ];
-
-    // 企業データをテーブルに表示
-    const tableBody = document.getElementById('companyTableBody');
-    companies.forEach(company => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${company.id}</td>
-            <td>${company.name}</td>
-            <td><button onclick="confirmDelete(${company.id})">削除</button></td>
-        `;
-        tableBody.appendChild(row);
-    });
-
-    function confirmDelete(id) {
-        if (confirm("本当に削除しますか？")) {
-            console.log("管理者ID " + id + " を削除しました。");
-            // 実際の削除処理をここに追加
-        }
-    }
-</script>
-
 {% endblock %}
