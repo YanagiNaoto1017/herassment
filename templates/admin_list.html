@@ -1,24 +1,12 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>管理者一覧</h1>
-<table class="table">
-    <thead class="table-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Email</th>
-            <th scope="col">登録日時</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% csrf_token %}
-        {% for item in object_list %}
-        <tr>
-            <td>{{ item.account_id }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.created_at }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<body>
+    {% for list in object_list %}  #モデルのデータを一つずつ取り出す。
+        <h1>{{ list.title }}</h1>  #タイトルを表示
+        <p>{{ list.admin_id }}</p>  #IDを表示
+        <p>{{ list.admin_name }}</p>  #名前を表示
+        #削除ボタン
+    {% endfor %}
+</body>
 {% endblock %}
