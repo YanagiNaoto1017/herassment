@@ -63,3 +63,8 @@ class CompleteView(LoginRequiredMixin,TemplateView):
 class AdminListView(LoginRequiredMixin,ListView):
     model = Admin
     template_name = 'admin_list.html'
+
+# 企業一覧画面
+class CompanyListView(LoginRequiredMixin,ListView):
+    model = Company
+    template_name = 'company_list.html'
