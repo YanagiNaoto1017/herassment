@@ -1,25 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="utf-8">
     <title>へらすめんと</title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
+
 <body id="page-top">
 
     <!-- ページラッパー -->
     <div id="wrapper">
+        <form action='{% url "app:logout" %}' method='post' name='logout'>
+            {% csrf_token %}
+            <a href="javascript:logout.submit()">Logout</a>
+        </form>
 
         <!-- サイドバー -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
             <div class="sidebar-heading">アカウント</div>
-            <li class="nav-item"><a class="nav-link" href="user_signup">ユーザー登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="company_signup">企業登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin_signup">管理者登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin_delete">管理者削除</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">ユーザー登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">企業登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">管理者登録</a></li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">一覧</div>
             <li class="nav-item"><a class="nav-link" href="user_list">登録者</a></li>
@@ -28,6 +33,7 @@
             <li class="nav-item"><a class="nav-link" href="admin_list">管理者</a></li>
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
+
         <!-- サイドバーの終了 -->
 
         <!-- コンテンツラッパー -->
@@ -64,4 +70,5 @@
     <!-- ページラッパーの終了 -->
 
 </body>
+
 </html>
