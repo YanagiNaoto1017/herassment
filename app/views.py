@@ -1,11 +1,17 @@
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.contrib.auth import login, authenticate
+from django.views.generic import TemplateView, CreateView, ListView
+from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LogoutView as AuthLogoutView  # インポートを追加
-from .forms import SignUpForm
-from .forms import LoginForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Company,Users,Admin
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.shortcuts import render
 
-class IndexView(TemplateView):
+# ホーム
+class IndexView(TemplateView,LoginRequiredMixin):
+
     template_name = 'index.html'
 
 class LoginView(TemplateView):
@@ -16,8 +22,47 @@ class SignupView(TemplateView):
     """管理者登録用ビュー"""
     form_class = SignUpForm
     template_name = 'admin_signup.html'
-    success_url = reverse_lazy("app:index")
+    success_url = reverse_lazy("app:complete")
+    
+# 管理者ログイン
+class LoginView(BaseLoginView):
 
-class LogoutView(AuthLogoutView):  # 修正
-    template_name = 'admin_logout.html'
-    success_url = reverse_lazy("accounts:index")
+    form_class = AdminLoginForm
+    template_name = "admin_login.html"
+
+# ログアウト
+class LogoutView(BaseLogoutView):
+
+    def get(self, request):
+        logout(request)
+        return redirect('user_login')
+    
+# 企業登録
+class CompanySignupView(LoginRequiredMixin,CreateView):
+
+    model = Company
+    form_class = CompanySignUpForm
+    template_name = 'company_signup.html'
+    success_url = reverse_lazy("app:complete")
+
+# スーパーユーザー登録
+class SuperUserSignupView(LoginRequiredMixin,CreateView):
+
+    model = Users
+    form_class = SuperUserSignUpForm
+    template_name = 'superuser_signup.html'
+    success_url = reverse_lazy("app:complete")
+
+# ユーザーログイン
+class UserLoginView(BaseLoginView):
+    form_class = UserLoginForm
+    template_name = 'user_login.html'
+
+# 完了画面
+class CompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'complete.html'
+
+# 管理者一覧画面
+class AdminListView(LoginRequiredMixin,ListView):
+    model = Admin
+    template_name = 'admin_list.html'
