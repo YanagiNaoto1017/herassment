@@ -16,4 +16,5 @@ urlpatterns = [
     path('company_list', views.CompanyListView.as_view(), name='company_list'), # 企業一覧
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
+    path('user_index/', views.UserIndexView.as_view(), name='user_index'), # ホーム画面
 ]
