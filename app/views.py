@@ -14,6 +14,11 @@ class IndexView(TemplateView,LoginRequiredMixin):
 
     template_name = 'index.html'
 
+# ホーム
+class UserIndexView(TemplateView):
+
+    template_name = 'user_index.html'
+
 # 管理者新規登録
 class SignupView(LoginRequiredMixin,CreateView):
 
