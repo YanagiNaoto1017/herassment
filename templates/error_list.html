@@ -1,22 +1,20 @@
 {% extends "base_admin.html" %}
 
 {% block content %}
-<h1>管理者一覧</h1>
+<h1>エラー報告一覧</h1>
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">メールアドレス</th>
-            <th scope="col">登録日時</th>
+            <th scope="col">報告日時</th>
+            <th scope="col">内容</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
         {% for item in object_list %}
         <tr>
-            <td>{{ item.account_id }}</td>
-            <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
+            <td>{{ item.content }}</td>
         </tr>
         {% endfor %}
     </tbody>

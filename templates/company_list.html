@@ -1,12 +1,12 @@
 {% extends "base_admin.html" %}
 
 {% block content %}
-<h1>管理者一覧</h1>
+<h1>企業一覧</h1>
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">メールアドレス</th>
+            <th scope="col">企業ID</th>
+            <th scope="col">企業名</th>
             <th scope="col">登録日時</th>
         </tr>
     </thead>
@@ -14,8 +14,8 @@
         {% csrf_token %}
         {% for item in object_list %}
         <tr>
-            <td>{{ item.account_id }}</td>
-            <td>{{ item.email }}</td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.company_name }}</td>
             <td>{{ item.created_at }}</td>
         </tr>
         {% endfor %}
