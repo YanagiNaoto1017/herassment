@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>管理者一覧</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>削除</th>
+        </tr>
+    </thead>
+    <tbody id="adminTableBody">
+        <!-- 管理者データがここに挿入されます -->
+    </tbody>
+</table>
+
+<script>
+    // サンプルデータ（実際にはサーバーから取得）
+    const admins = [
+        { id: 1, name: "オーライダー" },
+        { id: 2, name: "ちむ" },
+        { id: 3, name: "やん" },
+        { id: 4, name: "ちむ" },
+        { id: 5, name: "やん" },
+        { id: 6, name: "ちむ" },
+        { id: 7, name: "やん" },
+        { id: 8, name: "ちむ" },
+        // 他の管理者データもここに追加
+    ];
+
+    // 管理者データをテーブルに表示
+    const tableBody = document.getElementById('adminTableBody');
+    admins.forEach(admin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${admin.id}</td>
+            <td>${admin.name}</td>
+            <td><button onclick="confirmDelete(${admin.id})">削除</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    function confirmDelete(id) {
+        if (confirm("本当に削除しますか？")) {
+            console.log("管理者ID " + id + " を削除しました。");
+            // 実際の削除処理をここに追加
+        }
+    }
+</script>
+
+{% endblock %}
