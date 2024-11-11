@@ -21,8 +21,14 @@ torchvision       0.19.1
 typing_extensions 4.12.2
 tzdata            2024.1
 
+# PyMySQLインストール
+pip install PyMySQL
+
 # Django インストール
 pip install Django==4.2
+
+# mysqlclientインストール
+pip install mysqlclient=2.1.1 
 
 # Djangoサーバー起動
 python manage.py runserver
