@@ -1,40 +1,22 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 
 {% block content %}
 <h1>エラー報告一覧</h1>
-<table>
-    <thead>
+<table class="table">
+    <thead class="table-dark">
         <tr>
-            <th>年月日</th>
-            <th>エラー内容</th>
+            <th scope="col">報告日時</th>
+            <th scope="col">内容</th>
         </tr>
     </thead>
-    <tbody date="errorReportTableBody">
-        <!-- エラー報告データがここに挿入されます -->
+    <tbody>
+        {% csrf_token %}
+        {% for item in object_list %}
+        <tr>
+            <td>{{ item.created_at }}</td>
+            <td>{{ item.content }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
-
-<script>
-    // サンプルデータ（実際にはサーバーから取得）
-    const errorReports = [
-        { date: 1, description: "エラーA" },
-        { date: 2, description: "エラーB" },
-        { date: 3, description: "エラーC" },
-        { date: 4, description: "エラーD" },
-        // 他のエラー報告データもここに追加
-    ];
-
-    // エラー報告データをテーブルに表示
-    const tableBody = document.getElementById('errorReportTableBody');
-    errorReports.forEach(report => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${report.date}</td>
-            <td>${report.description}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-
-</script>
-
 {% endblock %}
