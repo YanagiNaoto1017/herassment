@@ -49,6 +49,33 @@ class SuperUserSignUpForm(forms.ModelForm):
             user.save()
         return user
     
+# ユーザー登録
+class UserSignUpForm(forms.ModelForm):
+
+    class Meta:
+        model = Users
+        fields = ("id","company","password")
+        labels = {'id':'ID', 'company':'企業名', 'password':'パスワード'}
+
+    def save(self, commit=True):
+        # ユーザーインスタンスを作成
+        user = super().save(commit=False)
+        
+        # パスワードがハッシュ化されていなければハッシュ化
+        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
+            user.password = make_password(user.password)  # パスワードをハッシュ化
+
+        # superuser_flagをTrueに設定
+        user.superuser_flag = True
+
+        # 入力したパスワードをstart_passwordにも設定
+        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
+        
+        # データベースに保存
+        if commit:
+            user.save()
+        return user
+    
     
 # ユーザーログイン
 class UserLoginForm(AuthenticationForm):

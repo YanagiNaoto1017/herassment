@@ -11,11 +11,13 @@
 <body id="page-top">
 
     <!-- ページラッパー -->
-    <div id="wrapper">
-        <form action='{% url "app:logout" %}' method='post' name='logout'>
+    <div id="wrapper" style="text-align: right; padding: 20px;">
+        <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
             {% csrf_token %}
-            <a href="javascript:logout.submit()">Logout</a>
+            <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
         </form>
+    </div>
+    
 
         <!-- サイドバー -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">

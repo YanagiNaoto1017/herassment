@@ -2,9 +2,9 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin,Error_report
+from .models import Company,Users,Admin,Error_report,Text
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -83,3 +83,23 @@ class UserListView(LoginRequiredMixin,ListView):
 class ErrorReportListView(LoginRequiredMixin,ListView):
     model = Error_report
     template_name = 'error_list.html'
+
+# 検出画面
+class DetectionView(LoginRequiredMixin, CreateView):
+    model = Text
+    template_name = 'detection.html'
+    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+
+# 校正画面
+class ProofreadingView(LoginRequiredMixin,CreateView):
+    model = Text
+    template_name = 'proofreading.html'
+    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+
+# ユーザー登録
+class UserSignupView(LoginRequiredMixin,CreateView):
+
+    model = Users
+    form_class = UserSignUpForm
+    template_name = 'user_signup.html'
+    success_url = reverse_lazy("app:complete")
