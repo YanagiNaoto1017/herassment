@@ -27,8 +27,8 @@ class SuperUserSignUpForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        fields = ("id","company","email","password")
-        labels = {'id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
+        fields = ("account_id","company","email","password")
+        labels = {'account_id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
 
     def save(self, commit=True):
         # ユーザーインスタンスを作成
@@ -54,8 +54,8 @@ class UserSignUpForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        fields = ("id","company","password")
-        labels = {'id':'ID', 'company':'企業名', 'password':'パスワード'}
+        fields = ("account_id","company","password")
+        labels = {'account_id':'ID', 'company':'企業名', 'password':'パスワード'}
 
     def save(self, commit=True):
         # ユーザーインスタンスを作成
@@ -80,10 +80,7 @@ class UserSignUpForm(forms.ModelForm):
 # ユーザーログイン
 class UserLoginForm(AuthenticationForm):
     class Meta:
-
         model = Users
-        username = Users.id
-        password = Users.password
 
 # エラー報告画面
 class ErrorReportForm(forms.ModelForm):
