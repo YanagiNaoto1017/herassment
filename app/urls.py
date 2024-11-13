@@ -20,4 +20,6 @@ urlpatterns = [
     path('detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
     path('proofreading/', views.ProofreadingView.as_view(), name='proofreading'), # 検出画面
     path('user_signup/', views.UserSignupView.as_view(), name='user_signup'), # ユーザー登録
+    path('harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
+    path('error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
 ]

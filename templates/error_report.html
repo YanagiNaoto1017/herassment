@@ -1,0 +1,21 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+    <h1 style="text-align: center;">エラー報告</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div style="margin-bottom: 15px;">
+            {{ field.label }}
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div style="text-align: center;">
+            <button type="submit">送信</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

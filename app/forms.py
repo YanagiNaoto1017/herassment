@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Admin,Company,Users
+from .models import Admin,Company,Users,Harassment_report,Error_report
 from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
@@ -84,3 +84,17 @@ class UserLoginForm(AuthenticationForm):
         model = Users
         username = Users.id
         password = Users.password
+
+# エラー報告画面
+class ErrorReportForm(forms.ModelForm):
+    class Meta:
+        model = Error_report
+        fields = ("id","error_detail","report_time")
+        labels = {'id':'ID', 'error_detail':'報告内容','report_time':'日時'}
+
+# ハラスメント報告画面
+class HarassmentReportForm(forms.ModelForm):
+    class Meta:
+        model = Harassment_report
+        fields = ("id","report_detail","report_image","report_time")
+        labels = {'id':'ID', 'report_detail':'報告内容','report_image':'画像','report_time':'日時'}
