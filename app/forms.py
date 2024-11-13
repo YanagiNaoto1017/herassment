@@ -23,12 +23,12 @@ class CompanySignUpForm(forms.ModelForm):
         labels = {'id':'企業ID', 'company_name':'企業名'}
 
 # スーパーユーザー登録
-class SuperUserSignUpForm(forms.ModelForm):
+class SuperUserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company","email","password")
-        labels = {'account_id':'ID', 'company':'企業名','email':'メールアドレス', 'password':'パスワード'}
+        fields = ("account_id","company","email")
+        labels = {'account_id':'ID', 'company':'企業名','email':'メールアドレス'}
 
     def save(self, commit=True):
         # ユーザーインスタンスを作成
