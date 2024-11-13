@@ -56,7 +56,7 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     )
     is_staff = models.BooleanField(
         verbose_name=_('staff status'),
-        default=False,
+        default=True,
     )
     is_active = models.BooleanField(
         verbose_name=_('active'),
@@ -112,7 +112,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
     # Usersモデルに固有のrelated_nameを指定
     groups = models.ManyToManyField(Group, related_name='user_groups')
     user_permissions = models.ManyToManyField(Permission, related_name='user_permissions')
-    
+
     account_id = models.CharField(
         verbose_name=_("account_id"),
         unique=True,
