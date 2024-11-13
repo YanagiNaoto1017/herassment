@@ -83,3 +83,8 @@ class UserListView(LoginRequiredMixin,ListView):
 class ErrorReportListView(LoginRequiredMixin,ListView):
     model = Error_report
     template_name = 'error_list.html'
+
+# ハラスメント報告一覧
+class HarassmentListView(LoginRequiredMixin,ListView):
+    model = Harassment
+    template_name = 'harassment_list.html'

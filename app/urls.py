@@ -17,4 +17,5 @@ urlpatterns = [
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
     path('user_index/', views.UserIndexView.as_view(), name='user_index'), # ホーム画面
+    path('harassment_list',views.HarassmentListView.as_view(), name='harassment_list'),# ハラスメント報告一覧
 ]
