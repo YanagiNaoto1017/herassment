@@ -8,7 +8,7 @@ from .models import Company,Users,Admin,Error_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
-
+    
 # ホーム
 class IndexView(TemplateView,LoginRequiredMixin):
 
