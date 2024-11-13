@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'base_superuser.html' %}
 
 {% block header %}
 <header class="bg-light py-3">
@@ -13,18 +13,19 @@
 {% elif user.is_superuser %}
 {% else %}
 {% endif %}
+<h2 style="text-align: center;">へらすめんとのせつめい</h2>
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
-        <p>文入れる</p>
+        <p>検出説明文</p>
     </div>
     <div class="center-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="proofreading">校正</a></li>
+            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
-        <p>文入れる</p>
+        <p>校正説明文</p>
     </div>
 </div>
 {% endblock %}
