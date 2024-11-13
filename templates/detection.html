@@ -1,0 +1,22 @@
+{% extends "base_superuser.html" %}
+
+{% block content %}
+<h1 style="text-align: center;">検出画面</h1>
+<form method="POST" style="text-align: center;">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        <button type="submit">検出</button>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <label for="text_to_detect">検出したい文:</label>
+        <input type="text" id="text_to_detect" name="text_to_detect" required style="width: 300px; height: 40px; font-size: 1.2em;">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="result">結果:</label>
+        <input type="text" id="result" name="result" readonly style="width: 300px; height: 40px; font-size: 1.2em;">
+    </div>
+</form>
+{% endblock %}

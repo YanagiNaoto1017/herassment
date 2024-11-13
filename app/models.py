@@ -47,7 +47,7 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(unique=True,max_length=255)
     password = models.CharField(max_length=255,null=True,blank=True)
     is_superuser = models.BooleanField(
-        verbose_name=_("is_superuer"),
+        verbose_name=_("is_superuser"),
         default=False
     )
     is_staff = models.BooleanField(
