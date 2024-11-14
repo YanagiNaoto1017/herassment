@@ -1,5 +1,5 @@
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
@@ -37,6 +37,10 @@ class UserManager(BaseUserManager):
 
 # 管理者
 class Admin(AbstractBaseUser,PermissionsMixin):
+    # Adminモデルに固有のrelated_nameを指定
+    groups = models.ManyToManyField(Group, related_name='admin_groups')
+    user_permissions = models.ManyToManyField(Permission, related_name='admin_permissions')
+
     account_id = models.CharField(
         verbose_name=_("account_id"),
         unique=True,
@@ -47,12 +51,12 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(unique=True,max_length=255)
     password = models.CharField(max_length=255,null=True,blank=True)
     is_superuser = models.BooleanField(
-        verbose_name=_("is_superuer"),
+        verbose_name=_("is_superuser"),
         default=False
     )
     is_staff = models.BooleanField(
         verbose_name=_('staff status'),
-        default=False,
+        default=True,
     )
     is_active = models.BooleanField(
         verbose_name=_('active'),
@@ -104,11 +108,41 @@ class Dictionary(models.Model):
     keyword = models.CharField(max_length=100,null=False) # 単語
 
 # ユーザー
-class Users(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+class Users(AbstractBaseUser,PermissionsMixin):
+    # Usersモデルに固有のrelated_nameを指定
+    groups = models.ManyToManyField(Group, related_name='user_groups')
+    user_permissions = models.ManyToManyField(Permission, related_name='user_permissions')
+
+    account_id = models.CharField(
+        verbose_name=_("account_id"),
+        unique=True,
+        max_length=10,
+        blank=True,
+        null=True
+    )
     company = models.ForeignKey(Company, on_delete=models.CASCADE) # 企業ID
     password = models.CharField(max_length=50,null=False)
     start_password = models.CharField(max_length=50,null=False) # 初期パスワード
     email = models.EmailField(null=True)
     superuser_flag = models.BooleanField(default=False) # スーパーユーザーフラグ
+    is_superuser = models.BooleanField(
+        verbose_name=_("is_superuer"),
+        default=False
+    )
+    is_staff = models.BooleanField(
+        verbose_name=_('staff status'),
+        default=False,
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('active'),
+        default=True,
+    )
     created_at = models.DateTimeField(default=timezone.now)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
+    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
+
+    def __str__(self):
+        return self.account_id
