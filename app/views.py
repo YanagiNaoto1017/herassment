@@ -2,13 +2,13 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin,Error_report
+from .models import Company,Users,Admin,Error_report,Text,Harassment_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
-
+    
 # ホーム
 class IndexView(TemplateView,LoginRequiredMixin):
 
@@ -20,7 +20,7 @@ class UserIndexView(TemplateView):
     template_name = 'user_index.html'
 
 # 管理者新規登録
-class SignupView(LoginRequiredMixin,CreateView):
+class SignupView(CreateView):
 
     form_class = AdminSignUpForm
     template_name = 'admin_signup.html'
@@ -84,7 +84,45 @@ class ErrorReportListView(LoginRequiredMixin,ListView):
     model = Error_report
     template_name = 'error_list.html'
 
+<<<<<<< HEAD
 # ハラスメント報告一覧
 class HarassmentListView(LoginRequiredMixin,ListView):
     model = Harassment
     template_name = 'harassment_list.html'
+=======
+# 検出画面
+class DetectionView(LoginRequiredMixin, CreateView):
+    model = Text
+    template_name = 'detection.html'
+    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+
+# 校正画面
+class ProofreadingView(LoginRequiredMixin,CreateView):
+    model = Text
+    template_name = 'proofreading.html'
+    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+
+# ユーザー登録
+class UserSignupView(LoginRequiredMixin,CreateView):
+
+    model = Users
+    form_class = UserSignUpForm
+    template_name = 'user_signup.html'
+    success_url = reverse_lazy("app:complete")
+
+# エラー報告画面
+class ErrorReportView(LoginRequiredMixin,CreateView):
+
+    model = Error_report
+    form_class = ErrorReportForm
+    template_name = 'error_report.html'
+    success_url = reverse_lazy("app:complete")
+
+# ハラスメント報告画面
+class HarassmentReportView(LoginRequiredMixin,CreateView):
+
+    model = Harassment_report
+    form_class = HarassmentReportForm
+    template_name = 'harassment_report.html'
+    success_url = reverse_lazy("app:complete")
+>>>>>>> 70fbe9508d645f9d00e90e7d4630496206361131

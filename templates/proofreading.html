@@ -1,0 +1,22 @@
+{% extends "base_superuser.html" %}
+
+{% block content %}
+<h1 style="text-align: center;">校正画面</h1>
+<form method="POST" style="text-align: center;">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div>
+        <button type="submit">校正</button>
+    </div>
+    
+    <label for="text_to_proofreading">校正したい文:</label>
+    <input type="text" id="text_to_proofreading" name="text_to_proofreading" required style="width: 300px; height: 40px; font-size: 1.2em;">
+    <br>
+    
+    <label for="result">結果:</label>
+    <input type="text" id="result" name="result" readonly style="width: 300px; height: 40px; font-size: 1.2em;">
+    <br>
+</form>
+
+{% endblock %}

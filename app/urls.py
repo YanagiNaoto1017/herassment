@@ -17,5 +17,13 @@ urlpatterns = [
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
     path('user_index/', views.UserIndexView.as_view(), name='user_index'), # ホーム画面
+<<<<<<< HEAD
     path('harassment_list',views.HarassmentListView.as_view(), name='harassment_list'),# ハラスメント報告一覧
+=======
+    path('detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
+    path('proofreading/', views.ProofreadingView.as_view(), name='proofreading'), # 検出画面
+    path('user_signup/', views.UserSignupView.as_view(), name='user_signup'), # ユーザー登録
+    path('harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
+    path('error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
+>>>>>>> 70fbe9508d645f9d00e90e7d4630496206361131
 ]
