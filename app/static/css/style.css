@@ -17,7 +17,6 @@
     font-size: 1.2em; /* 見出しのサイズ */
     margin: 20px 0 10px; /* 上下の余白 */
     text-transform: uppercase; /* 大文字に変換 */
-    
 }
 
 /* サイドバーの区切り線 */
@@ -48,15 +47,14 @@
 
 /* コンテンツラッパーのスタイル */
 #content-wrapper {
-    margin-left: 250px; /* サイドバーの幅分だけ左にマージンを設定 */
-    padding: 20px;
+    margin-left: 275px; /* サイドバーの幅分だけ左にマージンを設定 */
 }
 
 /* メインコンテンツのスタイル */
 #content {
     padding: 20px;
     background-color: #f8f9fa; /* メインコンテンツの背景色 */
-    min-height: 100vh; /* ビューポートの高さに合わせる */
+    min-height: 68vh; /* ビューポートの高さに合わせる */
 }
 
 /* フレックスコンテナのスタイル */
@@ -106,18 +104,23 @@ footer {
     text-align: center; /* テキストを中央に配置 */
 }
 
+/* テーブルのスタイル */
 table {
     width: 100%;
     border-collapse: collapse;
 }
+
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
+
 th {
     background-color: #f2f2f2;
 }
+
+/* ボタンのスタイル */
 button {
     background-color: #f44336; /* 赤色 */
     color: white;
@@ -125,10 +128,12 @@ button {
     padding: 10px 15px;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #d32f2f;
 }
 
+/* 固定ボタンのスタイル */
 .fixed-button {
     position: fixed;
     margin: 20px 0; /* 上下の余白 */
@@ -136,6 +141,7 @@ button:hover {
     position: relative; /* フッターの一部として動かす */
 }
 
+/* プライマリボタンのスタイル */
 .btn-primary {
     background-color: #007bff; /* ボタンの背景色 */
     color: white; /* ボタンの文字色 */
@@ -148,4 +154,90 @@ button:hover {
 
 .btn-primary:hover {
     background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* コンテナスタイル */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 見出しスタイル */
+h1 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* フォームフィールドとラベルのスタイル */
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.2);
+}
+
+/* エラーメッセージのスタイル */
+.error {
+    color: #e74c3c;
+    font-size: 0.85em;
+}
+
+/* 送信ボタンのスタイル */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1em;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"]:active {
+    background-color: #004494;
 }
