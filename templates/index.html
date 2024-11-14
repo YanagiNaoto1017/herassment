@@ -7,12 +7,23 @@
     </div>
 </header>
 {% endblock %}
-
 {% block content %}
-{% if user.is_admin %}
-{% elif user.is_superuser %}
-{% else %}
-{% endif %}
+{% if user.is_superuser %}
+<div class="flex-container">
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="proofreading">校正</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+</div>
+{% elif user.is_staff %}
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
@@ -30,4 +41,20 @@
         </ul>
     </div>
 </div>
+{% else %}
+<div class="flex-container">
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="proofreading">校正</a></li>
+        </ul>
+        <p>文入れる</p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
