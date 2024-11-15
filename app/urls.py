@@ -25,4 +25,5 @@ urlpatterns = [
     path('error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('check_id/', views.check_id, name='check_id'),
     path('forget_password/', views.forget_password, name='forget_password'),
+    path('pw_send/', views.pw_send, name='pw_send'),
 ]

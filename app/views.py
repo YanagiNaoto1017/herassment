@@ -125,3 +125,6 @@ def check_id(request):
 
 def forget_password(request):
     return render(request, 'forget_password.html')
+
+def pw_send(request):
+    return render(request, 'pw_send.html')
