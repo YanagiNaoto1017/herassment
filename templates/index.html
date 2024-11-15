@@ -1,14 +1,11 @@
 {% extends 'base_admin.html' %}
-
-{% block header %}
+{% block content %}
+{% if user.is_superuser %}
 <header class="bg-light py-3">
     <div class="container">
         <h1 class="text-center">へらすめんと</h1>
     </div>
 </header>
-{% endblock %}
-{% block content %}
-{% if user.is_superuser %}
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
@@ -24,6 +21,11 @@
     </div>
 </div>
 {% elif user.is_staff %}
+<header class="bg-light py-3">
+    <div class="container">
+        <h1 class="text-center">へらすめんと</h1>
+    </div>
+</header>
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
@@ -42,6 +44,11 @@
     </div>
 </div>
 {% else %}
+<header class="bg-light py-3">
+    <div class="container">
+        <h1 class="text-center">へらすめんと</h1>
+    </div>
+</header>
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">

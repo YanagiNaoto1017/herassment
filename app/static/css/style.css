@@ -52,7 +52,7 @@
 
 /* メインコンテンツのスタイル */
 #content {
-    padding: 20px;
+
     background-color: #f8f9fa; /* メインコンテンツの背景色 */
     min-height: 68vh; /* ビューポートの高さに合わせる */
 }

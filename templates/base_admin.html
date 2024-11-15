@@ -10,17 +10,22 @@
 
 <body id="page-top">
 
-    <!-- ページラッパー -->
-    <div id="wrapper" style="text-align: right; padding: 20px;">
+    <!-- ヘッダー -->
+    <header id="header" style="text-align: right; padding: 20px;">
+
+        <!-- ホームに戻るボタン -->
+        <a href="{% url 'app:index' %}" class="btn btn-primary" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">HOME</a>
+
+        <!-- ログアウトフォーム -->
         <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
             {% csrf_token %}
             <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
         </form>
-    </div>
-    
+    </header>
 
-        <!-- サイドバー -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+    <!-- サイドバー -->
+    <div id="sidebar" style="width: 250px; position: fixed; top: 0; left: 0; height: 100vh; background-color: #0595c5; padding: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);">
+        <ul class="navbar-nav sidebar sidebar-dark accordion">
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
             <div class="sidebar-heading">アカウント</div>
@@ -35,41 +40,30 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
+    </div>
 
-        <!-- サイドバーの終了 -->
+    <!-- コンテンツラッパー -->
+    <div id="content-wrapper" style="margin-left: 270px; padding: 20px;">
 
-        <!-- コンテンツラッパー -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- メインコンテンツ -->
-            <div id="content">
-                {% block header %}
-                <!-- ヘッダーはここに挿入されます -->
-                {% endblock %}
-
-                {% block content %}
-                <!-- ここに各ページのコンテンツが挿入されます -->
-                {% endblock %}
-            </div>
-
-            <!-- フッター -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>© へらすめんと</span>
-                        <div class="fixed-button">
-                            <a href="{% url 'app:index' %}" class="btn btn-primary">ホームに戻る</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            <!-- フッターの終了 -->
-
+        <!-- メインコンテンツ -->
+        <div id="content">
+            {% block content %}
+            <!-- ここに各ページのコンテンツが挿入されます -->
+            {% endblock %}
         </div>
-        <!-- コンテンツラッパーの終了 -->
+
+        <!-- フッター -->
+        <footer class="sticky-footer bg-white" style="background-color: #8f959c; padding: 20px; text-align: center;">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>© へらすめんと</span>
+                </div>
+            </div>
+        </footer>
+        <!-- フッターの終了 -->
 
     </div>
-    <!-- ページラッパーの終了 -->
+    <!-- コンテンツラッパーの終了 -->
 
 </body>
 
