@@ -11,7 +11,7 @@
 <body id="page-top">
 
     <!-- ページラッパー -->
-    <div id="wrapper" style="text-align: right; padding: 20px;">
+    <div id="wrapper" style="text-align: right; padding: 20px; display: flex;">
         <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
             {% csrf_token %}
             <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
@@ -26,7 +26,6 @@
             <div class="sidebar-heading">アカウント</div>
             <li class="nav-item"><a class="nav-link" href="account_info">情報</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'app:user_signup' %}">ユーザー登録</a></li>
-            <li class="nav-item"><a class="nav-link" href="account_info">ユーザー削除</a></li>
             <li class="nav-item"><a class="nav-link" href="account_info">パスワードリセット</a></li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">文章</div>
@@ -38,8 +37,8 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">一覧</div>
-            <li class="nav-item"><a class="nav-link" href="">ハラスメント</a></li>
-            <li class="nav-item"><a class="nav-link" href="">ユーザー</a></li>
+            <li class="nav-item"><a class="nav-link" href="account_info">ハラスメント</a></li>
+            <li class="nav-item"><a class="nav-link" href="account_info">ユーザー</a></li>
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
 

@@ -241,3 +241,54 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
     background-color: #004494;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 20px 0;
+    list-style: none;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-item a,
+.page-item span {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.page-item a:hover,
+.page-item span:hover {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.page-item.active span {
+    background-color: #007bff;
+    color: white;
+}
+
+.page-item.disabled a,
+.page-item.disabled span {
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.page-item a:focus,
+.page-item span:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.page-item a[aria-label="Previous"],
+.page-item a[aria-label="Next"] {
+    font-size: 20px;
+}

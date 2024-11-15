@@ -14,11 +14,12 @@
         {% csrf_token %}
         {% for item in object_list %}
         <tr>
-            <td>{{ item.id }}</td>
+            <td>{{ item.account_id }}</td>
             <td>{{ item.company }}</td>
             <td>{{ item.created_at }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}
