@@ -23,4 +23,7 @@ urlpatterns = [
     path('user_signup/', views.UserSignupView.as_view(), name='user_signup'), # ユーザー登録
     path('harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
     path('error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
+    path('check_id/', views.check_id, name='check_id'),
+    path('forget_password/', views.forget_password, name='forget_password'),
+    path('pw_send/', views.pw_send, name='pw_send'),
 ]
