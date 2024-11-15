@@ -60,9 +60,17 @@ class UserLoginView(BaseLoginView):
     form_class = UserLoginForm
     template_name = 'user_login.html'
 
-# 完了画面
+# 登録完了画面
 class CompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'complete.html'
+
+# 報告完了画面
+class ReportCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'report_complete.html'
+
+# 削除完了画面
+class DeleteCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'delete_complete.html'
 
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,ListView):
@@ -110,7 +118,7 @@ class ErrorReportView(LoginRequiredMixin,CreateView):
     model = Error_report
     form_class = ErrorReportForm
     template_name = 'error_report.html'
-    success_url = reverse_lazy("app:complete")
+    success_url = reverse_lazy("app:report_complete")
 
 # ハラスメント報告画面
 class HarassmentReportView(LoginRequiredMixin,CreateView):
@@ -118,4 +126,4 @@ class HarassmentReportView(LoginRequiredMixin,CreateView):
     model = Harassment_report
     form_class = HarassmentReportForm
     template_name = 'harassment_report.html'
-    success_url = reverse_lazy("app:complete")
+    success_url = reverse_lazy("app:report_complete")
