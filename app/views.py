@@ -68,7 +68,7 @@ class UserLoginView(BaseLoginView):
 
         print(self.request)
         # 通常のログイン処理を実行
-        return redirect('app:user_index')
+        return redirect('app:index')
 
 # 登録完了画面
 class CompleteView(LoginRequiredMixin,TemplateView):
