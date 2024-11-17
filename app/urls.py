@@ -5,12 +5,11 @@ app_name = 'app'
 
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
-    path('login', views.LoginView.as_view(), name='admin_login'), # 管理者ログイン
+    path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
 
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
-    path('index/', views.UserIndexView.as_view(), name='user_index'), # ホーム画面
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
 
     # 管理者
