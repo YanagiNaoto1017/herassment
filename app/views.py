@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin,Error_report,Text,Harassment_report
+from .models import Company,Users,Admin,Error_report,Text
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -13,16 +13,15 @@ from django.views import View
 # 管理者ホーム
 class IndexView(View):
     def get(self, request):
-
+        # ログイン中のユーザー情報を利用
+        is_superuser = request.user.is_authenticated and getattr(request.user, 'superuser_flag', True)
+        is_staff = request.user.is_authenticated and getattr(request.user, 'is_staff', True)
+        
         return render(
-            request, "index.html")
-
-# ユーザーホーム
-class UserIndexView(View):
-    def get(self, request):
-
-        return render(
-            request, "index.html")
+            request, 
+            "index.html", 
+            {"is_superuser": is_superuser, "is_staff": is_staff}
+        )
 
 # 管理者新規登録
 class SignupView(View):
@@ -38,7 +37,7 @@ class SignupView(View):
         return render(request, "admin_signup.html", {"form": form})
     
 # 管理者ログイン
-class LoginView(BaseLoginView):
+class AdminLoginView(BaseLoginView):
 
     form_class = AdminLoginForm
     template_name = "admin_login.html"
