@@ -8,23 +8,34 @@ from .models import Company,Users,Admin,Error_report,Text,Harassment_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.views import View
     
-# ホーム
-class IndexView(TemplateView):
+# 管理者ホーム
+class IndexView(View):
+    def get(self, request):
 
-    template_name = 'index.html'
+        return render(
+            request, "index.html")
 
-# ホーム
-class UserIndexView(TemplateView):
+# ユーザーホーム
+class UserIndexView(View):
+    def get(self, request):
 
-    template_name = 'user_index.html'
+        return render(
+            request, "index.html")
 
 # 管理者新規登録
-class SignupView(LoginRequiredMixin,CreateView):
-
-    form_class = AdminSignUpForm
-    template_name = 'admin_signup.html'
-    success_url = reverse_lazy("app:complete")
+class SignupView(View):
+    def get(self, request):
+        form = AdminSignUpForm()
+        return render(request, "admin_signup.html", {"form": form})
+    
+    def post(self, request):
+        form = AdminSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:conmplete")
+        return render(request, "admin_signup.html", {"form": form})
     
 # 管理者ログイン
 class LoginView(BaseLoginView):
@@ -44,20 +55,30 @@ class LogoutView(BaseLogoutView):
         return redirect('user_login')
     
 # 企業登録
-class CompanySignupView(LoginRequiredMixin,CreateView):
-
-    model = Company
-    form_class = CompanySignUpForm
-    template_name = 'company_signup.html'
-    success_url = reverse_lazy("app:complete")
+class CompanySignupView(View):
+    def get(self, request):
+        form = CompanySignUpForm()
+        return render(request, "company_signup.html", {"form": form})
+    
+    def post(self, request):
+        form = CompanySignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:conmplete")
+        return render(request, "company_signup.html", {"form": form})
 
 # スーパーユーザー登録
-class SuperUserSignupView(LoginRequiredMixin,CreateView):
-
-    model = Users
-    form_class = SuperUserSignUpForm
-    template_name = 'superuser_signup.html'
-    success_url = reverse_lazy("app:complete")
+class SuperUserSignupView(View):
+    def get(self, request):
+        form = SuperUserSignUpForm()
+        return render(request, "superuser_signup.html", {"form": form})
+    
+    def post(self, request):
+        form = SuperUserSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:conmplete")
+        return render(request, "superuser_signup.html", {"form": form})
 
 # ユーザーログイン
 class UserLoginView(BaseLoginView):
@@ -71,36 +92,49 @@ class UserLoginView(BaseLoginView):
         return redirect('app:index')
 
 # 登録完了画面
-class CompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'complete.html'
+class CompleteView(View):
+    def get(self, request):
+
+        return render(
+            request, "complete.html")
 
 # 報告完了画面
-class ReportCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'report_complete.html'
+class ReportCompleteView(View):
+    def get(self, request):
+
+        return render(
+            request, "report_complete.html")
 
 # 削除完了画面
-class DeleteCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'delete_complete.html'
+class DeleteCompleteView(View):
+    def get(self, request):
+
+        return render(
+            request, "delete_complete.html")
 
 # 管理者一覧画面
-class AdminListView(LoginRequiredMixin,ListView):
-    model = Admin
-    template_name = 'admin_list.html'
+class AdminListView(View):
+    def get(self, request):
+        admin_list = Admin.objects.all()
+        return render(request, "admin_list.html", {"admin_list": admin_list})
 
 # 企業一覧画面
-class CompanyListView(LoginRequiredMixin,ListView):
-    model = Company
-    template_name = 'company_list.html'
+class CompanyListView(View):
+    def get(self, request):
+        company_list = Company.objects.all()
+        return render(request, "company_list.html", {"company_list": company_list})
 
 # ユーザー一覧画面
-class UserListView(LoginRequiredMixin,ListView):
-    model = Users
-    template_name = 'user_list.html'
+class UserListView(View):
+    def get(self, request):
+        user_list = Users.objects.all()
+        return render(request, "user_list.html", {"user_list": user_list})
 
 # エラー一覧画面
-class ErrorReportListView(LoginRequiredMixin,ListView):
-    model = Error_report
-    template_name = 'error_list.html'
+class ErrorReportListView(View):
+    def get(self, request):
+        error_list = Error_report.objects.all()
+        return render(request, "error_list.html", {"error_list": error_list})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin, CreateView):
@@ -115,25 +149,40 @@ class ProofreadingView(LoginRequiredMixin,CreateView):
     fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
 
 # ユーザー登録
-class UserSignupView(LoginRequiredMixin,CreateView):
-
-    model = Users
-    form_class = UserSignUpForm
-    template_name = 'user_signup.html'
-    success_url = reverse_lazy("app:complete")
+class UserSignupView(View):
+    def get(self, request):
+        form = UserSignUpForm()
+        return render(request, "user_signup.html", {"form": form})
+    
+    def post(self, request):
+        form = UserSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:conmplete")
+        return render(request, "user_signup.html", {"form": form})
 
 # エラー報告画面
-class ErrorReportView(LoginRequiredMixin,CreateView):
-
-    model = Error_report
-    form_class = ErrorReportForm
-    template_name = 'error_report.html'
-    success_url = reverse_lazy("app:report_complete")
+class ErrorReportView(View):
+    def get(self, request):
+        form = ErrorReportForm()
+        return render(request, "error_report.html", {"form": form})
+    
+    def post(self, request):
+        form = ErrorReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:report_conmplete")
+        return render(request, "error_report.html", {"form": form})
 
 # ハラスメント報告画面
-class HarassmentReportView(LoginRequiredMixin,CreateView):
-
-    model = Harassment_report
-    form_class = HarassmentReportForm
-    template_name = 'harassment_report.html'
-    success_url = reverse_lazy("app:report_complete")
+class HarassmentReportView(View):
+    def get(self, request):
+        form = HarassmentReportForm()
+        return render(request, "harassment_report.html", {"form": form})
+    
+    def post(self, request):
+        form = HarassmentReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("app:report_conmplete")
+        return render(request, "harassment_report.html", {"form": form})

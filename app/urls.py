@@ -10,10 +10,11 @@ urlpatterns = [
 
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
+    path('index/', views.UserIndexView.as_view(), name='user_index'), # ホーム画面
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
 
     # 管理者
-    path('signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録
+    path('admin_signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録
     path('company_signup', views.CompanySignupView.as_view(), name='company_signup'), # 企業登録
     path('superuser_signup', views.SuperUserSignupView.as_view(), name='superuser_signup'), # スーパーユーザー登録
     path('admin_list', views.AdminListView.as_view(), name='admin_list'), # 管理者一覧
