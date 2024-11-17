@@ -78,8 +78,8 @@ class Admin(AbstractBaseUser,PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = '管理者ID' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['メールアドレス']  # スーパーユーザー作成時にemailも設定する
+    USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
+    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
         return self.account_id
@@ -170,8 +170,8 @@ class Users(AbstractBaseUser,PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'ユーザーID' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['メールアドレス']  # スーパーユーザー作成時にemailも設定する
+    USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
+    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
         return self.account_id
