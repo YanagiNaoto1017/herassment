@@ -132,7 +132,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
         blank=True,
         null=True
     )
-    company = models.ForeignKey(Company, on_delete=models.CASCADE) # 企業ID
+    company = models.ForeignKey(Company, on_delete=models.CASCADE,verbose_name=_("企業名"),) # 企業ID
     password = models.CharField(
         verbose_name=_("パスワード"),
         max_length=50,
