@@ -20,6 +20,29 @@
     
 
         <!-- サイドバー -->
+        {% if user.is_superuser %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">情報</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">作成</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">パスワードリセット</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">文章</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">報告</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">一覧</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">ユーザー</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">ハラスメント</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        {% elif user.is_staff %}
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
@@ -35,6 +58,24 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
+        {% else %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:account_info' %}">情報</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">文章</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">報告</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        {% endif %}
+        
 
         <!-- サイドバーの終了 -->
 
