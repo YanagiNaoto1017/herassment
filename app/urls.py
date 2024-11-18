@@ -22,4 +22,5 @@ urlpatterns = [
     path('user_signup/', views.UserSignupView.as_view(), name='user_signup'), # ユーザー登録
     path('harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
     path('error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
+    path('account_confirmation/', views.AccountConfirmationView.as_view(), name='account_confirmation'), #アカウント情報確認画面
 ]

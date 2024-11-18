@@ -119,3 +119,8 @@ class HarassmentReportView(LoginRequiredMixin,CreateView):
     form_class = HarassmentReportForm
     template_name = 'harassment_report.html'
     success_url = reverse_lazy("app:complete")
+
+# ユーザー情報確認画面
+class AccountConfirmationView(LoginRequiredMixin,ListView):
+    model = Admin,Users
+    template_name = 'account_confirmation.html'
