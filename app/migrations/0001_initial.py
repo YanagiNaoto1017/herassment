@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254, null=True)),
                 ('superuser_flag', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.company')),
+                ('company_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.company')),
             ],
         ),
         migrations.CreateModel(
