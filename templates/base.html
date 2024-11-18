@@ -14,12 +14,12 @@
     <header id="header" style="text-align: right; padding: 20px;">
 
         <!-- ホームに戻るボタン -->
-        <a href="{% url 'app:index' %}" class="btn btn-primary" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">ホームに戻る</a>
+        <a href="{% url 'app:index' %}" class="btn btn-primary">ホームに戻る</a>
 
         <!-- ログアウトフォーム -->
         <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
             {% csrf_token %}
-            <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
+            <a href="javascript:logout.submit()" class="btn btn-logout">ログアウト</a>
         </form>
     </header>
         <!-- サイドバー -->
@@ -85,7 +85,9 @@
 
             <!-- メインコンテンツ -->
             <div id="content">
-                
+                {% block header %}
+
+                {% endblock %}
 
                 {% block content %}
                 <!-- ここに各ページのコンテンツが挿入されます -->

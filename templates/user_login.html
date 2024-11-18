@@ -4,77 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザーログイン画面</title>
+    <title>ログイン画面</title>
     <style>
+        /* ベース設定 */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background: linear-gradient(to bottom right, #007bff, #f8f9fa);
+            background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
         }
 
         h1 {
-            text-align: center;
+            text-align: center; /* 右寄せ */
             color: #333;
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 20px;
+            margin-left: 75px;
         }
 
+
+        /* フォーム全体のスタイル */
         form {
-            background: white;
-            padding: 30px;
+            background: #ffffff;
+            padding: 40px 50px; /* 横幅調整: 左右の余白を広げる */
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 600px; /* 横幅調整: 最大幅を広げる */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 入力フィールド */
         form input {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 12px;
-            width: 100%;
+            width: 92%;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         form input:focus {
             border-color: #007bff;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
         }
 
+        /* ボタン */
         form button {
-            padding: 12px;
+            padding: 14px;
             width: 100%;
-            background-color: #007bff;
+            background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
             border: none;
             border-radius: 6px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
         form button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(to right, #0056b3, #007bff);
+            transform: scale(1.02);
         }
 
+        /* リンク */
         .link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .link a {
             text-decoration: none;
             color: #007bff;
             font-size: 0.9rem;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         .link a:hover {
@@ -82,26 +96,25 @@
             text-decoration: underline;
         }
 
+        /* ラベルとエラー */
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
         .error {
             color: #e74c3c;
             font-size: 0.9rem;
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            form {
-                padding: 20px;
-            }
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
     <div>
-        <h1>ユーザーログイン</h1>
+        <h1>ログイン</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form.non_field_errors }}
