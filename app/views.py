@@ -185,3 +185,15 @@ class HarassmentReportView(View):
             form.save()
             return redirect("app:report_conmplete")
         return render(request, "harassment_report.html", {"form": form})
+
+
+#アカウント情報確認画面
+def account_info(request):
+    user = request.user  # ログインしているユーザーを取得
+    user_id = user.id
+    user_password_hash = user.password  # パスワードはハッシュ化されている
+
+    return render(request, 'account_info.html', {
+        'user_id': user_id,
+        'user_password_hash': user_password_hash,
+    })
