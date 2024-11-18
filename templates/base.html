@@ -1,13 +1,109 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>herassment</title>
+    <meta charset="utf-8">
+    <title>へらすめんと</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 
-<body>
-</body>
+<body id="page-top">
 
+    <!-- ページラッパー -->
+    <div id="wrapper" style="text-align: right; padding: 20px;">
+        <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
+            {% csrf_token %}
+            <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
+        </form>
+    </div>
+        <!-- サイドバー -->
+        {% if user.is_superuser %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">情報</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">作成</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">パスワードリセット</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">文章</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">報告</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">一覧</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">ユーザー</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">ハラスメント</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        {% elif user.is_staff %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">ユーザー登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">企業登録</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">管理者登録</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">一覧</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">登録者</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">企業</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:error_list' %}">エラー報告</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        {% else %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">アカウント</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:account_info' %}">情報</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">文章</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">報告</div>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        {% endif %}
+        <!-- サイドバーの終了 -->
+
+        <!-- コンテンツラッパー -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- メインコンテンツ -->
+            <div id="content">
+                {% block header %}
+                <!-- ヘッダーはここに挿入されます -->
+                {% endblock %}
+
+                {% block content %}
+                <!-- ここに各ページのコンテンツが挿入されます -->
+                {% endblock %}
+            </div>
+
+            <!-- フッター -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>© へらすめんと</span>
+                        <div class="fixed-button">
+                            <a href="{% url 'app:index' %}" class="btn btn-primary">ホームに戻る</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- フッターの終了 -->
+        </div>
+        <!-- コンテンツラッパーの終了 -->
+    </div>
+    <!-- ページラッパーの終了 -->
+</body>
 </html>
