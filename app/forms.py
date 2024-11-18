@@ -108,3 +108,19 @@ class HarassmentReportForm(forms.ModelForm):
     class Meta:
         model = Harassment_report
         fields = ("id","report_detail","report_image","report_time")
+
+# ID確認
+class CheckIdForm(forms.Form):
+    account_id = forms.CharField(label='ユーザーID', max_length=100)
+
+# メール送信
+class SendEmailForm(forms.Form):
+    email = forms.EmailField(label='メールアドレス')
+
+# スーパーユーザーへ送信
+class SendSuperuserForm(forms.Form):
+    superuser_name = forms.ChoiceField(
+        choices=[(p['id'], p['id']) for p in Users.objects.values('id')],
+        label="スーパーユーザー",
+        required=True
+    )
