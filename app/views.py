@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Admin,Error_report,Text
 from django.contrib.auth import logout
@@ -185,3 +185,53 @@ class HarassmentReportView(View):
             form.save()
             return redirect("app:report_conmplete")
         return render(request, "harassment_report.html", {"form": form})
+    
+# ID確認
+class CheckIdView(View):
+    def get(self, request):
+        form = CheckIdForm()
+        return render(request, "check_id.html", {"form": form})
+    
+    def post(self, request):
+        form = CheckIdForm(request.POST)
+        if form.is_valid():
+            account_id = form.cleaned_data['account_id']
+            user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
+            if user:
+                superuser_flag = user.superuser_flag  # superuser_flagを取得
+                self.request.session['superuser_flag'] = superuser_flag  # セッションに保存
+            return redirect("app:forget_password")
+        return render(request, "check_id.html", {"form": form})
+
+# メール送信
+class ForgetPasswordView(View):
+    def get(self, request):
+        is_superuser = request.session.get('superuser_flag')
+
+        if is_superuser == True:
+            form = SendEmailForm()
+            return render(request, "forget_password.html", {"form": form})
+        else:
+            form = SendSuperuserForm()
+            return render(request, "forget_password.html", {"form": form})
+        
+    def post(self, request):
+        is_superuser = request.session.get('superuser_flag')
+
+        if is_superuser == True:
+            form = SendEmailForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                return redirect("app:pw_send_comp")
+            return render(request, "forget_password.html", {"form": form})
+        else:
+            form = SendSuperuserForm(request.POST)
+            if form.is_valid():
+                return redirect("app:pw_send")
+            return render(request, "forget_password.html", {"form": form})
+        
+# メール送信完了
+class PwSendCompleteView(View):
+    def get(self, request):
+        return render(
+            request, "pw_send_comp.html")

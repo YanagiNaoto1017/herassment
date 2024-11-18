@@ -6,7 +6,9 @@ app_name = 'app'
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
-    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
+    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウ
+    path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
+    path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password'), # メール送信
 
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
@@ -24,6 +26,7 @@ urlpatterns = [
     path('complete', views.CompleteView.as_view(), name='complete'), # 登録完了画面
     path('report_complete', views.ReportCompleteView.as_view(), name='report_complete'), # 報告完了画面
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
+    path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_complete'), # メール送信完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
