@@ -11,7 +11,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
     
 # ホーム
-class IndexView(TemplateView,LoginRequiredMixin):
+class IndexView(TemplateView):
 
     template_name = 'index.html'
 
@@ -21,7 +21,7 @@ class UserIndexView(TemplateView):
     template_name = 'user_index.html'
 
 # 管理者新規登録
-class SignupView(CreateView):
+class SignupView(LoginRequiredMixin,CreateView):
 
     form_class = AdminSignUpForm
     template_name = 'admin_signup.html'
@@ -32,6 +32,10 @@ class LoginView(BaseLoginView):
 
     form_class = AdminLoginForm
     template_name = "admin_login.html"
+
+    def post(self, request, *args, **kwargs):
+        # 通常のログイン処理を実行
+        return redirect('app:index')
 
 # ログアウト
 class LogoutView(BaseLogoutView):
@@ -60,6 +64,12 @@ class SuperUserSignupView(LoginRequiredMixin,CreateView):
 class UserLoginView(BaseLoginView):
     form_class = UserLoginForm
     template_name = 'user_login.html'
+
+    def post(self, request, *args, **kwargs):
+
+        print(self.request)
+        # 通常のログイン処理を実行
+        return redirect('app:index')
 
 # 登録完了画面
 class CompleteView(LoginRequiredMixin,TemplateView):
