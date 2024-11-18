@@ -196,7 +196,8 @@ def account_info(request):
     return render(request, 'account_info.html', {
         'user_id': user_id,
         'user_password_hash': user_password_hash,
-    })    
+    })
+
 # ID確認
 class CheckIdView(View):
     def get(self, request):
