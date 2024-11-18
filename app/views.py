@@ -8,7 +8,6 @@ from .models import Company,Users,Admin,Error_report,Text,Harassment_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.core.paginator import Paginator
     
 # ホーム
 class IndexView(TemplateView):
@@ -87,25 +86,21 @@ class DeleteCompleteView(LoginRequiredMixin,TemplateView):
 class AdminListView(LoginRequiredMixin,ListView):
     model = Admin
     template_name = 'admin_list.html'
-    paginate_by = 10
 
 # 企業一覧画面
 class CompanyListView(LoginRequiredMixin,ListView):
     model = Company
     template_name = 'company_list.html'
-    paginate_by = 10
 
 # ユーザー一覧画面
 class UserListView(LoginRequiredMixin,ListView):
     model = Users
     template_name = 'user_list.html'
-    paginate_by = 10
 
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,ListView):
     model = Error_report
     template_name = 'error_list.html'
-    paginate_by = 10
 
 # 検出画面
 class DetectionView(LoginRequiredMixin, CreateView):
