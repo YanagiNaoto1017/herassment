@@ -7,19 +7,15 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">企業名</th>
-            <th scope="col">タイプ</th>
-            <th scope="col">メールアドレス</th>
             <th scope="col">登録日時</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in user_list %}
+        {% for item in object_list %}
         <tr>
-            <td>{{ item.account_id }}</td>
+            <td>{{ item.id }}</td>
             <td>{{ item.company }}</td>
-            <td>{{ item.superuser_flag }}</td>
-            <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
         </tr>
         {% endfor %}
