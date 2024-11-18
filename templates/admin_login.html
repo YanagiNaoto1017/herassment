@@ -6,67 +6,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理者ログイン画面</title>
     <style>
+        /* ベース設定 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
         }
 
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* フォーム全体のスタイル */
         form {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 40px 50px; /* 横幅調整: 左右の余白を広げる */
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px; /* 横幅調整: 最大幅を広げる */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        input {
-            margin-bottom: 15px;
-            padding: 10px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        button {
-            padding: 10px;
+        /* 入力フィールド */
+        form input {
+            margin-bottom: 20px;
+            padding: 12px;
             width: 100%;
-            background-color: #007bff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        form input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* ボタン */
+        form button {
+            padding: 12px;
+            width: 100%;
+            background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        form button:hover {
+            background: linear-gradient(to right, #0056b3, #007bff);
+            transform: scale(1.02);
         }
 
+        /* リンク */
         .link {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px;
+        }
+
+        .link a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        .link a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* ラベルとエラー */
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
-    <h1>管理者ログイン</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-        {{ field.label }}
-        {{ field }}
-        {{ field.errors }}
-        <br>
-        {% endfor %}
-        <div>
-            <button type="submit">Login</button>
-            <a href="{% url 'app:user_login' %}">ユーザーログイン</a>
-        </div>
-    </form>
+    <div>
+        <h1>管理者ログイン</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            <div class="error">{{ field.errors }}</div>
+            {% endfor %}
+            <button type="submit">ログイン</button>
+            <div class="link">
+                <a href="{% url 'app:user_login' %}">ユーザーログインはこちら</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
