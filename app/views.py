@@ -119,12 +119,3 @@ class HarassmentReportView(LoginRequiredMixin,CreateView):
     form_class = HarassmentReportForm
     template_name = 'harassment_report.html'
     success_url = reverse_lazy("app:complete")
-
-def check_id(request):
-    return render(request, 'check_id.html')
-
-def forget_password(request):
-    return render(request, 'forget_password.html')
-
-def pw_send(request):
-    return render(request, 'pw_send.html')
