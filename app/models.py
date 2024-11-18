@@ -129,7 +129,6 @@ class Users(AbstractBaseUser,PermissionsMixin):
         verbose_name=_("ユーザーID"),
         unique=True,
         max_length=10,
-        blank=True,
         null=True
     )
     company = models.ForeignKey(Company, on_delete=models.CASCADE,verbose_name=_("企業名"),) # 企業ID
