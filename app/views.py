@@ -220,9 +220,11 @@ class ForgetPasswordView(View):
     def get(self, request):
         is_superuser = request.session.get('superuser_flag')
 
-        if is_superuser == True:
+        # スーパーユーザーの場合
+        if is_superuser:
             form = SendEmailForm()
             return render(request, "forget_password.html", {"form": form})
+        # ユーザーの場合
         else:
             form = SendSuperuserForm()
             return render(request, "forget_password.html", {"form": form})
@@ -230,16 +232,18 @@ class ForgetPasswordView(View):
     def post(self, request):
         is_superuser = request.session.get('superuser_flag')
 
-        if is_superuser == True:
+        # スーパーユーザーの場合
+        if is_superuser:
             form = SendEmailForm(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
                 return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
+        # スーパーユーザーの場合
         else:
             form = SendSuperuserForm(request.POST)
             if form.is_valid():
-                return redirect("app:pw_send")
+                return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
         
 # メール送信完了
