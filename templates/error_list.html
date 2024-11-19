@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in error_list %}
         <tr>
             <td>{{ item.report_time }}</td>
             <td>{{ item.error_detail }}</td>
