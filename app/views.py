@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
@@ -9,19 +10,24 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.hashers import make_password
     
 # 管理者ホーム
 class IndexView(View):
     def get(self, request):
-        # ログイン中のユーザー情報を利用
-        is_superuser = request.user.is_authenticated and getattr(request.user, 'superuser_flag', True)
-        is_staff = request.user.is_authenticated and getattr(request.user, 'is_staff', True)
-        
-        return render(
-            request, 
-            "index.html", 
-            {"is_superuser": is_superuser, "is_staff": is_staff}
-        )
+        login_user = request.user
+        is_staff = login_user.is_staff
+        is_superuser = login_user.superuser_flag 
+
+        # 管理者の場合
+        if is_staff:
+            return render(request, "index.html", {"is_staff": is_staff})
+        # スーパーユーザーの場合
+        elif is_superuser:
+            return render(request, "index.html", {"is_superuser": is_superuser})
+        # ユーザーの場合
+        else:
+            return render(request, "index.html")
 
 # 管理者新規登録
 class SignupView(View):
@@ -37,14 +43,29 @@ class SignupView(View):
         return render(request, "admin_signup.html", {"form": form})
     
 # 管理者ログイン
-class AdminLoginView(BaseLoginView):
+class AdminLoginView(View):
+    template_name = 'admin_login.html'
 
-    form_class = AdminLoginForm
-    template_name = "admin_login.html"
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('app:index')
+        form = AdminLoginForm()
+        return render(request, self.template_name, {"form": form})
 
     def post(self, request, *args, **kwargs):
-        # 通常のログイン処理を実行
-        return redirect('app:index')
+        form = AdminLoginForm(request.POST)
+        if form.is_valid():
+            account_id = form.cleaned_data['account_id']
+            password = form.cleaned_data['password']
+            password = make_password(password)  # パスワードをハッシュ化
+            user = authenticate(request, account_id=account_id, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('app:index')
+            else:
+                return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
 # ログアウト
 class LogoutView(BaseLogoutView):
@@ -80,15 +101,29 @@ class SuperUserSignupView(View):
         return render(request, "superuser_signup.html", {"form": form})
 
 # ユーザーログイン
-class UserLoginView(BaseLoginView):
-    form_class = UserLoginForm
+class UserLoginView(View):
     template_name = 'user_login.html'
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('app:index')
+        form = UserLoginForm()
+        return render(request, self.template_name, {"form": form})
 
-        print(self.request)
-        # 通常のログイン処理を実行
-        return redirect('app:index')
+    def post(self, request, *args, **kwargs):
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            account_id = form.cleaned_data['account_id']
+            password = form.cleaned_data['password']
+            password = make_password(password)  # パスワードをハッシュ化
+            user = authenticate(request, account_id=account_id, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('app:index')
+            else:
+                return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
 # 登録完了画面
 class CompleteView(View):

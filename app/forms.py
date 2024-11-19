@@ -29,9 +29,24 @@ class AdminSignUpForm(UserCreationForm):
             return user
 
 # 管理者ログイン
-class AdminLoginForm(AuthenticationForm):
-    class Meta:
-        model = Admin
+class AdminLoginForm(forms.Form):
+    account_id = forms.CharField(
+        max_length=150,
+        required=True,
+        label="管理者ID",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'account_id',
+        })
+    )
+    password = forms.CharField(
+        required=True,
+        label="パスワード",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+        })
+    )
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
@@ -93,9 +108,24 @@ class UserSignUpForm(forms.ModelForm):
     
     
 # ユーザーログイン
-class UserLoginForm(AuthenticationForm):
-    class Meta:
-        model = Users
+class UserLoginForm(forms.Form):
+    account_id = forms.CharField(
+        max_length=150,
+        required=True,
+        label="ユーザーID",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'account_id',
+        })
+    )
+    password = forms.CharField(
+        required=True,
+        label="パスワード",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+        })
+    )
 
 # エラー報告画面
 class ErrorReportForm(forms.ModelForm):
