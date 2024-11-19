@@ -26,7 +26,7 @@ urlpatterns = [
     path('complete', views.CompleteView.as_view(), name='complete'), # 登録完了画面
     path('report_complete', views.ReportCompleteView.as_view(), name='report_complete'), # 報告完了画面
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
-    path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_complete'), # メール送信完了画面
+    path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_comp'), # メール送信完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
