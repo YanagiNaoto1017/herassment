@@ -239,15 +239,12 @@ class HarassmentReportView(View):
 
 
 #アカウント情報確認画面
-def account_info(request):
-    user = request.user  # ログインしているユーザーを取得
-    user_id = user.id
-    user_password_hash = user.password  # パスワードはハッシュ化されている
-
-    return render(request, 'account_info.html', {
-        'user_id': user_id,
-        'user_password_hash': user_password_hash,
-    })
+class AccountInfoView(View):
+    def get(self, request):
+        # user = request.user  # ログインしているユーザーを取得
+        # user_id = user.account_id
+        # user_password_hash = user.password  # パスワードはハッシュ化されている
+        return render(request, 'account_info.html')
 
 # ID確認
 class CheckIdView(View):
