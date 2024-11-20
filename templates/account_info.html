@@ -9,17 +9,15 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
         <tr>
             <td>
-                <div>ID: {{ item.account_id }}</div>
+                <div>ID: {{ user.account_id }}</div>
                 <div>
-                    パスワード: {{ item.password }}
-                    <a href="{% url 'password_change' item.account_id %}" class="btn btn-primary btn-sm ms-2">変更</a>
+                    パスワード: {{ user.password }}
+                    <a href="{% url 'app:password_change' user.account_id %}" class="btn btn-primary btn-sm ms-2">変更</a>
                 </div>
             </td>
         </tr>
-        {% endfor %}
     </tbody>
 </table>
 {% endblock %}
