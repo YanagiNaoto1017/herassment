@@ -257,16 +257,18 @@ class CheckIdView(View):
         if form.is_valid():
             account_id = form.cleaned_data['account_id']
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            if user:
-                superuser_flag = user.superuser_flag  # superuser_flagを取得
-                self.request.session['superuser_flag'] = superuser_flag  # セッションに保存
-            return redirect("app:forget_password")
+            user_id = user.account_id
+            if account_id == user_id:
+                self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
+                return redirect("app:forget_password")
+            else:
+                return render(request, "check_id.html", {"form": form})
         return render(request, "check_id.html", {"form": form})
 
 # メール送信
 class ForgetPasswordView(View):
     def get(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
         # スーパーユーザーの場合
         if is_superuser:
@@ -278,7 +280,7 @@ class ForgetPasswordView(View):
             return render(request, "forget_password.html", {"form": form})
         
     def post(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
         # スーパーユーザーの場合
         if is_superuser:
