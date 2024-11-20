@@ -50,9 +50,11 @@ class AdminLoginView(View):
             # password = make_password(password)  # パスワードをハッシュ化
             # user = authenticate(request, account_id=account_id, password=password)
             user = Admin.objects.filter(account_id=account_id).first()  # データベースを検索
+            print('🔥')
+            print(user,'ユーザー：account_id')
+            print(user.password,'ユーザー：password')
             if user.check_password(password):
                 login(request, user)
-                print(user)
                 return redirect('app:index')
 
             # if user is not None:
@@ -113,10 +115,11 @@ class UserLoginView(View):
             # password = make_password(password)  # パスワードをハッシュ化
             # user = authenticate(request, account_id=account_id, password=password)
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            print(user)
-            print(password)
+            print('🔥')
+            print(user,'管理者：account_id')
+            print(user.password,'管理者：password') 
             if user.check_password(password):
-                login(request, user)
+                login(request, user)    
                 return redirect('app:index')
 
             # if user is not None:
