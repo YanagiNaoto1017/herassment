@@ -1,4 +1,4 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h1>登録者一覧</h1>
@@ -12,13 +12,14 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in user_list %}
         <tr>
-            <td>{{ item.id }}</td>
+            <td>{{ item.account_id }}</td>
             <td>{{ item.company }}</td>
             <td>{{ item.created_at }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}

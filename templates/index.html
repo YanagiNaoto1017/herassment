@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'base.html' %}
 
 {% block header %}
 <header class="bg-light py-3">
@@ -7,18 +7,19 @@
     </div>
 </header>
 {% endblock %}
+
 {% block content %}
 {% if user.is_superuser %}
 <div class="flex-container">
-    <div class="center-box">
+    <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
         <p>文入れる</p>
     </div>
-    <div class="center-box">
+    <div class="center-box proofreading-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="proofreading">校正</a></li>
+            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
         <p>文入れる</p>
     </div>
@@ -43,15 +44,15 @@
 </div>
 {% else %}
 <div class="flex-container">
-    <div class="center-box">
+    <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
         <p>文入れる</p>
     </div>
-    <div class="center-box">
+    <div class="center-box proofreading-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="proofreading">校正</a></li>
+            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
         <p>文入れる</p>
     </div>

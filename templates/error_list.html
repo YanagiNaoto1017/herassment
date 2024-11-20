@@ -1,4 +1,4 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h1>エラー報告一覧</h1>
@@ -11,12 +11,13 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in error_list %}
         <tr>
-            <td>{{ item.created_at }}</td>
-            <td>{{ item.content }}</td>
+            <td>{{ item.report_time }}</td>
+            <td>{{ item.error_detail }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}

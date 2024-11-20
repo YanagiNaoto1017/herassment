@@ -42,14 +42,23 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     user_permissions = models.ManyToManyField(Permission, related_name='admin_permissions')
 
     account_id = models.CharField(
-        verbose_name=_("account_id"),
+        verbose_name=_("管理者ID"),
         unique=True,
         max_length=10,
         blank=True,
-        null=True
+        null=True,
     )
-    email = models.EmailField(unique=True,max_length=255)
-    password = models.CharField(max_length=255,null=True,blank=True)
+    email = models.EmailField(
+        verbose_name=_("メールアドレス"),
+        unique=True,
+        max_length=50,
+        )
+    password = models.CharField(
+        verbose_name=_("パスワード"),
+        max_length=255,
+        null=True,
+        blank=True,
+        )
     is_superuser = models.BooleanField(
         verbose_name=_("is_superuser"),
         default=False
@@ -62,7 +71,10 @@ class Admin(AbstractBaseUser,PermissionsMixin):
         verbose_name=_('active'),
         default=True,
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(
+        verbose_name=_("登録日時"),
+        default=timezone.now,
+        )
 
     objects = UserManager()
 
@@ -74,38 +86,38 @@ class Admin(AbstractBaseUser,PermissionsMixin):
 
 # 企業
 class Company(models.Model):
-    id = models.BigIntegerField(primary_key=True,null=False,blank=False,unique=True)
-    company_name = models.CharField(max_length=50,null=False,blank=False,unique=True)
-    created_at = models.DateTimeField(default=timezone.now)
+    id = models.BigIntegerField(verbose_name=_("企業ID"),primary_key=True,null=False,blank=False,unique=True)
+    company_name = models.CharField(verbose_name=_("企業名"),max_length=50,null=False,blank=False,unique=True)
+    created_at = models.DateTimeField(verbose_name=_("登録日時"),default=timezone.now)
 
     def __str__(self):
         return self.company_name  # 企業名を返す
 
 # ハラスメント報告
 class Harassment_report(models.Model):
-    id = models.AutoField(primary_key=True)
-    report_detail = models.TextField(null=False) # 報告内容
-    report_image = models.CharField(max_length=100,null=True)
-    report_time = models.DateTimeField(default=timezone.now)
+    id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
+    report_image = models.CharField(verbose_name=_("画像"),max_length=100,null=True,blank=True)
+    report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
 
 # エラー報告
 class Error_report(models.Model):
-    id = models.AutoField(primary_key=True)
-    error_detail = models.TextField(null=False) # 報告内容
-    report_time = models.DateTimeField(default=timezone.now)
+    id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    error_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
+    report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
 
 # 文章
 class Text(models.Model):
-    id = models.AutoField(primary_key=True)
-    input_text = models.TextField(null=False)
-    harassment_flag = models.BooleanField(default=False)
-    text_flag = models.BooleanField(default=False)
-    detected_words = models.CharField(max_length=100,null=True)
+    id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    input_text = models.TextField(verbose_name=_("入力文章"),null=False)
+    harassment_flag = models.BooleanField(verbose_name=_("ハラスメントフラグ"),default=False)
+    text_flag = models.BooleanField(verbose_name=_("テキストフラグ"),default=False)
+    detected_words = models.CharField(verbose_name=_("検出単語"),max_length=100,null=True)
 
 # 辞書
 class Dictionary(models.Model):
-    id = models.AutoField(primary_key=True)
-    keyword = models.CharField(max_length=100,null=False) # 単語
+    id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    keyword = models.CharField(verbose_name=_("単語"),max_length=100,null=False) # 単語
 
 # ユーザー
 class Users(AbstractBaseUser,PermissionsMixin):
@@ -114,17 +126,30 @@ class Users(AbstractBaseUser,PermissionsMixin):
     user_permissions = models.ManyToManyField(Permission, related_name='user_permissions')
 
     account_id = models.CharField(
-        verbose_name=_("account_id"),
+        verbose_name=_("ユーザーID"),
         unique=True,
         max_length=10,
-        blank=True,
         null=True
     )
-    company = models.ForeignKey(Company, on_delete=models.CASCADE) # 企業ID
-    password = models.CharField(max_length=50,null=False)
-    start_password = models.CharField(max_length=50,null=False) # 初期パスワード
-    email = models.EmailField(null=True)
-    superuser_flag = models.BooleanField(default=False) # スーパーユーザーフラグ
+    company = models.ForeignKey(Company, on_delete=models.CASCADE,verbose_name=_("企業名"),) # 企業ID
+    password = models.CharField(
+        verbose_name=_("パスワード"),
+        max_length=50,
+        null=False,
+    )
+    start_password = models.CharField(
+        verbose_name=_("初期パスワード"),
+        max_length=50,
+        null=False,
+    )
+    email = models.EmailField(
+        verbose_name=_("メールアドレス"),
+        null=True,
+    )
+    superuser_flag = models.BooleanField(
+        verbose_name=_("スーパーユーザーフラグ"),
+        default=False,
+    )
     is_superuser = models.BooleanField(
         verbose_name=_("is_superuer"),
         default=False
@@ -137,7 +162,10 @@ class Users(AbstractBaseUser,PermissionsMixin):
         verbose_name=_('active'),
         default=True,
     )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(
+        verbose_name=_("登録日時"),
+        default=timezone.now,
+    )
 
     objects = UserManager()
 
