@@ -185,6 +185,22 @@ h1 {
     margin-bottom: 20px;
 }
 
+a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+a:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
 /* フォームフィールドとラベルのスタイル */
 form div {
     margin-bottom: 20px;
