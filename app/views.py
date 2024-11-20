@@ -11,23 +11,13 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator
     
 # 管理者ホーム
 class IndexView(View):
     def get(self, request):
-        login_user = request.user
-        is_staff = login_user.is_staff
-        is_superuser = login_user.superuser_flag 
-
-        # 管理者の場合
-        if is_staff:
-            return render(request, "index.html", {"is_staff": is_staff})
-        # スーパーユーザーの場合
-        elif is_superuser:
-            return render(request, "index.html", {"is_superuser": is_superuser})
-        # ユーザーの場合
-        else:
-            return render(request, "index.html")
+        return render(
+            request, "index.html")
 
 # 管理者新規登録
 class SignupView(View):
@@ -57,12 +47,17 @@ class AdminLoginView(View):
         if form.is_valid():
             account_id = form.cleaned_data['account_id']
             password = form.cleaned_data['password']
-            password = make_password(password)  # パスワードをハッシュ化
-            user = authenticate(request, account_id=account_id, password=password)
-
-            if user is not None:
+            # password = make_password(password)  # パスワードをハッシュ化
+            # user = authenticate(request, account_id=account_id, password=password)
+            user = Admin.objects.filter(account_id=account_id).first()  # データベースを検索
+            if user.check_password(password):
                 login(request, user)
+                print(user)
                 return redirect('app:index')
+
+            # if user is not None:
+            #     login(request, user)
+            #     return redirect('app:index')
             else:
                 return render(request, self.template_name, {'form': form})
         return render(request, self.template_name, {"form": form})
@@ -115,12 +110,18 @@ class UserLoginView(View):
         if form.is_valid():
             account_id = form.cleaned_data['account_id']
             password = form.cleaned_data['password']
-            password = make_password(password)  # パスワードをハッシュ化
-            user = authenticate(request, account_id=account_id, password=password)
-
-            if user is not None:
+            # password = make_password(password)  # パスワードをハッシュ化
+            # user = authenticate(request, account_id=account_id, password=password)
+            user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
+            print(user)
+            print(password)
+            if user.check_password(password):
                 login(request, user)
                 return redirect('app:index')
+
+            # if user is not None:
+            #     login(request, user)
+            #     return redirect('app:index')
             else:
                 return render(request, self.template_name, {'form': form})
         return render(request, self.template_name, {"form": form})
@@ -150,24 +151,36 @@ class DeleteCompleteView(View):
 class AdminListView(View):
     def get(self, request):
         admin_list = Admin.objects.all()
+        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        admin_list = paginator.get_page(page_number)
         return render(request, "admin_list.html", {"admin_list": admin_list})
 
 # 企業一覧画面
 class CompanyListView(View):
     def get(self, request):
         company_list = Company.objects.all()
+        paginator = Paginator(company_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        company_list = paginator.get_page(page_number)
         return render(request, "company_list.html", {"company_list": company_list})
 
 # ユーザー一覧画面
 class UserListView(View):
     def get(self, request):
         user_list = Users.objects.all()
+        paginator = Paginator(user_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        user_list = paginator.get_page(page_number)
         return render(request, "user_list.html", {"user_list": user_list})
 
 # エラー一覧画面
 class ErrorReportListView(View):
     def get(self, request):
         error_list = Error_report.objects.all()
+        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        error_list = paginator.get_page(page_number)
         return render(request, "error_list.html", {"error_list": error_list})
 
 # 検出画面

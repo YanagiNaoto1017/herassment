@@ -18,7 +18,7 @@ class AdminSignUpForm(UserCreationForm):
                 user.password = make_password(user.password)  # パスワードをハッシュ化
 
             # superuser_flagをTrueに設定
-            user.superuser_flag = True
+            user.is_staff = True
 
             # 入力したパスワードをstart_passwordにも設定
             user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
