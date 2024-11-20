@@ -153,8 +153,8 @@ class AdminListView(View):
         admin_list = Admin.objects.all()
         paginator = Paginator(admin_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
-        admin_list = paginator.get_page(page_number)
-        return render(request, "admin_list.html", {"admin_list": admin_list})
+        page_obj = paginator.get_page(page_number)
+        return render(request, "admin_list.html", {"page_obj": page_obj})
 
 # 企業一覧画面
 class CompanyListView(View):
@@ -162,8 +162,8 @@ class CompanyListView(View):
         company_list = Company.objects.all()
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
-        company_list = paginator.get_page(page_number)
-        return render(request, "company_list.html", {"company_list": company_list})
+        page_obj = paginator.get_page(page_number)
+        return render(request, "company_list.html", {"page_obj": page_obj})
 
 # ユーザー一覧画面
 class UserListView(View):
@@ -171,8 +171,8 @@ class UserListView(View):
         user_list = Users.objects.all()
         paginator = Paginator(user_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
-        user_list = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"user_list": user_list})
+        page_obj = paginator.get_page(page_number)
+        return render(request, "user_list.html", {"page_obj": page_obj})
 
 # エラー一覧画面
 class ErrorReportListView(View):
@@ -180,8 +180,8 @@ class ErrorReportListView(View):
         error_list = Error_report.objects.all()
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
-        error_list = paginator.get_page(page_number)
-        return render(request, "error_list.html", {"error_list": error_list})
+        page_obj = paginator.get_page(page_number)
+        return render(request, "error_list.html", {"page_obj": page_obj})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin, CreateView):
