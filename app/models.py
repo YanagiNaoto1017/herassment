@@ -65,7 +65,7 @@ class Admin(AbstractBaseUser,PermissionsMixin):
     )
     is_staff = models.BooleanField(
         verbose_name=_('staff status'),
-        default=True,
+        default=False,
     )
     is_active = models.BooleanField(
         verbose_name=_('active'),
