@@ -16,11 +16,78 @@ html, body {
     color: white;
     position: fixed;
     top: -20px;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(180deg, #0595c5, #047a99);
+    color: white;
+    position: fixed;
+    top: -20px;
     left: 0;
     padding: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
     overflow-y: auto; /* コンテンツが多い場合スクロール可能に */
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    overflow-y: auto; /* コンテンツが多い場合スクロール可能に */
     z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-heading {
+    font-size: 1.5em;
+    margin: 20px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* サイドバーの区切り線 */
+.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 15px 0;
+}
+
+/* リストアイテムのスタイル */
+.nav-item {
+    margin: 15px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+/* アイコンとテキストの配置 */
+.nav-item .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* リンクのスタイル */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 1em;
+}
+
+/* ホバー時のスタイル */
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+/* アクティブリンクのスタイル */
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* スクロールバーのカスタマイズ */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -99,8 +166,27 @@ html, body {
 #content {
     background-color: #f8f9fa;
     min-height: 83vh;
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
 }
 
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+/* コンテンツラッパーのスタイル */
+#content-wrapper {
+    margin-left: 275px;
+    flex: 1;
+}
+
+/* メインコンテンツのスタイル */
+#content {
+    background-color: #f8f9fa;
+    min-height: 83vh;
+}
+
+/* フレックスコンテナのスタイル */
 /* フレックスコンテナのスタイル */
 .flex-container {
     display: flex;
@@ -109,6 +195,14 @@ html, body {
     margin: 20px 0;
 }
 
+/* リストグループのスタイル */
+.list-group {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 中央ボックスのスタイル */
 /* リストグループのスタイル */
 .list-group {
     list-style: none;
@@ -135,11 +229,19 @@ header {
 
 /* ヘッダー内のタイトルスタイル */
 header h1 {
+/* ヘッダー内のタイトルスタイル */
+header h1 {
     margin: 0;
     font-size: 2em;
     color: #333;
 }
 
+/* フッターのスタイル */
+footer {
+    background-color: #8f959c;
+    padding: 20px;
+    margin-bottom: auto;
+    text-align: center;
 /* フッターのスタイル */
 footer {
     background-color: #8f959c;
@@ -169,6 +271,7 @@ button[type="submit"]:active {
     background-color: #004494;
 }
 
+/* フォームスタイル */
 /* フォームスタイル */
 form {
     max-width: 500px;
@@ -236,7 +339,29 @@ button {
     background-color: var(--primary-color);
     color: white;
     padding: 10px 15px;
+/* ボタンスタイル */
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
     border: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+header .btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+header .btn-primary {
+    background-color: #20aa60;
+    color: white;
     border-radius: var(--border-radius);
     transition: background-color 0.3s;
 }
@@ -256,6 +381,12 @@ header .btn-primary {
     color: white;
 }
 
+header .btn-logout {
+    background-color: #dc3545;
+    color: white;
+}
+
+header .btn:hover {
 header .btn-logout {
     background-color: #dc3545;
     color: white;

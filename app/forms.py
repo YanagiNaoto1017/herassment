@@ -18,7 +18,7 @@ class AdminSignUpForm(UserCreationForm):
                 user.password = make_password(user.password)  # パスワードをハッシュ化
 
             # superuser_flagをTrueに設定
-            user.superuser_flag = True
+            user.is_staff = True
 
             # 入力したパスワードをstart_passwordにも設定
             user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
@@ -29,9 +29,24 @@ class AdminSignUpForm(UserCreationForm):
             return user
 
 # 管理者ログイン
-class AdminLoginForm(AuthenticationForm):
-    class Meta:
-        model = Admin
+class AdminLoginForm(forms.Form):
+    account_id = forms.CharField(
+        max_length=150,
+        required=True,
+        label="管理者ID",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'account_id',
+        })
+    )
+    password = forms.CharField(
+        required=True,
+        label="パスワード",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+        })
+    )
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
@@ -93,9 +108,24 @@ class UserSignUpForm(forms.ModelForm):
     
     
 # ユーザーログイン
-class UserLoginForm(AuthenticationForm):
-    class Meta:
-        model = Users
+class UserLoginForm(forms.Form):
+    account_id = forms.CharField(
+        max_length=150,
+        required=True,
+        label="ユーザーID",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'account_id',
+        })
+    )
+    password = forms.CharField(
+        required=True,
+        label="パスワード",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+        })
+    )
 
 # エラー報告画面
 class ErrorReportForm(forms.ModelForm):
