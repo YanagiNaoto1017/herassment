@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in user_list %}
+        {% for item in page_obj %}
         <tr>
             <td>{{ item.account_id }}</td>
             <td>{{ item.company }}</td>

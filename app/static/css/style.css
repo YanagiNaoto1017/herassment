@@ -426,3 +426,20 @@ header .btn:hover {
 .proofreading-box .list-group-item a:hover {
     color: #228b22; /* 校正リンクホバー時の色 */
 }
+
+/* テーブルのスタイル */
+table {
+    width: 98%;
+    border-collapse: collapse;
+    margin-left: auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
