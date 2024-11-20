@@ -50,9 +50,11 @@ class AdminLoginView(View):
             # password = make_password(password)  # パスワードをハッシュ化
             # user = authenticate(request, account_id=account_id, password=password)
             user = Admin.objects.filter(account_id=account_id).first()  # データベースを検索
+            print('🔥')
+            print(user,'ユーザー：account_id')
+            print(user.password,'ユーザー：password')
             if user.check_password(password):
                 login(request, user)
-                print(user)
                 return redirect('app:index')
 
             # if user is not None:
@@ -113,10 +115,11 @@ class UserLoginView(View):
             # password = make_password(password)  # パスワードをハッシュ化
             # user = authenticate(request, account_id=account_id, password=password)
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            print(user)
-            print(password)
+            print('🔥')
+            print(user,'管理者：account_id')
+            print(user.password,'管理者：password') 
             if user.check_password(password):
-                login(request, user)
+                login(request, user)    
                 return redirect('app:index')
 
             # if user is not None:
@@ -237,15 +240,12 @@ class HarassmentReportView(View):
 
 
 #アカウント情報確認画面
-def account_info(request):
-    user = request.user  # ログインしているユーザーを取得
-    user_id = user.id
-    user_password_hash = user.password  # パスワードはハッシュ化されている
-
-    return render(request, 'account_info.html', {
-        'user_id': user_id,
-        'user_password_hash': user_password_hash,
-    })
+class AccountInfoView(View):
+    def get(self, request):
+        # user = request.user  # ログインしているユーザーを取得
+        # user_id = user.account_id
+        # user_password_hash = user.password  # パスワードはハッシュ化されている
+        return render(request, 'account_info.html')
 
 # ID確認
 class CheckIdView(View):
@@ -258,16 +258,18 @@ class CheckIdView(View):
         if form.is_valid():
             account_id = form.cleaned_data['account_id']
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            if user:
-                superuser_flag = user.superuser_flag  # superuser_flagを取得
-                self.request.session['superuser_flag'] = superuser_flag  # セッションに保存
-            return redirect("app:forget_password")
+            user_id = user.account_id
+            if account_id == user_id:
+                self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
+                return redirect("app:forget_password")
+            else:
+                return render(request, "check_id.html", {"form": form})
         return render(request, "check_id.html", {"form": form})
 
 # メール送信
 class ForgetPasswordView(View):
     def get(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
         # スーパーユーザーの場合
         if is_superuser:
@@ -279,7 +281,7 @@ class ForgetPasswordView(View):
             return render(request, "forget_password.html", {"form": form})
         
     def post(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
         # スーパーユーザーの場合
         if is_superuser:
