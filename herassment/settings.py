@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_extensions', # ルーティング用
 ]
  
-AUTH_USER_MODEL = 'app.Admin'
 AUTH_USER_MODEL = 'app.Users'
 
 MIDDLEWARE = [
