@@ -2,9 +2,9 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin,Error_report,Text
+from .models import Company,Users,Admin,Error_report,Text,Dictionary
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -140,6 +140,28 @@ class DetectionView(LoginRequiredMixin, CreateView):
     model = Text
     template_name = 'detection.html'
     fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+    form_class = TextForm
+    success_url = reverse_lazy('detection')
+
+    def form_valid(self, form):
+        input_text = form.cleaned_data['input_text']
+        detected_words = self.detect_harassment(input_text)
+        harassment_flag = bool(detected_words)
+
+        # モデルのインスタンスを作成
+        text_instance = form.save(commit=False)
+        text_instance.harassment_flag = harassment_flag
+        text_instance.detected_words = ', '.join(detected_words)
+        text_instance.save()
+
+        return super().form_valid(form)
+
+    def detect_harassment(self, text):
+        # 辞書からキーワードを取得
+        keywords = Dictionary.objects.values_list('keyword', flat=True)
+        detected_words = [word for word in keywords if word in text]
+        return detected_words
+    
 
 # 校正画面
 class ProofreadingView(LoginRequiredMixin,CreateView):
@@ -186,17 +208,16 @@ class HarassmentReportView(View):
             return redirect("app:report_conmplete")
         return render(request, "harassment_report.html", {"form": form})
 
-
-#アカウント情報確認画面
-def account_info(request):
-    user = request.user  # ログインしているユーザーを取得
-    user_id = user.id
-    user_password_hash = user.password  # パスワードはハッシュ化されている
-
-    return render(request, 'account_info.html', {
-        'user_id': user_id,
-        'user_password_hash': user_password_hash,
-    })
+# アカウント情報確認画面
+class AccountInfoView(View):
+    def get(self, request):
+        print(request.user)
+        user = request.user  # ログインしているユーザーを取得
+        user_info = Users.objects.filter(account_id=user.id)  # Usersモデルからログインユーザーの情報を取得
+        print(user_info)
+        return render(request, 'account_info.html', {
+            'object_list': user_info,  # テンプレートに渡す変数
+        })
 
 # ID確認
 class CheckIdView(View):
@@ -247,3 +268,16 @@ class PwSendCompleteView(View):
     def get(self, request):
         return render(
             request, "pw_send_comp.html")
+    
+#パスワード変更画面
+class PasswordChangeView(View):
+    template_name = 'password_change.html'  # パスワード変更用のテンプレート
+    success_url = reverse_lazy('app:pw_change_complete')  # 成功後のリダイレクト先
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
+class PwChangeCompleteView(View):
+    template_name = 'pw_change_complete.html'  # パスワード変更完了用のテンプレート

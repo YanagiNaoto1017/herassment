@@ -6,7 +6,7 @@ app_name = 'app'
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
-    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウ
+    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
     path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password'), # メール送信
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('report_complete', views.ReportCompleteView.as_view(), name='report_complete'), # 報告完了画面
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
     path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_complete'), # メール送信完了画面
+    path('pw_change_complete', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), #パスワード変更完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
@@ -35,4 +36,5 @@ urlpatterns = [
     path('user/harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
+    path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     ]
