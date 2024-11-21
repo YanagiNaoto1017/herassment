@@ -293,3 +293,19 @@ class PasswordChangeView(View):
 
 class PwChangeCompleteView(View):
     template_name = 'pw_change_complete.html'  # パスワード変更完了用のテンプレート
+
+# エラー
+class Custom403View(View):
+    def get(self, request, exception=None, *args, **kwargs):
+        # 403エラーページを表示
+        return render(request, '403.html', status=403)
+
+class Custom404View(View):
+    def get(self, request, exception, *args, **kwargs):
+        # 404エラーページを表示
+        return render(request, '404.html', status=404)
+    
+class Custom500View(View):
+    def get(self, request, *args, **kwargs):
+        # 500エラーページを表示
+        return render(request, '500.html', status=500)

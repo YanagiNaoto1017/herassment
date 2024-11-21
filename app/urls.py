@@ -1,7 +1,13 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler403, handler404, handler500
+from app.views import Custom403View, Custom404View, Custom500View
 
 app_name = 'app'
+
+handler403 = Custom403View.as_view()
+handler404 = Custom404View.as_view()
+handler500 = Custom500View.as_view()
 
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
