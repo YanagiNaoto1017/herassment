@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Error_report,Text
+from .models import Company,Users,Error_report,Text,Harassment_report
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -93,8 +93,8 @@ class DeleteCompleteView(View):
 # 管理者一覧画面
 class AdminListView(View):
     def get(self, request):
-        admin_list = Users.objects.all()
-        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
+        user = Users.objects.filter(admin_flag=True)  # データベースを検索
+        paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "admin_list.html", {"page_obj": page_obj})
@@ -111,8 +111,14 @@ class CompanyListView(View):
 # ユーザー一覧画面
 class UserListView(View):
     def get(self, request):
-        user_list = Users.objects.all()
-        paginator = Paginator(user_list, 10) # 1ページ当たり10件
+        # スーパーユーザーの場合
+        if request.user.superuser_flag:
+            company = request.user.company
+            user = Users.objects.filter(user_flag=True,company=company)  # データベースを検索
+        # 管理者の場合
+        elif request.user.admin_flag:
+            user = Users.objects.filter(user_flag=True)  # データベースを検索
+        paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "user_list.html", {"page_obj": page_obj})
@@ -161,7 +167,7 @@ class ErrorReportView(View):
         form = ErrorReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("app:report_conmplete")
+            return redirect("app:report_complete")
         return render(request, "error_report.html", {"form": form})
 
 # ハラスメント報告画面
@@ -174,8 +180,17 @@ class HarassmentReportView(View):
         form = HarassmentReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("app:report_conmplete")
+            return redirect("app:report_complete")
         return render(request, "harassment_report.html", {"form": form})
+    
+# ハラスメント一覧画面
+class HarassmentReportListView(View):
+    def get(self, request):
+        error_list = Harassment_report.objects.all()
+        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "harassment_list.html", {"page_obj": page_obj})
 
 
 #アカウント情報確認画面
