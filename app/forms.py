@@ -141,16 +141,16 @@ class HarassmentReportForm(forms.ModelForm):
 
 # ID確認
 class CheckIdForm(forms.Form):
-    account_id = forms.CharField(label='ユーザーID', max_length=100)
+    account_id = forms.CharField(label='IDを入力してください', max_length=100)
 
 # メール送信
 class SendEmailForm(forms.Form):
-    email = forms.EmailField(label='メールアドレス')
+    email = forms.EmailField(label='メールアドレスを入力してください')
 
 # スーパーユーザーへ送信
 class SendSuperuserForm(forms.Form):
     superuser_name = forms.ChoiceField(
-        choices=[(p['id'], p['id']) for p in Users.objects.values('id')],
-        label="スーパーユーザー",
+        choices=[(p['account_id'], p['account_id']) for p in Users.objects.filter(superuser_flag=True).values('account_id')],
+        label="誰に送りますか？",
         required=True
     )
