@@ -13,14 +13,14 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
     
-# 管理者ホーム
-class IndexView(View):
+# ホーム
+class IndexView(LoginRequiredMixin,View):
     def get(self, request):
         return render(
             request, "index.html")
 
 # 管理者新規登録
-class SignupView(CreateView):
+class SignupView(LoginRequiredMixin,CreateView):
     form_class = AdminSignUpForm
     template_name = "admin_signup.html"
     success_url = reverse_lazy("app:complete")
@@ -45,13 +45,13 @@ class LogoutView(BaseLogoutView):
         return redirect('user_login')
     
 # 企業登録
-class CompanySignupView(CreateView):
+class CompanySignupView(LoginRequiredMixin,CreateView):
     form_class = CompanySignUpForm
     template_name = "company_signup.html"
     success_url = reverse_lazy("app:complete")
 
 # スーパーユーザー登録
-class SuperUserSignupView(CreateView):
+class SuperUserSignupView(LoginRequiredMixin,CreateView):
     form_class = SuperUserSignUpForm
     template_name = "superuser_signup.html"
     success_url = reverse_lazy("app:complete")
@@ -70,28 +70,28 @@ class UserLoginView(BaseLoginView):
     template_name = 'user_login.html'
 
 # 登録完了画面
-class CompleteView(View):
+class CompleteView(LoginRequiredMixin,View):
     def get(self, request):
 
         return render(
             request, "complete.html")
 
 # 報告完了画面
-class ReportCompleteView(View):
+class ReportCompleteView(LoginRequiredMixin,View):
     def get(self, request):
 
         return render(
             request, "report_complete.html")
 
 # 削除完了画面
-class DeleteCompleteView(View):
+class DeleteCompleteView(LoginRequiredMixin,View):
     def get(self, request):
 
         return render(
             request, "delete_complete.html")
 
 # 管理者一覧画面
-class AdminListView(View):
+class AdminListView(LoginRequiredMixin,View):
     def get(self, request):
         user = Users.objects.filter(admin_flag=True)  # データベースを検索
         paginator = Paginator(user, 10) # 1ページ当たり10件
@@ -100,7 +100,7 @@ class AdminListView(View):
         return render(request, "admin_list.html", {"page_obj": page_obj})
 
 # 企業一覧画面
-class CompanyListView(View):
+class CompanyListView(LoginRequiredMixin,View):
     def get(self, request):
         company_list = Company.objects.all()
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
@@ -109,7 +109,7 @@ class CompanyListView(View):
         return render(request, "company_list.html", {"page_obj": page_obj})
 
 # ユーザー一覧画面
-class UserListView(View):
+class UserListView(LoginRequiredMixin,View):
     def get(self, request):
         # スーパーユーザーの場合
         if request.user.superuser_flag:
@@ -124,7 +124,7 @@ class UserListView(View):
         return render(request, "user_list.html", {"page_obj": page_obj})
 
 # エラー一覧画面
-class ErrorReportListView(View):
+class ErrorReportListView(LoginRequiredMixin,View):
     def get(self, request):
         error_list = Error_report.objects.all()
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
@@ -167,7 +167,7 @@ class ProofreadingView(LoginRequiredMixin,CreateView):
     fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
 
 # ユーザー登録
-class UserSignupView(CreateView):
+class UserSignupView(LoginRequiredMixin,CreateView):
     form_class = UserSignUpForm
     template_name = "user_signup.html"
     success_url = reverse_lazy("app:complete")
@@ -180,7 +180,7 @@ class UserSignupView(CreateView):
         return super().form_valid(form)
 
 # エラー報告画面
-class ErrorReportView(View):
+class ErrorReportView(LoginRequiredMixin,View):
     def get(self, request):
         form = ErrorReportForm()
         return render(request, "error_report.html", {"form": form})
@@ -193,7 +193,7 @@ class ErrorReportView(View):
         return render(request, "error_report.html", {"form": form})
 
 # ハラスメント報告画面
-class HarassmentReportView(View):
+class HarassmentReportView(LoginRequiredMixin,View):
     def get(self, request):
         form = HarassmentReportForm()
         return render(request, "harassment_report.html", {"form": form})
@@ -206,7 +206,7 @@ class HarassmentReportView(View):
         return render(request, "harassment_report.html", {"form": form})
     
 # ハラスメント一覧画面
-class HarassmentReportListView(View):
+class HarassmentReportListView(LoginRequiredMixin,View):
     def get(self, request):
         error_list = Harassment_report.objects.all()
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
@@ -215,7 +215,7 @@ class HarassmentReportListView(View):
         return render(request, "harassment_list.html", {"page_obj": page_obj})
 
 # アカウント情報確認画面
-class AccountInfoView(View):
+class AccountInfoView(LoginRequiredMixin,View):
     def get(self, request):
         print(request.user)
         user = request.user  # ログインしているユーザーを取得
