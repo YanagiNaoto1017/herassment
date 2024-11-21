@@ -35,55 +35,6 @@ class UserManager(BaseUserManager):
             **extra_fields,
         )
 
-# 管理者
-class Admin(AbstractBaseUser,PermissionsMixin):
-    # Adminモデルに固有のrelated_nameを指定
-    groups = models.ManyToManyField(Group, related_name='admin_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='admin_permissions')
-
-    account_id = models.CharField(
-        verbose_name=_("管理者ID"),
-        unique=True,
-        max_length=10,
-        blank=True,
-        null=True,
-    )
-    email = models.EmailField(
-        verbose_name=_("メールアドレス"),
-        unique=True,
-        max_length=50,
-        )
-    password = models.CharField(
-        verbose_name=_("パスワード"),
-        max_length=255,
-        null=True,
-        blank=True,
-        )
-    is_superuser = models.BooleanField(
-        verbose_name=_("is_superuser"),
-        default=False
-    )
-    is_staff = models.BooleanField(
-        verbose_name=_('staff status'),
-        default=False,
-    )
-    is_active = models.BooleanField(
-        verbose_name=_('active'),
-        default=True,
-    )
-    created_at = models.DateTimeField(
-        verbose_name=_("登録日時"),
-        default=timezone.now,
-        )
-
-    objects = UserManager()
-
-    USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
-
-    def __str__(self):
-        return self.account_id
-
 # 企業
 class Company(models.Model):
     id = models.BigIntegerField(verbose_name=_("企業ID"),primary_key=True,null=False,blank=False,unique=True)
@@ -121,38 +72,47 @@ class Dictionary(models.Model):
 
 # ユーザー
 class Users(AbstractBaseUser,PermissionsMixin):
-    # Usersモデルに固有のrelated_nameを指定
-    groups = models.ManyToManyField(Group, related_name='user_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='user_permissions')
 
     account_id = models.CharField(
         verbose_name=_("ユーザーID"),
+        max_length=50,
         unique=True,
-        max_length=10,
         null=True
     )
-    company = models.ForeignKey(Company, on_delete=models.CASCADE,verbose_name=_("企業名"),) # 企業ID
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE,
+        verbose_name=_("企業名"),
+        null=True,
+    )
     password = models.CharField(
         verbose_name=_("パスワード"),
-        max_length=50,
+        max_length=500,
         null=False,
     )
     start_password = models.CharField(
         verbose_name=_("初期パスワード"),
-        max_length=50,
+        max_length=500,
         null=False,
     )
     email = models.EmailField(
         verbose_name=_("メールアドレス"),
         null=True,
     )
+    user_flag = models.BooleanField(
+        verbose_name=_("ユーザーフラグ"),
+        default=False,
+    )
     superuser_flag = models.BooleanField(
         verbose_name=_("スーパーユーザーフラグ"),
         default=False,
     )
+    admin_flag = models.BooleanField(
+        verbose_name=_("管理者フラグ"),
+        default=False,
+    )
     is_superuser = models.BooleanField(
         verbose_name=_("is_superuer"),
-        default=False
+        default=False,
     )
     is_staff = models.BooleanField(
         verbose_name=_('staff status'),
@@ -164,6 +124,10 @@ class Users(AbstractBaseUser,PermissionsMixin):
     )
     created_at = models.DateTimeField(
         verbose_name=_("登録日時"),
+        default=timezone.now,
+    )
+    update_at = models.DateTimeField(
+        verbose_name=_("更新日時"),
         default=timezone.now,
     )
 

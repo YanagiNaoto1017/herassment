@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Admin,Error_report,Text
+from .models import Company,Users,Error_report,Text
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -20,49 +20,22 @@ class IndexView(View):
             request, "index.html")
 
 # 管理者新規登録
-class SignupView(View):
-    def get(self, request):
-        form = AdminSignUpForm()
-        return render(request, "admin_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = AdminSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "admin_signup.html", {"form": form})
+class SignupView(CreateView):
+    form_class = AdminSignUpForm
+    template_name = "admin_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.admin_flag = True # 管理者フラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
     
 # 管理者ログイン
-class AdminLoginView(View):
+class AdminLoginView(BaseLoginView):
+    form_class = AdminLoginForm
     template_name = 'admin_login.html'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('app:index')
-        form = AdminLoginForm()
-        return render(request, self.template_name, {"form": form})
-
-    def post(self, request, *args, **kwargs):
-        form = AdminLoginForm(request.POST)
-        if form.is_valid():
-            account_id = form.cleaned_data['account_id']
-            password = form.cleaned_data['password']
-            # password = make_password(password)  # パスワードをハッシュ化
-            # user = authenticate(request, account_id=account_id, password=password)
-            user = Admin.objects.filter(account_id=account_id).first()  # データベースを検索
-            print('🔥')
-            print(user,'ユーザー：account_id')
-            print(user.password,'ユーザー：password')
-            if user.check_password(password):
-                login(request, user)
-                return redirect('app:index')
-
-            # if user is not None:
-            #     login(request, user)
-            #     return redirect('app:index')
-            else:
-                return render(request, self.template_name, {'form': form})
-        return render(request, self.template_name, {"form": form})
 
 # ログアウト
 class LogoutView(BaseLogoutView):
@@ -153,7 +126,7 @@ class DeleteCompleteView(View):
 # 管理者一覧画面
 class AdminListView(View):
     def get(self, request):
-        admin_list = Admin.objects.all()
+        admin_list = Users.objects.all()
         paginator = Paginator(admin_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)

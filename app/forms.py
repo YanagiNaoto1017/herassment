@@ -1,52 +1,18 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Admin,Company,Users,Harassment_report,Error_report
+from .models import Company,Users,Harassment_report,Error_report
 from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
     class Meta:
-        model = Admin
+        model = Users
         fields = ("account_id","email",)
 
-        def save(self, commit=True):
-            # ユーザーインスタンスを作成
-            user = super().save(commit=False)
-            
-            # パスワードがハッシュ化されていなければハッシュ化
-            if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-                user.password = make_password(user.password)  # パスワードをハッシュ化
-
-            # superuser_flagをTrueに設定
-            user.is_staff = True
-
-            # 入力したパスワードをstart_passwordにも設定
-            user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-            
-            # データベースに保存
-            if commit:
-                user.save()
-            return user
-
 # 管理者ログイン
-class AdminLoginForm(forms.Form):
-    account_id = forms.CharField(
-        max_length=150,
-        required=True,
-        label="管理者ID",
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'account_id',
-        })
-    )
-    password = forms.CharField(
-        required=True,
-        label="パスワード",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'password',
-        })
-    )
+class AdminLoginForm(AuthenticationForm):
+    class Meta:
+        model = Users
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
