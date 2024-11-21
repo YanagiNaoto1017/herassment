@@ -197,19 +197,32 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* リンクのスタイル */
 a {
     display: inline-block;
-    text-decoration: none;
+    text-decoration: none; /* 下線なし */
     font-size: 1rem;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    color: #3498db; /* リンク色 */
+    padding: 12px 24px; /* より広いパディング */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* より柔らかい影 */
+    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #ffffff; /* 背景色 */
 }
 
-a:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+a:hover,
+a:focus {
+    background-color: #3498db; /* ホバー時の背景色 */
+    color: #ffffff; /* ホバー時の文字色 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
+    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+}
+
+a:active {
+    background-color: #2980b9; /* クリック時の背景色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
+    transform: translateY(0); /* クリック時に元に戻る */
 }
 
 
