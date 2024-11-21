@@ -45,62 +45,29 @@ class LogoutView(BaseLogoutView):
         return redirect('user_login')
     
 # 企業登録
-class CompanySignupView(View):
-    def get(self, request):
-        form = CompanySignUpForm()
-        return render(request, "company_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = CompanySignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "company_signup.html", {"form": form})
+class CompanySignupView(CreateView):
+    form_class = CompanySignUpForm
+    template_name = "company_signup.html"
+    success_url = reverse_lazy("app:complete")
 
 # スーパーユーザー登録
-class SuperUserSignupView(View):
-    def get(self, request):
-        form = SuperUserSignUpForm()
-        return render(request, "superuser_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = SuperUserSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "superuser_signup.html", {"form": form})
+class SuperUserSignupView(CreateView):
+    form_class = SuperUserSignUpForm
+    template_name = "superuser_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.superuser_flag = True # スーパーユーザーフラグをTrue
+        user.user_flag = True # ユーザーフラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
 
 # ユーザーログイン
-class UserLoginView(View):
+class UserLoginView(BaseLoginView):
+    form_class = UserLoginForm
     template_name = 'user_login.html'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('app:index')
-        form = UserLoginForm()
-        return render(request, self.template_name, {"form": form})
-
-    def post(self, request, *args, **kwargs):
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            account_id = form.cleaned_data['account_id']
-            password = form.cleaned_data['password']
-            # password = make_password(password)  # パスワードをハッシュ化
-            # user = authenticate(request, account_id=account_id, password=password)
-            user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            print('🔥')
-            print(user,'管理者：account_id')
-            print(user.password,'管理者：password') 
-            if user.check_password(password):
-                login(request, user)    
-                return redirect('app:index')
-
-            # if user is not None:
-            #     login(request, user)
-            #     return redirect('app:index')
-            else:
-                return render(request, self.template_name, {'form': form})
-        return render(request, self.template_name, {"form": form})
 
 # 登録完了画面
 class CompleteView(View):
@@ -172,17 +139,17 @@ class ProofreadingView(LoginRequiredMixin,CreateView):
     fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
 
 # ユーザー登録
-class UserSignupView(View):
-    def get(self, request):
-        form = UserSignUpForm()
-        return render(request, "user_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = UserSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "user_signup.html", {"form": form})
+class UserSignupView(CreateView):
+    form_class = UserSignUpForm
+    template_name = "user_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.user_flag = True # ユーザーフラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
 
 # エラー報告画面
 class ErrorReportView(View):

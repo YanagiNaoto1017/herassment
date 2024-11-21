@@ -26,72 +26,20 @@ class SuperUserSignUpForm(UserCreationForm):
     class Meta:
         model = Users
         fields = ("account_id","company","email")
-
-    def save(self, commit=True):
-        # ユーザーインスタンスを作成
-        user = super().save(commit=False)
-        
-        # パスワードがハッシュ化されていなければハッシュ化
-        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-            user.password = make_password(user.password)  # パスワードをハッシュ化
-
-        # superuser_flagをTrueに設定
-        user.superuser_flag = True
-
-        # 入力したパスワードをstart_passwordにも設定
-        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-        
-        # データベースに保存
-        if commit:
-            user.save()
-        return user
     
 # ユーザー登録
-class UserSignUpForm(forms.ModelForm):
+class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company","password")
-
-    def save(self, commit=True):
-        # ユーザーインスタンスを作成
-        user = super().save(commit=False)
-        
-        # パスワードがハッシュ化されていなければハッシュ化
-        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-            user.password = make_password(user.password)  # パスワードをハッシュ化
-
-        # superuser_flagをTrueに設定
-        user.superuser_flag = True
-
-        # 入力したパスワードをstart_passwordにも設定
-        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-        
-        # データベースに保存
-        if commit:
-            user.save()
-        return user
+        fields = ("account_id","company",)
     
     
 # ユーザーログイン
-class UserLoginForm(forms.Form):
-    account_id = forms.CharField(
-        max_length=150,
-        required=True,
-        label="ユーザーID",
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'account_id',
-        })
-    )
-    password = forms.CharField(
-        required=True,
-        label="パスワード",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'password',
-        })
-    )
+class UserLoginForm(AuthenticationForm):
+    class Meta:
+        model = Users
+    
 
 # エラー報告画面
 class ErrorReportForm(forms.ModelForm):
