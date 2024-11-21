@@ -10,21 +10,26 @@
 
 <body id="page-top">
 
-    <!-- ページラッパー -->
-    <div id="wrapper" style="text-align: right; padding: 20px;">
+    <!-- ヘッダー -->
+    <header id="header" style="text-align: right; padding: 20px;">
+
+        <!-- ホームに戻るボタン -->
+        <a href="{% url 'app:index' %}" class="btn btn-primary">ホーム</a>
+
+        <!-- ログアウトフォーム -->
         <form action='{% url "app:logout" %}' method='post' name='logout' style="display: inline;">
             {% csrf_token %}
-            <a href="javascript:logout.submit()" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 15px; border-radius: 5px; transition: background-color 0.3s;">Logout</a>
+            <a href="javascript:logout.submit()" class="btn btn-logout">ログアウト</a>
         </form>
-    </div>
+    </header>
         <!-- サイドバー -->
-        {% if user.is_superuser %}
+        {% if user.superuser_flag %}
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
             <div class="sidebar-heading">アカウント</div>
-            <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">情報</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">作成</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:account_info' %}">情報</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'app:user_sigunp' %}">作成</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">パスワードリセット</a></li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">文章</div>
@@ -40,7 +45,7 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">ハラスメント</a></li>
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
-        {% elif user.is_staff %}
+        {% elif user.admin_flag %}
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
@@ -81,7 +86,7 @@
             <!-- メインコンテンツ -->
             <div id="content">
                 {% block header %}
-                <!-- ヘッダーはここに挿入されます -->
+
                 {% endblock %}
 
                 {% block content %}
@@ -94,9 +99,6 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>© へらすめんと</span>
-                        <div class="fixed-button">
-                            <a href="{% url 'app:index' %}" class="btn btn-primary">ホームに戻る</a>
-                        </div>
                     </div>
                 </div>
             </footer>

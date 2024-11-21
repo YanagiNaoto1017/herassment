@@ -1,50 +1,42 @@
+from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Company,Users,Error_report,Text,Harassment_report
 from .models import Company,Users,Admin,Error_report,Text,Dictionary
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator
     
 # 管理者ホーム
 class IndexView(View):
     def get(self, request):
-        # ログイン中のユーザー情報を利用
-        is_superuser = request.user.is_authenticated and getattr(request.user, 'superuser_flag', True)
-        is_staff = request.user.is_authenticated and getattr(request.user, 'is_staff', True)
-        
         return render(
-            request, 
-            "index.html", 
-            {"is_superuser": is_superuser, "is_staff": is_staff}
-        )
+            request, "index.html")
 
 # 管理者新規登録
-class SignupView(View):
-    def get(self, request):
-        form = AdminSignUpForm()
-        return render(request, "admin_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = AdminSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "admin_signup.html", {"form": form})
+class SignupView(CreateView):
+    form_class = AdminSignUpForm
+    template_name = "admin_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.admin_flag = True # 管理者フラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
     
 # 管理者ログイン
 class AdminLoginView(BaseLoginView):
-
     form_class = AdminLoginForm
-    template_name = "admin_login.html"
-
-    def post(self, request, *args, **kwargs):
-        # 通常のログイン処理を実行
-        return redirect('app:index')
+    template_name = 'admin_login.html'
 
 # ログアウト
 class LogoutView(BaseLogoutView):
@@ -54,41 +46,29 @@ class LogoutView(BaseLogoutView):
         return redirect('user_login')
     
 # 企業登録
-class CompanySignupView(View):
-    def get(self, request):
-        form = CompanySignUpForm()
-        return render(request, "company_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = CompanySignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "company_signup.html", {"form": form})
+class CompanySignupView(CreateView):
+    form_class = CompanySignUpForm
+    template_name = "company_signup.html"
+    success_url = reverse_lazy("app:complete")
 
 # スーパーユーザー登録
-class SuperUserSignupView(View):
-    def get(self, request):
-        form = SuperUserSignUpForm()
-        return render(request, "superuser_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = SuperUserSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "superuser_signup.html", {"form": form})
+class SuperUserSignupView(CreateView):
+    form_class = SuperUserSignUpForm
+    template_name = "superuser_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.superuser_flag = True # スーパーユーザーフラグをTrue
+        user.user_flag = True # ユーザーフラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
 
 # ユーザーログイン
 class UserLoginView(BaseLoginView):
     form_class = UserLoginForm
     template_name = 'user_login.html'
-
-    def post(self, request, *args, **kwargs):
-
-        print(self.request)
-        # 通常のログイン処理を実行
-        return redirect('app:index')
 
 # 登録完了画面
 class CompleteView(View):
@@ -114,26 +94,44 @@ class DeleteCompleteView(View):
 # 管理者一覧画面
 class AdminListView(View):
     def get(self, request):
-        admin_list = Admin.objects.all()
-        return render(request, "admin_list.html", {"admin_list": admin_list})
+        user = Users.objects.filter(admin_flag=True)  # データベースを検索
+        paginator = Paginator(user, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "admin_list.html", {"page_obj": page_obj})
 
 # 企業一覧画面
 class CompanyListView(View):
     def get(self, request):
         company_list = Company.objects.all()
-        return render(request, "company_list.html", {"company_list": company_list})
+        paginator = Paginator(company_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "company_list.html", {"page_obj": page_obj})
 
 # ユーザー一覧画面
 class UserListView(View):
     def get(self, request):
-        user_list = Users.objects.all()
-        return render(request, "user_list.html", {"user_list": user_list})
+        # スーパーユーザーの場合
+        if request.user.superuser_flag:
+            company = request.user.company
+            user = Users.objects.filter(user_flag=True,company=company)  # データベースを検索
+        # 管理者の場合
+        elif request.user.admin_flag:
+            user = Users.objects.filter(user_flag=True)  # データベースを検索
+        paginator = Paginator(user, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "user_list.html", {"page_obj": page_obj})
 
 # エラー一覧画面
 class ErrorReportListView(View):
     def get(self, request):
         error_list = Error_report.objects.all()
-        return render(request, "error_list.html", {"error_list": error_list})
+        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "error_list.html", {"page_obj": page_obj})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin, CreateView):
@@ -170,17 +168,17 @@ class ProofreadingView(LoginRequiredMixin,CreateView):
     fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
 
 # ユーザー登録
-class UserSignupView(View):
-    def get(self, request):
-        form = UserSignUpForm()
-        return render(request, "user_signup.html", {"form": form})
-    
-    def post(self, request):
-        form = UserSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("app:conmplete")
-        return render(request, "user_signup.html", {"form": form})
+class UserSignupView(CreateView):
+    form_class = UserSignUpForm
+    template_name = "user_signup.html"
+    success_url = reverse_lazy("app:complete")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)  # フォームの save を呼び出す
+        user.user_flag = True # ユーザーフラグをTrue
+        user.start_password = user.password # 初期パスワードにも登録
+        user.save()
+        return super().form_valid(form)
 
 # エラー報告画面
 class ErrorReportView(View):
@@ -192,7 +190,7 @@ class ErrorReportView(View):
         form = ErrorReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("app:report_conmplete")
+            return redirect("app:report_complete")
         return render(request, "error_report.html", {"form": form})
 
 # ハラスメント報告画面
@@ -205,9 +203,26 @@ class HarassmentReportView(View):
         form = HarassmentReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("app:report_conmplete")
+            return redirect("app:report_complete")
         return render(request, "harassment_report.html", {"form": form})
+    
+# ハラスメント一覧画面
+class HarassmentReportListView(View):
+    def get(self, request):
+        error_list = Harassment_report.objects.all()
+        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "harassment_list.html", {"page_obj": page_obj})
 
+
+#アカウント情報確認画面
+class AccountInfoView(View):
+    def get(self, request):
+        # user = request.user  # ログインしているユーザーを取得
+        # user_id = user.account_id
+        # user_password_hash = user.password  # パスワードはハッシュ化されている
+        return render(request, 'account_info.html')
 # アカウント情報確認画面
 class AccountInfoView(View):
     def get(self, request):
@@ -230,37 +245,43 @@ class CheckIdView(View):
         if form.is_valid():
             account_id = form.cleaned_data['account_id']
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            if user:
-                superuser_flag = user.superuser_flag  # superuser_flagを取得
-                self.request.session['superuser_flag'] = superuser_flag  # セッションに保存
-            return redirect("app:forget_password")
+            user_id = user.account_id
+            if account_id == user_id:
+                self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
+                return redirect("app:forget_password")
+            else:
+                return render(request, "check_id.html", {"form": form})
         return render(request, "check_id.html", {"form": form})
 
 # メール送信
 class ForgetPasswordView(View):
     def get(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
-        if is_superuser == True:
+        # スーパーユーザーの場合
+        if is_superuser:
             form = SendEmailForm()
             return render(request, "forget_password.html", {"form": form})
+        # ユーザーの場合
         else:
             form = SendSuperuserForm()
             return render(request, "forget_password.html", {"form": form})
         
     def post(self, request):
-        is_superuser = request.session.get('superuser_flag')
+        is_superuser = self.request.session.get('superuser_flag')
 
-        if is_superuser == True:
+        # スーパーユーザーの場合
+        if is_superuser:
             form = SendEmailForm(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
                 return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
+        # スーパーユーザーの場合
         else:
             form = SendSuperuserForm(request.POST)
             if form.is_valid():
-                return redirect("app:pw_send")
+                return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
         
 # メール送信完了

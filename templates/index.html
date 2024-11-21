@@ -2,28 +2,27 @@
 
 {% block header %}
 <header class="bg-light py-3">
-    <div class="container">
         <h1 class="text-center">へらすめんと</h1>
-    </div>
 </header>
 {% endblock %}
+
 {% block content %}
-{% if user.is_superuser %}
+{% if user.superuser_flag %}
 <div class="flex-container">
-    <div class="center-box">
+    <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
         <p>文入れる</p>
     </div>
-    <div class="center-box">
+    <div class="center-box proofreading-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="proofreading">校正</a></li>
+            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
         <p>文入れる</p>
     </div>
 </div>
-{% elif user.is_staff %}
+{% elif user.admin_flag %}
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
@@ -42,23 +41,18 @@
     </div>
 </div>
 {% else %}
-<header class="bg-light py-3">
-    <div class="container">
-        <h1 class="text-center">へらすめんと</h1>
-    </div>
-</header>
 <div class="flex-container">
-    <div class="center-box">
+    <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="harassment_detection">検出</a></li>
+            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
-        <p>文入れる</p>
+        <p>ハラスメントを検出するよ！</p>
     </div>
-    <div class="center-box">
+    <div class="center-box proofreading-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="proofreading">校正</a></li>
+            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
-        <p>文入れる</p>
+        <p>ハラスメントを校正するよ！</p>
     </div>
 </div>
 {% endif %}
