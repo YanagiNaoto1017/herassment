@@ -5,8 +5,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Error_report,Text,Harassment_report
-from .models import Company,Users,Admin,Error_report,Text,Dictionary
+from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -215,14 +214,6 @@ class HarassmentReportListView(View):
         page_obj = paginator.get_page(page_number)
         return render(request, "harassment_list.html", {"page_obj": page_obj})
 
-
-#アカウント情報確認画面
-class AccountInfoView(View):
-    def get(self, request):
-        # user = request.user  # ログインしているユーザーを取得
-        # user_id = user.account_id
-        # user_password_hash = user.password  # パスワードはハッシュ化されている
-        return render(request, 'account_info.html')
 # アカウント情報確認画面
 class AccountInfoView(View):
     def get(self, request):

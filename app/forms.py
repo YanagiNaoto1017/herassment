@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Company,Users,Harassment_report,Error_report
-from .models import Admin,Company,Users,Harassment_report,Error_report,Text
+from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
