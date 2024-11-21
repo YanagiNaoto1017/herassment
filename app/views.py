@@ -239,6 +239,7 @@ class CheckIdView(View):
             user_id = user.account_id
             if account_id == user_id:
                 self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
+                self.request.session['user_flag'] = user.user_flag  # セッションに保存
                 return redirect("app:forget_password")
             else:
                 return render(request, "check_id.html", {"form": form})
@@ -247,29 +248,28 @@ class CheckIdView(View):
 # メール送信
 class ForgetPasswordView(View):
     def get(self, request):
-        is_superuser = self.request.session.get('superuser_flag')
-
+        superuser_flag = self.request.session.get('superuser_flag')
+        user_flag = self.request.session.get('user_flag')
         # スーパーユーザーの場合
-        if is_superuser:
+        if superuser_flag and user_flag:
             form = SendEmailForm()
-            return render(request, "forget_password.html", {"form": form})
         # ユーザーの場合
-        else:
+        elif not superuser_flag and user_flag:
             form = SendSuperuserForm()
-            return render(request, "forget_password.html", {"form": form})
+        return render(request, "forget_password.html", {"form": form})
         
     def post(self, request):
-        is_superuser = self.request.session.get('superuser_flag')
-
+        superuser_flag = self.request.session.get('superuser_flag')
+        user_flag = self.request.session.get('user_flag')
         # スーパーユーザーの場合
-        if is_superuser:
+        if superuser_flag and user_flag:
             form = SendEmailForm(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
                 return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
-        # スーパーユーザーの場合
-        else:
+        # ユーザーの場合
+        elif not superuser_flag and user_flag:
             form = SendSuperuserForm(request.POST)
             if form.is_valid():
                 return redirect("app:pw_send_comp")
