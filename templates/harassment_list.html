@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>ハラスメント報告一覧</h1>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">日付</th>
+            <th scope="col">内容</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% csrf_token %}
+        {% for item in object_list %}
+        <tr>
+            <td>{{ item.created_at }}</td>
+            <td>{{ item.report_detail }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "pagination.html" %}
+{% endblock %}
