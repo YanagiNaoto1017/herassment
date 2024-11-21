@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Company,Users,Harassment_report,Error_report
+from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
@@ -68,3 +68,12 @@ class SendSuperuserForm(forms.Form):
         label="誰に送りますか？",
         required=True
     )
+
+#検出
+class TextForm(forms.ModelForm):
+    class Meta:
+        model = Text
+        fields = ['input_text']
+        widgets = {
+            'input_text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }

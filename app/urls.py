@@ -6,7 +6,7 @@ app_name = 'app'
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
-    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウ
+    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
     path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password'), # メール送信
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('usr/harassment_list', views.HarassmentReportListView.as_view(), name='harassment_list'), # ハラスメント一覧
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
+    path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     ]
