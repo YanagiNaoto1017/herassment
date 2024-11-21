@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_superuser %}
+{% if user.superuser_flag %}
 <div class="flex-container">
     <div class="center-box detect-box">
         <ul class="list-group">
@@ -22,7 +22,7 @@
         <p>文入れる</p>
     </div>
 </div>
-{% elif user.is_staff %}
+{% elif user.admin_flag %}
 <div class="flex-container">
     <div class="center-box">
         <ul class="list-group">
@@ -46,13 +46,13 @@
         <ul class="list-group">
             <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
         </ul>
-        <p>ううりゃああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+        <p>ハラスメントを検出するよ！</p>
     </div>
     <div class="center-box proofreading-box">
         <ul class="list-group">
             <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
         </ul>
-        <p>文入れる</p>
+        <p>ハラスメントを校正するよ！</p>
     </div>
 </div>
 {% endif %}

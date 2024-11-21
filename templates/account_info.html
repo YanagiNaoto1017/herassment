@@ -14,7 +14,7 @@
                 <div>ID: {{ user.account_id }}</div>
                 <div>
                     パスワード: {{ user.password }}
-                    <a href="{% url 'app:password_change' user.account_id %}" class="btn btn-primary btn-sm ms-2">変更</a>
+                    {% comment %} <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a> {% endcomment %}
                 </div>
             </td>
         </tr>

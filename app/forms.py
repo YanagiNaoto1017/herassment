@@ -1,52 +1,18 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Admin,Company,Users,Harassment_report,Error_report
+from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
     class Meta:
-        model = Admin
+        model = Users
         fields = ("account_id","email",)
 
-        def save(self, commit=True):
-            # ユーザーインスタンスを作成
-            user = super().save(commit=False)
-            
-            # パスワードがハッシュ化されていなければハッシュ化
-            if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-                user.password = make_password(user.password)  # パスワードをハッシュ化
-
-            # superuser_flagをTrueに設定
-            user.is_staff = True
-
-            # 入力したパスワードをstart_passwordにも設定
-            user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-            
-            # データベースに保存
-            if commit:
-                user.save()
-            return user
-
 # 管理者ログイン
-class AdminLoginForm(forms.Form):
-    account_id = forms.CharField(
-        max_length=150,
-        required=True,
-        label="管理者ID",
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'account_id',
-        })
-    )
-    password = forms.CharField(
-        required=True,
-        label="パスワード",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'password',
-        })
-    )
+class AdminLoginForm(AuthenticationForm):
+    class Meta:
+        model = Users
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
@@ -60,72 +26,20 @@ class SuperUserSignUpForm(UserCreationForm):
     class Meta:
         model = Users
         fields = ("account_id","company","email")
-
-    def save(self, commit=True):
-        # ユーザーインスタンスを作成
-        user = super().save(commit=False)
-        
-        # パスワードがハッシュ化されていなければハッシュ化
-        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-            user.password = make_password(user.password)  # パスワードをハッシュ化
-
-        # superuser_flagをTrueに設定
-        user.superuser_flag = True
-
-        # 入力したパスワードをstart_passwordにも設定
-        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-        
-        # データベースに保存
-        if commit:
-            user.save()
-        return user
     
 # ユーザー登録
-class UserSignUpForm(forms.ModelForm):
+class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company","password")
-
-    def save(self, commit=True):
-        # ユーザーインスタンスを作成
-        user = super().save(commit=False)
-        
-        # パスワードがハッシュ化されていなければハッシュ化
-        if not user.password.startswith('pbkdf2_sha256$'):  # ハッシュ化されていない場合
-            user.password = make_password(user.password)  # パスワードをハッシュ化
-
-        # superuser_flagをTrueに設定
-        user.superuser_flag = True
-
-        # 入力したパスワードをstart_passwordにも設定
-        user.start_password = user.password  # ハッシュ化されたパスワードをstart_passwordにも設定
-        
-        # データベースに保存
-        if commit:
-            user.save()
-        return user
+        fields = ("account_id","company",)
     
     
 # ユーザーログイン
-class UserLoginForm(forms.Form):
-    account_id = forms.CharField(
-        max_length=150,
-        required=True,
-        label="ユーザーID",
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'account_id',
-        })
-    )
-    password = forms.CharField(
-        required=True,
-        label="パスワード",
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'password',
-        })
-    )
+class UserLoginForm(AuthenticationForm):
+    class Meta:
+        model = Users
+    
 
 # エラー報告画面
 class ErrorReportForm(forms.ModelForm):
@@ -154,3 +68,12 @@ class SendSuperuserForm(forms.Form):
         label="誰に送りますか？",
         required=True
     )
+
+#検出
+class TextForm(forms.ModelForm):
+    class Meta:
+        model = Text
+        fields = ['input_text']
+        widgets = {
+            'input_text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }
