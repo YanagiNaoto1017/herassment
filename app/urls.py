@@ -1,12 +1,18 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler403, handler404, handler500
+from app.views import Custom403View, Custom404View, Custom500View
 
 app_name = 'app'
+
+handler403 = Custom403View.as_view()
+handler404 = Custom404View.as_view()
+handler500 = Custom500View.as_view()
 
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
-    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウ
+    path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
     path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password'), # メール送信
 
@@ -31,8 +37,10 @@ urlpatterns = [
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
     path('userproofreading/', views.ProofreadingView.as_view(), name='proofreading'), # 検出画面
-    path('user/user_signup/', views.UserSignupView.as_view(), name='user_signup'), # ユーザー登録
+    path('user/user_signup/', views.UserSignupView.as_view(), name='user_sigunp'), # ユーザー登録
     path('user/harassment_report/', views.HarassmentReportView.as_view(), name='harassment_report'), #ハラスメント報告画面 
+    path('usr/harassment_list', views.HarassmentReportListView.as_view(), name='harassment_list'), # ハラスメント一覧
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
+    path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     ]

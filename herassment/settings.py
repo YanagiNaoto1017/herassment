@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c$x)_f)qwv59@!pp-7dpuhgo%nlxf1wf$k))5x_a+b%8(8lz9&'
  
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
  
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
  
  
 # Application definition
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_extensions', # ルーティング用
 ]
  
-AUTH_USER_MODEL = 'app.Admin'
 AUTH_USER_MODEL = 'app.Users'
 
 MIDDLEWARE = [
