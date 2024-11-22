@@ -14,7 +14,6 @@
         {% csrf_token %}
         {% for item in page_obj %}
         <tr>
-            <td>{{ item.account_id }}</td>
             <td>{{ item.account_name }}</td>
             <td>パスワードリセットの申請</td>
             <td>{{ item.created_at }}</td>

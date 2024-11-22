@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary
+from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -238,6 +238,8 @@ class CheckIdView(View):
             user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
             user_id = user.account_id
             if account_id == user_id:
+                self.request.session['account_id'] = user.account_id  # セッションに保存
+                self.request.session['company_id'] = user.company.id  # セッションに保存
                 self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
                 self.request.session['user_flag'] = user.user_flag  # セッションに保存
                 return redirect("app:forget_password")
@@ -250,6 +252,7 @@ class ForgetPasswordView(View):
     def get(self, request):
         superuser_flag = self.request.session.get('superuser_flag')
         user_flag = self.request.session.get('user_flag')
+        company_id = self.request.session.get('company_id')
         # スーパーユーザーの場合
         if superuser_flag and user_flag:
             form = SendEmailForm()
@@ -261,6 +264,8 @@ class ForgetPasswordView(View):
     def post(self, request):
         superuser_flag = self.request.session.get('superuser_flag')
         user_flag = self.request.session.get('user_flag')
+        account_id = self.request.session.get('account_id')
+        
         # スーパーユーザーの場合
         if superuser_flag and user_flag:
             form = SendEmailForm(request.POST)
@@ -272,6 +277,14 @@ class ForgetPasswordView(View):
         elif not superuser_flag and user_flag:
             form = SendSuperuserForm(request.POST)
             if form.is_valid():
+                superuser_id = form.cleaned_data['superuser_name']
+                user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
+                notification = Notification.objects.create(
+                    account_name = user.account_name,
+                    company_id = user.company.id,
+                    superuser_id = superuser_id,
+                )
+                notification.save()
                 return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
         
@@ -293,6 +306,16 @@ class PasswordChangeView(View):
 
 class PwChangeCompleteView(View):
     template_name = 'pw_change_complete.html'  # パスワード変更完了用のテンプレート
+
+# PWリセット通知
+class NotificationView(View):
+    template_name = 'notification.html'
+    def get(self, request):
+        notification = Notification.objects.filter(company_id=request.user.company.id, superuser_id=request.user.account_id)  # データベースを検索
+        paginator = Paginator(notification, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, "notification.html", {"page_obj": page_obj})
 
 # エラー
 class Custom403View(View):

@@ -43,4 +43,5 @@ urlpatterns = [
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
     path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
+    path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     ]
