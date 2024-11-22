@@ -28,7 +28,6 @@ html, body {
 
 .sidebar-heading {
     font-size: 1.5em;
-    margin: 20px 0;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
@@ -37,12 +36,12 @@ html, body {
 /* サイドバーの区切り線 */
 .sidebar-divider {
     border-top: 1px solid rgb(119, 227, 202);
-    margin: 15px 0;
+    margin: 5px 0;
 }
 
 /* リストアイテムのスタイル */
 .nav-item {
-    margin: 15px 0;
+    margin: 5px 0;
     list-style: none;
     display: flex;
     align-items: center;
@@ -64,7 +63,7 @@ html, body {
     border-radius: 8px;
     transition: all 0.3s ease;
     font-size: 1em;
-    border: 5px solid rgb(119, 227, 202);
+    border: 1px solid rgb(119, 227, 202);
 }
 
 /* ホバー時のスタイル */
