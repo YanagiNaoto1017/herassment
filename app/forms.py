@@ -32,7 +32,7 @@ class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","account_name","company",)
+        fields = ("account_id","account_name")
     
     
 # ユーザーログイン

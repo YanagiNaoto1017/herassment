@@ -175,6 +175,7 @@ class UserSignupView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)  # フォームの save を呼び出す
         user.user_flag = True # ユーザーフラグをTrue
+        user.company = self.request.user.company # ログインしているスーパーユーザーの企業IDをユーザーにも登録
         user.start_password = user.password # 初期パスワードにも登録
         user.save()
         return super().form_valid(form)
@@ -311,7 +312,7 @@ class PwChangeCompleteView(View):
 class NotificationView(View):
     template_name = 'notification.html'
     def get(self, request):
-        notification = Notification.objects.filter(company_id=request.user.company.id, superuser_id=request.user.account_id)  # データベースを検索
+        notification = Notification.objects.filter(company_id=request.user.company.id, superuser_id=request.user.account_id, is_read=False)  # データベースを検索
         paginator = Paginator(notification, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
