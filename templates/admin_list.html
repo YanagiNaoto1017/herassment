@@ -18,7 +18,11 @@
             <td>{{ item.account_id }}</td>
             <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
-            <td><button type="submit">削除</button></td>
+            <td>
+                {% if not item.id == user.id %}
+                <a href="{% url 'app:admin_delete' item.pk %}">削除</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

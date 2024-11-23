@@ -320,10 +320,17 @@ class NotificationView(View):
         page_obj = paginator.get_page(page_number)
         return render(request, "notification.html", {"page_obj": page_obj})
     
+# ユーザー削除
 class UserDeleteView(DeleteView):
     model = Users
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:user_list')
+
+# 管理者削除
+class AdminDeleteView(DeleteView):
+    model = Users
+    template_name = 'user_confirm_delete.html'
+    success_url = reverse_lazy('app:admin_list')
 
 # エラー
 class Custom403View(View):
