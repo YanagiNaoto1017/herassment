@@ -23,7 +23,7 @@
                 {% if item.superuser_flag %}
                 <button type="submit">削除要請</button>
                 {% else %}
-                <button type="submit">削除</button>
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
                 {% endif %}
             </td>
         </tr>
