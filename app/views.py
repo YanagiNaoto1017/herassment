@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
@@ -319,6 +319,11 @@ class NotificationView(View):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "notification.html", {"page_obj": page_obj})
+    
+class UserDeleteView(DeleteView):
+    model = Users
+    template_name = 'user_confirm_delete.html'
+    success_url = reverse_lazy('app:user_list')
 
 # エラー
 class Custom403View(View):
