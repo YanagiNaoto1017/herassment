@@ -211,8 +211,8 @@ class HarassmentReportView(LoginRequiredMixin,View):
 # ハラスメント一覧画面
 class HarassmentReportListView(LoginRequiredMixin,View):
     def get(self, request):
-        error_list = Harassment_report.objects.all()
-        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id)
+        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "harassment_list.html", {"page_obj": page_obj})
