@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
@@ -202,6 +202,8 @@ class HarassmentReportView(LoginRequiredMixin,View):
     def post(self, request):
         form = HarassmentReportForm(request.POST)
         if form.is_valid():
+            harassment_report = form.save(commit=False)  # フォームの save を呼び出す
+            harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
             form.save()
             return redirect("app:report_complete")
         return render(request, "harassment_report.html", {"form": form})
@@ -209,8 +211,8 @@ class HarassmentReportView(LoginRequiredMixin,View):
 # ハラスメント一覧画面
 class HarassmentReportListView(LoginRequiredMixin,View):
     def get(self, request):
-        error_list = Harassment_report.objects.all()
-        paginator = Paginator(error_list, 10) # 1ページ当たり10件
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id)
+        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "harassment_list.html", {"page_obj": page_obj})
@@ -317,6 +319,18 @@ class NotificationView(View):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "notification.html", {"page_obj": page_obj})
+    
+# ユーザー削除
+class UserDeleteView(DeleteView):
+    model = Users
+    template_name = 'user_confirm_delete.html'
+    success_url = reverse_lazy('app:user_list')
+
+# 管理者削除
+class AdminDeleteView(DeleteView):
+    model = Users
+    template_name = 'user_confirm_delete.html'
+    success_url = reverse_lazy('app:admin_list')
 
 # エラー
 class Custom403View(View):

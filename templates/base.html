@@ -23,7 +23,7 @@
         </form>
     </header>
     <!-- サイドバー -->
-    {% if user.superuser_flag %}
+    {% if user.superuser_flag and user.user_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
@@ -46,23 +46,7 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_list' %}">ハラスメント</a></li>
         <hr class="sidebar-divider d-none d-md-block">
     </ul>
-    {% elif user.admin_flag %}
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
-        <hr class="sidebar-divider my-0">
-        <hr class="sidebar-divider">
-        <div class="sidebar-heading">アカウント</div>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">ユーザー登録</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">企業登録</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">管理者登録</a></li>
-        <hr class="sidebar-divider">
-        <div class="sidebar-heading">一覧</div>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">登録者</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">企業</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:error_list' %}">エラー報告</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
-        <hr class="sidebar-divider d-none d-md-block">
-    </ul>
-    {% else %}
+    {% elif user.user_flag and not user.superuser_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
@@ -76,6 +60,22 @@
         <div class="sidebar-heading">報告</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:error_report' %}">エラー</a></li>
+        <hr class="sidebar-divider d-none d-md-block">
+    </ul>
+    {% else %}
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <hr class="sidebar-divider my-0">
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">アカウント</div>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:superuser_signup' %}">ユーザー登録</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:company_signup' %}">企業登録</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_signup' %}">管理者登録</a></li>
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">一覧</div>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">登録者</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">企業</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:error_list' %}">エラー報告</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
         <hr class="sidebar-divider d-none d-md-block">
     </ul>
     {% endif %}

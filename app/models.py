@@ -47,6 +47,11 @@ class Company(models.Model):
 # ハラスメント報告
 class Harassment_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    company_id = models.CharField(
+        verbose_name=_("企業ID"),
+        max_length=50,
+        null=True,
+    )
     report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
     report_image = models.CharField(verbose_name=_("画像"),max_length=100,null=True,blank=True)
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)

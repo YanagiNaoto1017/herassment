@@ -11,9 +11,9 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in page_obj %}
         <tr>
-            <td>{{ item.created_at }}</td>
+            <td>{{ item.report_time }}</td>
             <td>{{ item.report_detail }}</td>
         </tr>
         {% endfor %}
