@@ -12,8 +12,6 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
-from django.core.mail import send_mail
-from django.http import HttpResponse
     
 # ホーム
 class IndexView(LoginRequiredMixin,View):
@@ -291,15 +289,8 @@ class ForgetPasswordView(View):
         if superuser_flag and user_flag:
             form = SendEmailForm(request.POST)
             if form.is_valid():
-                recipient_email = form.cleaned_data['email']  # 入力されたメールアドレスを取得
-                subject = 'こんにちは！'
-                message = 'これはDjangoから送られたメールです。'
-                from_email = 'n.yanagi1017@gmail.com'
-                try:
-                    send_mail(subject, message, from_email, [recipient_email])
-                    return redirect("app:pw_send_comp")
-                except Exception as e:
-                    return HttpResponse(f"エラーが発生しました: {str(e)}")
+                email = form.cleaned_data['email']
+                return redirect("app:pw_send_comp")
             return render(request, "forget_password.html", {"form": form})
         # ユーザーの場合
         elif not superuser_flag and user_flag:
