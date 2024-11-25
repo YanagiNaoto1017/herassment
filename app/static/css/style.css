@@ -68,7 +68,7 @@ html, body {
 
 /* ホバー時のスタイル */
 .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color:rgb(85, 167, 148);
     transform: translateX(5px);
 }
 
@@ -571,4 +571,22 @@ td:focus, th:focus {
     justify-content: center; /* 横方向の中央揃え */
     margin: 0;
     padding: 0;
+}
+
+/* テーブルのカラムスタイル */
+.date-column {
+    width: 20%; /* 日付カラムを狭める */
+    white-space: nowrap; /* 内容が折り返されないようにする */
+}
+
+.content-column {
+    width: 60%; /* 内容カラムを広げる */
+    word-wrap: break-word; /* 必要に応じて折り返しを有効にする */
+    white-space: normal; /* テキストが長すぎる場合は折り返す */
+}
+
+/* テーブルの全体的なスタイル調整 */
+.table {
+    table-layout: fixed; /* 固定レイアウトでカラム幅を制御 */
+    width: 100%; /* テーブル全体の幅を確保 */
 }
