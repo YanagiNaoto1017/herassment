@@ -12,40 +12,25 @@
         </tr>
     </thead>
     <tbody>
-        {% if user.superuser_flag and user.user_flag %}
         {% csrf_token %}
         {% for item in page_obj %}
+        {% if user.superuser_flag and user.user_flag %}
         <tr>
             <td>{{ item.account_name }}</td>
             <td>パスワードリセットの申請</td>
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:admin_delete' item.pk %}">パスワードリセット</a>
-                <td>
+            <td><a href="{% url 'app:password_reset' item.account_name %}">パスワードリセット</a></td>
         </tr>
-        {% empty %}
-        <tr>
-            <td>No User</td>
-            <td>通知がありません</td>
-        </tr>
-        {% endfor %}
-        {% else %}
-        {% csrf_token %}
-        {% for item in page_obj %}
+        {% elif user.admin_flag %}
         <tr>
             <td>{{ item.account_name }}</td>
             <td>スーパーユーザー削除の申請</td>
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:admin_delete' item.pk %}">削除</a>
-                <td>
+            <td><a href="{% url 'app:admin_delete' item.pk %}">削除</a></td>
+        </tr>
 
-        </tr>
-        {% empty %}
-        <tr>
-            <td>No User</td>
-            <td>通知がありません</td>
-        </tr>
-        {% endfor %}
         {% endif %}
+        {% endfor %}
     </tbody>
 </table>
 {% include "pagination.html" %}
