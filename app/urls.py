@@ -43,7 +43,7 @@ urlpatterns = [
     path('usr/harassment_list', views.HarassmentReportListView.as_view(), name='harassment_list'), # ハラスメント一覧
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
-    path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
+    path('password_change/<int:pk>/', views.PasswordChangeView.get_context_data(), name='password_change'), #パスワード変更画面
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete') # ユーザー削除
     ]
