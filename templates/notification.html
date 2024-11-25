@@ -14,7 +14,7 @@
     <tbody>
         {% csrf_token %}
         {% for item in page_obj %}
-        {% if user.superuser_flag and user.user_flag %}
+        {% if user.superuser_flag and user.user_flag and not item.is_read %}
         <tr>
             <td>{{ item.account_name }}</td>
             <td>パスワードリセットの申請</td>

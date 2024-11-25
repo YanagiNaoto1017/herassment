@@ -367,21 +367,16 @@ class PasswordReset(LoginRequiredMixin, View):
     
     def get(self, request, account_name):
         user = Users.objects.get(account_name=account_name)
-        print('🔥')
-        # self.request.session['pw_reset_user'] = user.account_id
         return render(request, self.template_name, {"object": user})
     
     def post(self, request, account_name):
         if request.method == 'POST':
-            print('🔥')
-            # account_id = self.request.session['pw_reset_user']
             user = Users.objects.get(account_name=account_name)
-            print('🔥🔥')
-            print(user)
-            user.password = user.start_password
-            print('🔥🔥🔥')
+            notification = Notification.objects.get(account_name=account_name)
+            user.password = user.start_password # 初期パスワードを代入
+            notification.is_read = True # リセットした通知をTrueに変更
             user.save()
-            print('🔥🔥🔥🔥')
+            notification.save()
             return redirect('app:notification')
         return render(request, self.template_name)
 
