@@ -21,7 +21,7 @@
             <td>{{ item.created_at }}</td>
             <td>
                 {% if item.superuser_flag %}
-                <button type="submit">削除要請</button>
+                <a href="{% url 'app:user_delete_request' item.pk %}">削除要請</a>
                 {% else %}
                 <a href="{% url 'app:user_delete' item.pk %}">削除</a>
                 {% endif %}
