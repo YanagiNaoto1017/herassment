@@ -2,5 +2,7 @@
 {% block content %}
 <h2>パスワードが変更されました</h2>
 <p>パスワードが正常に変更されました。</p>
-<a href="{% url app:'index' %}" class="btn btn-secondary">戻る</a>
+<div class="center-container">
+    <a href="{% url 'app:index' %}">戻る</a>
+</div>
 {% endblock %}

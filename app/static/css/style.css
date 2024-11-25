@@ -216,6 +216,7 @@ a:focus {
     background-color: #3498db; /* ホバー時の背景色 */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
     transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+    color: #ffffff; 
 }
 
 a:active {
@@ -562,4 +563,12 @@ table {
 td:focus, th:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
+}
+
+/* 親要素を中央揃え */
+.center-container {
+    display: flex;
+    justify-content: center; /* 横方向の中央揃え */
+    margin: 0;
+    padding: 0;
 }
