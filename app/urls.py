@@ -10,6 +10,7 @@ handler404 = Custom404View.as_view()
 handler500 = Custom500View.as_view()
 
 urlpatterns = [
+    path('accounts/login/', views.UserLoginView.as_view(), name='user_login'),  # ユーザーログイン
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
@@ -43,7 +44,7 @@ urlpatterns = [
     path('usr/harassment_list', views.HarassmentReportListView.as_view(), name='harassment_list'), # ハラスメント一覧
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
-    path('password_change/<int:pk>/', views.PasswordChangeView.get_context_data(), name='password_change'), #パスワード変更画面
+    path('user/password_change/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete') # ユーザー削除
     ]

@@ -314,21 +314,30 @@ class PwSendCompleteView(View):
             request, "pw_send_comp.html")
     
 #パスワード変更画面
-class PasswordChangeView(View):
+class PasswordChangeView(LoginRequiredMixin,View):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
-    success_url = reverse_lazy('account_info')  # 成功後のリダイレクト先
-    form_class = CustomPasswordChangeForm 
-    def get_context_data(request, pk):
-        # 取得したID
-        id = pk
-        print(f"取得したid{id}")
-        user_info = Users.objects.filter(account_id=id)  # Usersモデルからログインユーザーの情報を取得
-        return render(request, 'password_change.html', {
-            'object_list': user_info,  # テンプレートに渡す変数
-        })
+    form_class = CustomPasswordChangeForm
+    
+    def get(self, request):
+        form = CustomPasswordChangeForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        form = CustomPasswordChangeForm(request.POST)
+        user = Users.objects.get(id=request.user.id)
+        print('🔥')
+        if form.is_valid():
+            print('🔥🔥')
+            new_password = form.cleaned_data['new_password']
+            new_password = make_password(new_password)            
+            user.password = new_password
+            user.save()
+            print('🔥')
+            return redirect("app:account_info")
+        return render(request, "pw_complete.html", {"form": form})    
 
 class PwChangeCompleteView(View):
-    template_name = 'pw_change_complete.html'  # パスワード変更完了用のテンプレート
+    template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
 
 # PWリセット通知
 class NotificationView(View):
