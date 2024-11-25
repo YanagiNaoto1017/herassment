@@ -46,5 +46,6 @@ urlpatterns = [
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
     path('user/password_change/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
-    path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete') # ユーザー削除
+    path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete'), # ユーザー削除
+    path('user/password_reset<str:account_name>/', views.PasswordReset.as_view(), name='password_reset') # パスワードリセット
     ]

@@ -18,7 +18,9 @@
             <td>{{ item.id }}</td>
             <td>{{ item.company_name }}</td>
             <td>{{ item.created_at }}</td>
-            <td><button type="submit">削除</button></td>
+            <td>
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

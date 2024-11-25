@@ -8,20 +8,28 @@
             <th scope="col">名前</th>
             <th scope="col">受信内容</th>
             <th scope="col">受信日時</th>
+            <th scope="col">操作</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
         {% for item in page_obj %}
+        {% if user.superuser_flag and user.user_flag and not item.is_read %}
         <tr>
             <td>{{ item.account_name }}</td>
             <td>パスワードリセットの申請</td>
             <td>{{ item.created_at }}</td>
+            <td><a href="{% url 'app:password_reset' item.account_name %}">パスワードリセット</a></td>
         </tr>
-        {% empty %}
+        {% elif user.admin_flag %}
         <tr>
-            <td>通知がありません</td>
+            <td>{{ item.account_name }}</td>
+            <td>スーパーユーザー削除の申請</td>
+            <td>{{ item.created_at }}</td>
+            <td><a href="{% url 'app:admin_delete' item.pk %}">削除</a></td>
         </tr>
+
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>

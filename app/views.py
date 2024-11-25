@@ -361,6 +361,25 @@ class AdminDeleteView(DeleteView):
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:admin_list')
 
+# パスワードリセット
+class PasswordReset(LoginRequiredMixin, View):
+    template_name = 'confirm_pw_reset.html'
+    
+    def get(self, request, account_name):
+        user = Users.objects.get(account_name=account_name)
+        return render(request, self.template_name, {"object": user})
+    
+    def post(self, request, account_name):
+        if request.method == 'POST':
+            user = Users.objects.get(account_name=account_name)
+            notification = Notification.objects.get(account_name=account_name)
+            user.password = user.start_password # 初期パスワードを代入
+            notification.is_read = True # リセットした通知をTrueに変更
+            user.save()
+            notification.save()
+            return redirect('app:notification')
+        return render(request, self.template_name)
+
 # エラー
 class Custom403View(View):
     def get(self, request, exception=None, *args, **kwargs):

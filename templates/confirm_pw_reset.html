@@ -76,12 +76,12 @@
 </style>
 
 <div class="container">
-    <h1>削除確認</h1>
-    <p>本当に"{{ object.account_id }}"を削除しますか?</p>
+    <h1>リセット確認</h1>
+    <p>本当に"{{ object.account_name }}"のパスワードをリセットしますか?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">削除</button>
-        <a href="{% url 'app:user_list' %}">キャンセル</a>
+        <button type="submit">パスワードリセット</button>
+        <a href="{% url 'app:notification' %}">キャンセル</a>
     </form>
 </div>
 
