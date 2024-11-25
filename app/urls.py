@@ -46,4 +46,5 @@ urlpatterns = [
     path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete') # ユーザー削除
+    path('user/reset_password<int:pk>/', views.PasswordReset.as_view(), name='password_reset') # パスぱーど
     ]
