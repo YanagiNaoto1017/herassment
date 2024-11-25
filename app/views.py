@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,TextForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary
 from django.contrib.auth import logout
@@ -133,25 +133,41 @@ class ErrorReportListView(View):
         return render(request, "error_list.html", {"page_obj": page_obj})
 
 # 検出画面
-class DetectionView(LoginRequiredMixin, CreateView):
-    model = Text
-    template_name = 'detection.html'
-    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
-    form_class = TextForm
-    success_url = reverse_lazy('detection')
+class DetectionView(View):
+    def get(self, request):
+        form = DetectionForm()
+        return render(request, 'detection.html', {'form': form})
 
-    def form_valid(self, form):
-        input_text = form.cleaned_data['input_text']
-        detected_words = self.detect_harassment(input_text)
-        harassment_flag = bool(detected_words)
+    def post(self, request):
+        form = DetectionForm(request.POST)
+        if form.is_valid():
+            input_text = form.cleaned_data['input_text']
+            detected_words = []
+            # 辞書からキーワードを取得
+            keywords = Dictionary.objects.values_list('keyword', flat=True)
 
-        # モデルのインスタンスを作成
-        text_instance = form.save(commit=False)
-        text_instance.harassment_flag = harassment_flag
-        text_instance.detected_words = ', '.join(detected_words)
-        text_instance.save()
+            # 入力テキストにキーワードが含まれているかチェック
+            for keyword in keywords:
+                if keyword in input_text:
+                    detected_words.append(keyword)
 
-        return super().form_valid(form)
+            # ハラスメントフラグの設定
+            harassment_flag = len(detected_words) > 0
+
+            # テキストを保存
+            text_instance = Text.objects.create(
+                input_text=input_text,
+                harassment_flag=harassment_flag,
+                detected_words=', '.join(detected_words) if detected_words else None
+            )
+
+            return render(request, 'detection_result.html', {
+                'input_text': input_text,
+                'detected_words': detected_words,
+                'harassment_flag': harassment_flag,
+                'id': id
+            })
+        return render(request, 'detection.html', {'form': form})
 
     def detect_harassment(self, text):
         # 辞書からキーワードを取得
@@ -284,12 +300,15 @@ class PwSendCompleteView(View):
 #パスワード変更画面
 class PasswordChangeView(View):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
-    success_url = reverse_lazy('app:pw_change_complete')  # 成功後のリダイレクト先
+    success_url = reverse_lazy('account_info')  # 成功後のリダイレクト先
+    form_class = CustomPasswordChangeForm 
+    def get_context_data(request, pk):
+        # 取得したID
+        id = pk
+        print(f"取得したid{id}")
+        user_info = Users.objects.filter(account_id=id)  # Usersモデルからログインユーザーの情報を取得
+        return render(request, 'password_change.html', {
+            'object_list': user_info,  # テンプレートに渡す変数
+        })
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
-
-class PwChangeCompleteView(View):
-    template_name = 'pw_change_complete.html'  # パスワード変更完了用のテンプレート
+        
