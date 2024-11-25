@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Users
-        fields = ("account_id","email",)
+        fields = ("account_id","account_name","email",)
 
 # 管理者ログイン
 class AdminLoginForm(AuthenticationForm):
@@ -25,14 +25,14 @@ class SuperUserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company","email")
+        fields = ("account_id","account_name","company","email")
     
 # ユーザー登録
 class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company",)
+        fields = ("account_id","account_name")
     
     
 # ユーザーログイン

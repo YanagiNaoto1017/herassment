@@ -9,23 +9,25 @@ html, body {
 
 /* サイドバーの基本スタイル */
 .sidebar {
-    width: 250px;
+    width: 230px;
     height: 100vh;
-    background: linear-gradient(180deg, #0595c5, #047a99);
-    color: white;
+    background: linear-gradient(180deg, #f9f9f9, #e6f7f4); /* 優しいグラデーション */
+    color: rgb(34, 112, 93); /* 調和の取れた色合い */
     position: fixed;
     top: -20px;
     left: 0;
     padding: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-    overflow-y: auto; /* コンテンツが多い場合スクロール可能に */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2); /* 柔らかな影 */
+    overflow-y: auto;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
+    border: 1px solid rgba(119, 227, 202, 0.8); /* 控えめな枠線 */
+    border-radius: 8px; /* 角を丸める */
 }
+
 
 .sidebar-heading {
     font-size: 1.5em;
-    margin: 20px 0;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
@@ -33,13 +35,13 @@ html, body {
 
 /* サイドバーの区切り線 */
 .sidebar-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    margin: 15px 0;
+    border-top: 1px solid rgb(119, 227, 202);
+    margin: 5px 0;
 }
 
 /* リストアイテムのスタイル */
 .nav-item {
-    margin: 15px 0;
+    margin: 5px 0;
     list-style: none;
     display: flex;
     align-items: center;
@@ -53,7 +55,7 @@ html, body {
 
 /* リンクのスタイル */
 .nav-link {
-    color: white;
+    color: rgb(85, 167, 148);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -61,6 +63,7 @@ html, body {
     border-radius: 8px;
     transition: all 0.3s ease;
     font-size: 1em;
+    border: 1px solid rgb(119, 227, 202);
 }
 
 /* ホバー時のスタイル */
@@ -96,7 +99,7 @@ html, body {
 
 /* メインコンテンツのスタイル */
 #content {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     min-height: 83vh;
 }
 
@@ -128,7 +131,7 @@ html, body {
 
 /* ヘッダーのスタイル */
 header {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     text-align: center;
 }
 
@@ -136,16 +139,24 @@ header {
 header h1 {
     margin: 0;
     font-size: 2em;
-    color: #333;
+    background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
+    -webkit-background-clip: text; /* WebKitブラウザ向け */
+    background-clip: text; /* 標準プロパティ */
+    -webkit-text-fill-color: transparent; /* WebKitブラウザ向け */
 }
 
 /* フッターのスタイル */
 footer {
-    background-color: #8f959c;
-    padding: 20px;
-    margin-bottom: auto;
+    background: #00787e;/* サイドバーと調和するグラデーション */
+    color: rgb(244, 246, 246); /* サイドバーと一致する色 */
     text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(119, 227, 202, 0.8); /* サイドバーと統一した枠線 */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 上部に柔らかな影 */
+    position: relative;
+    border-radius: 8px 8px 0 0; /* 上部角を丸める */
 }
+
 
 /* フォームやボタンのスタイル */
 button[type="submit"] {
@@ -185,6 +196,35 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* リンクのスタイル */
+a {
+    display: inline-block;
+    text-decoration: none; /* 下線なし */
+    font-size: 1rem;
+    color: #3498db; /* リンク色 */
+    padding: 12px 24px; /* より広いパディング */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* より柔らかい影 */
+    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #ffffff; /* 背景色 */
+    margin: 2px;
+}
+
+a:hover,
+a:focus {
+    background-color: #3498db; /* ホバー時の背景色 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
+    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+}
+
+a:active {
+    background-color: #2980b9; /* クリック時の背景色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
+    transform: translateY(0); /* クリック時に元に戻る */
+}
+
+
 /* フォームフィールドとラベルのスタイル */
 form div {
     margin-bottom: 20px;
@@ -198,6 +238,7 @@ label {
     font-size: 0.9em;
 }
 
+/* 入力フィールドのスタイル */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -205,24 +246,49 @@ input[type="number"],
 select,
 textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 12px 16px; /* 少し広めのパディング */
+    border: 1px solid #ddd; /* ほんのり薄いボーダー */
+    border-radius: 8px; /* 角を丸く */
     font-size: 1em;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
+    background-color: #fafafa; /* 明るい背景色 */
+    color: #333; /* 文字色を少し濃く */
+    transition: all 0.3s ease; /* ボーダーと影のスムーズな遷移 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
 }
 
+/* フォーカス時のスタイル */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.2);
+    border-color: #3498db; /* フォーカス時のボーダー色 */
+    outline: none; /* フォーカス時のアウトラインを消す */
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* フォーカス時のボックスシャドウ */
+    background-color: #ffffff; /* フォーカス時の背景色変更 */
 }
+
+/* 入力フィールドのホバー時のスタイル */
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+select:hover,
+textarea:hover {
+    border-color: #bbb; /* ホバー時のボーダー色 */
+}
+
+/* プレースホルダーテキストのスタイル */
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="email"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #999; /* 薄いグレーでプレースホルダーテキストを表示 */
+    font-style: italic; /* イタリック体にして目立たせる */
+}
+
 
 /* エラーメッセージのスタイル */
 .error {
@@ -269,94 +335,79 @@ header .btn:hover {
     display: flex;
     justify-content: center;
     padding: 0;
-    margin: 20px 0;
+    margin: 30px 0;
     list-style: none;
+    font-family: 'Arial', sans-serif;
 }
 
+/* ページアイテム */
 .page-item {
-    margin: 0 5px;
+    margin: 0 6px;
 }
 
+/* ページリンク */
 .page-item a,
 .page-item span {
-    padding: 8px 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
-    color: #007bff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: background-color 0.2s, color 0.2s;
+    color: #fff;
+    background-color: #007bff; /* 初期背景色 */
+    border: 1px solid #007bff;
+    border-radius: 50px; /* 丸みを強調 */
+    transition: all 0.3s ease;
 }
 
+/* ホバー時のスタイル */
 .page-item a:hover,
 .page-item span:hover {
-    background-color: #007bff;
-    color: white;
+    background-color: #0056b3; /* 少し濃い青に */
+    color: #fff;
     cursor: pointer;
+    transform: scale(1.1); /* ホバー時に少し大きく */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
 }
 
+/* アクティブページのスタイル */
 .page-item.active span {
-    background-color: #007bff;
+    background-color: #28a745; /* アクティブなページは緑 */
     color: white;
+    border-color: #28a745;
 }
 
+/* 無効なページのスタイル */
 .page-item.disabled a,
 .page-item.disabled span {
     color: #6c757d;
-    pointer-events: none;
+    background-color: #f8f9fa; /* グレーの背景色 */
+    border-color: #ddd;
+    pointer-events: none; /* クリック不可 */
 }
 
+/* フォーカス時のスタイル */
 .page-item a:focus,
 .page-item span:focus {
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
 
+/* 「前へ」「次へ」ボタン */
 .page-item a[aria-label="Previous"],
 .page-item a[aria-label="Next"] {
-    font-size: 20px;
+    font-size: 18px;
+    padding: 8px 12px;
+    font-weight: bold;
 }
 
-/* 検出・校正ボックスのスタイル */
-.detect-box,
-.proofreading-box {
-    padding: 15px;
-    border-radius: 16px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.detect-box {
-    border: 2px solid #1e90ff;
-    background-color: #f0f8ff;
-}
-
-.detect-box:hover {
-    transform: scale(1.05);
-}
-
-.detect-box .list-group-item a {
-    color: #1e90ff;
-}
-
-.detect-box .list-group-item a:hover {
-    color: #ff4500;
-}
-
-.proofreading-box {
-    border: 2px solid #32cd32;
-    background-color: #e0ffe0;
-}
-
-.proofreading-box:hover {
-    transform: scale(1.05);
-}
-
-.proofreading-box .list-group-item a {
-    color: #32cd32;
-}
-
-.proofreading-box .list-group-item a:hover {
-    color: #228b22;
+/* アイコンボタンのスタイル (例: ページ番号の隣に矢印などを追加) */
+.page-item a[aria-label="Previous"]::before,
+.page-item a[aria-label="Next"]::before {
+    font-size: 18px;
+    margin: 0 6px;
 }
 
 /* 固定ボタン */
@@ -384,62 +435,131 @@ header .btn:hover {
     background-color: #004494;
 }
 
-/* 新しいセクションのスタイル */
-.detect-box {
-    border: 2px solid #1e90ff; /* 検出用の枠線 */
-    background-color: #f0f8ff; /* 検出の背景色 */
-    padding: 15px; /* 内側の余白 */
-    border-radius: 16px; /* 角を丸く */
+/* 検出・校正ボックスのスタイル */
+.detect-box,
+.proofreading-box {
+    padding: 20px;
+    border-radius: 8px;
     margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out; /* ホバー時のアニメーション */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブル風の影を追加 */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* 検出ボックス */
+.detect-box {
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #f4f8fb; /* 背景色 */
 }
 
 .detect-box:hover {
-    transform: scale(1.05); /* ホバー時に少し拡大 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
 }
 
 .detect-box .list-group-item a {
-    color: #1e90ff; /* 検出リンクの色 */
+    color: #3498db; /* リンク色 */
+    text-decoration: none;
 }
 
 .detect-box .list-group-item a:hover {
-    color: #ff4500; /* 検出リンクホバー時の色 */
+    color: #2980b9; /* ホバー時のリンク色 */
 }
 
+/* 校正ボックス */
 .proofreading-box {
-    border: 2px solid #32cd32; /* 校正用の枠線 */
-    background-color: #e0ffe0; /* 校正の背景色 */
-    padding: 15px; /* 内側の余白 */
-    border-radius: 16px; /* 角を丸く */
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out; /* ホバー時のアニメーション */
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #f4f8fb; /* 背景色 */
 }
 
 .proofreading-box:hover {
-    transform: scale(1.05); /* ホバー時に少し拡大 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
 }
 
 .proofreading-box .list-group-item a {
-    color: #32cd32; /* 校正リンクの色 */
+    color: #3498db; /* リンク色 */
+    text-decoration: none;
 }
 
 .proofreading-box .list-group-item a:hover {
-    color: #228b22; /* 校正リンクホバー時の色 */
+    color: #2980b9; /* ホバー時のリンク色 */
+}
+
+/* 新しいセクション */
+.detect-box,
+.proofreading-box {
+    border-radius: 8px; /* 丸みを持たせる */
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* 白い背景に変更 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* アニメーション */
+}
+
+.detect-box .list-group-item a,
+.proofreading-box .list-group-item a {
+    color: #3498db; /* デフォルトのリンク色 */
+}
+
+.detect-box .list-group-item a:hover,
+.proofreading-box .list-group-item a:hover {
+    color: #2980b9; /* ホバー時のリンク色 */
 }
 
 /* テーブルのスタイル */
 table {
-    width: 98%;
+    width: 100%;
     border-collapse: collapse;
-    margin-left: auto;
+    margin: 20px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブルに影をつけて立体感 */
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
+/* テーブルのヘッダー */
 th {
-    background-color: #f2f2f2;
+    background-color: #3498db; /* ヘッダーの背景色 */
+    color: #fff; /* ヘッダー文字色 */
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 20px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* ヘッダー文字の間隔を広げる */
+    border-bottom: 2px solid #2980b9; /* ヘッダー下に強調されたボーダー */
+}
+
+/* テーブルのセル */
+td {
+    padding: 12px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #333; /* テーブルの文字色 */
+    background-color: #fafafa; /* セルの背景色 */
+    border-bottom: 1px solid #ddd;
+}
+
+/* 偶数行の背景色を少し変更 */
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+/* ホバー時の行の背景色 */
+tr:hover td {
+    background-color: #f0f8ff; /* ホバー時に薄い青色 */
+    cursor: pointer; /* ポインタが手のひらに変わる */
+}
+
+/* テーブルのボーダー */
+td, th {
+    border: 1px solid #ddd;
+}
+
+/* テーブル全体に枠線を設定 */
+table {
+    border-radius: 8px; /* 丸い角を追加 */
+    overflow: hidden; /* 角の丸みを維持 */
+}
+
+/* フォーカス時のセル */
+td:focus, th:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
 }

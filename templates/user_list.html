@@ -9,6 +9,7 @@
             <th scope="col">ID</th>
             <th scope="col">企業名</th>
             <th scope="col">登録日時</th>
+            <th scope="col">操作</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,13 @@
             <td>{{ item.account_id }}</td>
             <td>{{ item.company }}</td>
             <td>{{ item.created_at }}</td>
+            <td>
+                {% if item.superuser_flag %}
+                <button type="submit">削除要請</button>
+                {% else %}
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -29,6 +37,7 @@
             <th scope="col">ID</th>
             <th scope="col">企業名</th>
             <th scope="col">登録日時</th>
+            <th scope="col">操作</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +47,12 @@
             <td>{{ item.account_id }}</td>
             <td>{{ item.company }}</td>
             <td>{{ item.created_at }}</td>
+            <td>
+                {% if item.superuser_flag %}
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+                {% else %}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

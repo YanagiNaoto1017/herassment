@@ -1,7 +1,13 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler403, handler404, handler500
+from app.views import Custom403View, Custom404View, Custom500View
 
 app_name = 'app'
+
+handler403 = Custom403View.as_view()
+handler404 = Custom404View.as_view()
+handler500 = Custom500View.as_view()
 
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
@@ -21,6 +27,7 @@ urlpatterns = [
     path('admin_list', views.AdminListView.as_view(), name='admin_list'), # 管理者一覧
     path('company_list', views.CompanyListView.as_view(), name='company_list'), # 企業一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
+    path('admin_delete/<int:pk>/', views.AdminDeleteView.as_view(), name='admin_delete'), # 管理者削除
 
     # 完了画面
     path('complete', views.CompleteView.as_view(), name='complete'), # 登録完了画面
@@ -36,5 +43,7 @@ urlpatterns = [
     path('usr/harassment_list', views.HarassmentReportListView.as_view(), name='harassment_list'), # ハラスメント一覧
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
-    path('password_change/<int:pk>/', views.PasswordChangeView.get_context_data, name='password_change'), #パスワード変更画面
+    path('password_change/<int:pk>/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
+    path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
+    path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete') # ユーザー削除
     ]

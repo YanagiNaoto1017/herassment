@@ -1,5 +1,5 @@
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
@@ -47,6 +47,11 @@ class Company(models.Model):
 # ハラスメント報告
 class Harassment_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    company_id = models.CharField(
+        verbose_name=_("企業ID"),
+        max_length=50,
+        null=True,
+    )
     report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
     report_image = models.CharField(verbose_name=_("画像"),max_length=100,null=True,blank=True)
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
@@ -77,7 +82,13 @@ class Users(AbstractBaseUser,PermissionsMixin):
         verbose_name=_("ユーザーID"),
         max_length=50,
         unique=True,
-        null=True
+        null=True,
+    )
+    account_name = models.CharField(
+        verbose_name=_("ユーザー名"),
+        max_length=100,
+        null=False,
+        default="",
     )
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE,
@@ -111,7 +122,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
         default=False,
     )
     is_superuser = models.BooleanField(
-        verbose_name=_("is_superuer"),
+        verbose_name=_("is_superuser"),
         default=False,
     )
     is_staff = models.BooleanField(
@@ -138,3 +149,27 @@ class Users(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.account_id
+    
+# 通知
+class Notification(models.Model):
+    id = models.AutoField(verbose_name=_("ID"),primary_key=True)
+    account_name = models.CharField(
+        verbose_name=_("ユーザー名"),
+        max_length=50,
+        null=True,
+    )
+    company_id = models.CharField(
+        verbose_name=_("企業ID"),
+        max_length=50,
+        null=True,
+    )
+    superuser_id = models.CharField(
+        verbose_name=_("スーパーユーザーID"),
+        max_length=50,
+        null=True,
+    )
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(
+        verbose_name=_("送信日時"),
+        default=timezone.now,
+    )

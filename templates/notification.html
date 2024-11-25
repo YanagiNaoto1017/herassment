@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>通知一覧</h1>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">名前</th>
+            <th scope="col">受信内容</th>
+            <th scope="col">受信日時</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% csrf_token %}
+        {% for item in page_obj %}
+        <tr>
+            <td>{{ item.account_name }}</td>
+            <td>パスワードリセットの申請</td>
+            <td>{{ item.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>通知がありません</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "pagination.html" %}
+{% endblock %}
