@@ -153,8 +153,8 @@ class Users(AbstractBaseUser,PermissionsMixin):
 # 通知
 class Notification(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
-    account_name = models.CharField(
-        verbose_name=_("ユーザー名"),
+    sender_name = models.CharField(
+        verbose_name=_("送り元"),
         max_length=50,
         null=True,
     )
@@ -163,8 +163,13 @@ class Notification(models.Model):
         max_length=50,
         null=True,
     )
-    superuser_id = models.CharField(
-        verbose_name=_("スーパーユーザーID"),
+    destination = models.CharField(
+        verbose_name=_("送り先"),
+        max_length=50,
+        null=True,
+    )
+    genre = models.CharField(
+        verbose_name=_("通知種類"),
         max_length=50,
         null=True,
     )
@@ -172,4 +177,4 @@ class Notification(models.Model):
     created_at = models.DateTimeField(
         verbose_name=_("送信日時"),
         default=timezone.now,
-    )
+    )   
