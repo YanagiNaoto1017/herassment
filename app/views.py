@@ -1,5 +1,5 @@
 from pyexpat.errors import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
@@ -325,15 +325,12 @@ class PasswordChangeView(LoginRequiredMixin,View):
     def post(self, request):
         form = CustomPasswordChangeForm(request.POST)
         user = Users.objects.get(id=request.user.id)
-        print('🔥')
         if form.is_valid():
-            print('🔥🔥')
             new_password = form.cleaned_data['new_password']
             new_password = make_password(new_password)            
             user.password = new_password
             user.save()
-            print('🔥')
-            return redirect("app:account_info")
+            update_session_auth_hash(request, user)
         return render(request, "pw_complete.html", {"form": form})    
 
 class PwChangeCompleteView(View):
