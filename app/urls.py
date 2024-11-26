@@ -47,5 +47,6 @@ urlpatterns = [
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete'), # ユーザー削除
     path('user/company_delete/<int:pk>/', views.CompanyDeleteView.as_view(), name='company_delete'), # 企業削除
-    path('user/password_reset<str:sender_name>/', views.PasswordReset.as_view(), name='password_reset') # パスワードリセット
+    path('user/password_reset<str:sender_name>/', views.PasswordReset.as_view(), name='password_reset'), # パスワードリセット
+    path('user/superuser_delete<int:pk>/', views.SendSuperuserDeleteView.as_view(), name='send_superuser_delete'), # スーパーユーザー削除要請
 ]

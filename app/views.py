@@ -383,6 +383,28 @@ class PasswordReset(LoginRequiredMixin, View):
             notification.save()
             return redirect('app:notification')
         return render(request, self.template_name)
+    
+# スーパーユーザー削除要請
+class SendSuperuserDeleteView(LoginRequiredMixin, View):
+    template_name = 'send_superuser_delete.html'
+
+    def get(self, request, pk):
+        user = Users.objects.get(id=pk)
+        return render(request, self.template_name, {"object": user})
+    
+    def post(self, request, pk):
+        if request.method == 'POST':
+            user = Users.objects.get(id=pk)
+            print(user)
+            notification = Notification.objects.create(
+                    sender_name = user.account_name,
+                    company_id = user.company.id,
+                    destination = 'admin',
+                    genre = 2,
+                )
+            notification.save()
+            return redirect('app:user_list')
+        return render(request, self.template_name, {"object": user})
 
 # エラー
 class Custom403View(View):
