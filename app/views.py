@@ -299,9 +299,10 @@ class ForgetPasswordView(View):
                 superuser_id = form.cleaned_data['superuser_name']
                 user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
                 notification = Notification.objects.create(
-                    account_name = user.account_name,
+                    sender_name = user.account_name,
                     company_id = user.company.id,
-                    superuser_id = superuser_id,
+                    destination = superuser_id,
+                    genre = 1,
                 )
                 notification.save()
                 return redirect("app:pw_send_comp")
@@ -340,7 +341,7 @@ class PwChangeCompleteView(View):
 class NotificationView(View):
     template_name = 'notification.html'
     def get(self, request):
-        notification = Notification.objects.filter(company_id=request.user.company.id, superuser_id=request.user.account_id, is_read=False)  # データベースを検索
+        notification = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_id, is_read=False)  # データベースを検索
         paginator = Paginator(notification, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -368,14 +369,14 @@ class CompanyDeleteView(DeleteView):
 class PasswordReset(LoginRequiredMixin, View):
     template_name = 'confirm_pw_reset.html'
     
-    def get(self, request, account_name):
-        user = Users.objects.get(account_name=account_name)
+    def get(self, request, sender_name):
+        user = Users.objects.get(account_name=sender_name)
         return render(request, self.template_name, {"object": user})
     
-    def post(self, request, account_name):
+    def post(self, request, sender_name):
         if request.method == 'POST':
-            user = Users.objects.get(account_name=account_name)
-            notification = Notification.objects.get(account_name=account_name)
+            user = Users.objects.get(account_name=sender_name) # リセットするユーザーを取得
+            notification = Notification.objects.get(sender_name=sender_name) # リセットする報告を取得
             user.password = user.start_password # 初期パスワードを代入
             notification.is_read = True # リセットした通知をTrueに変更
             user.save()
