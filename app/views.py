@@ -358,6 +358,12 @@ class AdminDeleteView(DeleteView):
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:admin_list')
 
+# 企業削除
+class CompanyDeleteView(DeleteView):
+    model = Company
+    template_name = 'company_confirm_delete.html'
+    success_url = reverse_lazy('app:company_list')
+    
 # パスワードリセット
 class PasswordReset(LoginRequiredMixin, View):
     template_name = 'confirm_pw_reset.html'
