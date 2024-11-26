@@ -16,17 +16,17 @@
         {% for item in page_obj %}
         {% if user.superuser_flag and user.user_flag and not item.is_read %}
         <tr>
-            <td>{{ item.account_name }}</td>
+            <td>{{ item.sender_name }}</td>
             <td>パスワードリセットの申請</td>
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:password_reset' item.account_name %}">パスワードリセット</a></td>
+            <td><a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a></td>
         </tr>
-        {% elif user.admin_flag %}
+        {% elif user.admin_flag and not item.is_read %}
         <tr>
-            <td>{{ item.account_name }}</td>
+            <td>{{ item.sender_name }}</td>
             <td>スーパーユーザー削除の申請</td>
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:admin_delete' item.pk %}">削除</a></td>
+            <td><a href="{% url 'app:admin_delete' item.sender_name %}">削除</a></td>
         </tr>
 
         {% endif %}
