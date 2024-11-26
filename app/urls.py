@@ -10,7 +10,6 @@ handler404 = Custom404View.as_view()
 handler500 = Custom500View.as_view()
 
 urlpatterns = [
-    # path('accounts/login/', views.UserLoginView.as_view(), name='user_login'),  # ユーザーログイン
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
     path('login', views.AdminLoginView.as_view(), name='admin_login'), # 管理者ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
