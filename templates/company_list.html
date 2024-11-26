@@ -19,7 +19,7 @@
             <td>{{ item.company_name }}</td>
             <td>{{ item.created_at }}</td>
             <td>
-                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+                <a href="{% url 'app:company_delete' item.pk %}">削除</a>
             </td>
         </tr>
         {% endfor %}

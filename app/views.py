@@ -332,6 +332,12 @@ class AdminDeleteView(DeleteView):
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:admin_list')
 
+# ユーザー削除
+class CompanyDeleteView(DeleteView):
+    model = Company
+    template_name = 'company_confirm_delete.html'
+    success_url = reverse_lazy('app:company_list')
+
 # エラー
 class Custom403View(View):
     def get(self, request, exception=None, *args, **kwargs):
