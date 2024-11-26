@@ -26,3 +26,6 @@ pip install Django==4.2
 
 # Djangoサーバー起動
 python manage.py runserver
+
+# static
+python manage.py collectstatic

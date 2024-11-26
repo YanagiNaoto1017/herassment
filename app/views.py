@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
-    
+
 # ホーム
 class IndexView(LoginRequiredMixin,View):
     def get(self, request):
@@ -363,7 +363,7 @@ class CompanyDeleteView(DeleteView):
     model = Company
     template_name = 'company_confirm_delete.html'
     success_url = reverse_lazy('app:company_list')
-    
+
 # パスワードリセット
 class PasswordReset(LoginRequiredMixin, View):
     template_name = 'confirm_pw_reset.html'
@@ -384,17 +384,11 @@ class PasswordReset(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 # エラー
-class Custom403View(View):
-    def get(self, request, exception=None, *args, **kwargs):
-        # 403エラーページを表示
-        return render(request, '403.html', status=403)
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
 
-class Custom404View(View):
-    def get(self, request, exception, *args, **kwargs):
-        # 404エラーページを表示
-        return render(request, '404.html', status=404)
-    
-class Custom500View(View):
-    def get(self, request, *args, **kwargs):
-        # 500エラーページを表示
-        return render(request, '500.html', status=500)
+def custom_403_view(request, exception):
+    return render(request, '403.html', status=403)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)
