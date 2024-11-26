@@ -28,6 +28,7 @@ urlpatterns = [
     path('company_list', views.CompanyListView.as_view(), name='company_list'), # 企業一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
     path('admin_delete/<int:pk>/', views.AdminDeleteView.as_view(), name='admin_delete'), # 管理者削除
+    path('superuser_delete<str:sender_name>/', views.SuperuserDeleteView.as_view(), name='superuser_delete'), # スーパーユーザー削除
 
     # 完了画面
     path('complete', views.CompleteView.as_view(), name='complete'), # 登録完了画面

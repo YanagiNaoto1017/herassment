@@ -341,8 +341,11 @@ class PwChangeCompleteView(View):
 class NotificationView(View):
     template_name = 'notification.html'
     def get(self, request):
-        notification = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_id, is_read=False)  # データベースを検索
-        paginator = Paginator(notification, 10) # 1ページ当たり10件
+        if request.user.superuser_flag:
+            notifications = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_id, genre='1', is_read=False)  # データベースを検索        
+        elif request.user.admin_flag:
+            notifications = Notification.objects.filter(genre='2', is_read=False)  # データベースを検索
+        paginator = Paginator(notifications, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "notification.html", {"page_obj": page_obj})
@@ -405,6 +408,32 @@ class SendSuperuserDeleteView(LoginRequiredMixin, View):
             notification.save()
             return redirect('app:user_list')
         return render(request, self.template_name, {"object": user})
+    
+# スーパーユーザー削除
+class SuperuserDeleteView(LoginRequiredMixin, View):
+    template_name = 'superuser_confirm_delete.html'
+    success_url = reverse_lazy('app:user_list')
+    
+    def get(self, request, sender_name):
+        print('🔥')
+        print(sender_name)
+        delete_user = Users.objects.filter(account_name=sender_name).first()
+        print(delete_user)
+        return render(request, self.template_name, {"object": delete_user})
+    
+    def post(self, request, sender_name):
+        if request.method == 'POST':
+            print('🔥')
+            delete_user = Users.objects.filter(account_name=sender_name).first()
+            notifications = Notification.objects.filter(sender_name=sender_name)
+            delete_user.delete()
+            for notification in notifications:
+                notification.is_read = True
+                notification.save()
+                print('🔥🔥')
+                print(notification)
+            return redirect ('app:notification')
+        return render(request, self.template_name, {"object": delete_user})
 
 # エラー
 class Custom403View(View):
