@@ -64,7 +64,7 @@ class SendEmailForm(forms.Form):
 # スーパーユーザーへ送信
 class SendSuperuserForm(forms.Form):
     superuser_name = forms.ChoiceField(
-        choices=[(p['account_id'], p['account_id']) for p in Users.objects.filter(superuser_flag=True).values('account_id')],
+        choices=[(p['account_name'], p['account_name']) for p in Users.objects.filter(superuser_flag=True).values('account_name')],
         label="誰に送りますか？",
         required=True
     )
