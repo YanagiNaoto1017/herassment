@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -122,6 +122,16 @@ class UserListView(LoginRequiredMixin,View):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "user_list.html", {"page_obj": page_obj})
+    def user_list(request):
+        form = SearchForm(request.GET)
+        users = Users.objects.all()  # ユーザーのリストを取得
+
+        # フォームが有効であれば、検索ワードでフィルタリング
+        if form.is_valid():
+            company = form.cleaned_data.get('company')
+            if company:
+                users = users.filter(company__icontains=company)  # 企業名で絞り込み
+        return render(request, 'user_list.html', {'form': form})
 
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):

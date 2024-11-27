@@ -19,6 +19,7 @@ urlpatterns = [
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
+    
 
     # 管理者
     path('admin_signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録
