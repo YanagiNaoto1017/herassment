@@ -133,7 +133,7 @@ class ErrorReportListView(LoginRequiredMixin,View):
         return render(request, "error_list.html", {"page_obj": page_obj})
 
 # 検出画面
-class DetectionView(View):
+class DetectionView(LoginRequiredMixin,View):
     def get(self, request):
         form = DetectionForm()
         return render(request, 'detection.html', {'form': form})
@@ -151,22 +151,27 @@ class DetectionView(View):
                 if keyword in input_text:
                     detected_words.append(keyword)
 
-            # ハラスメントフラグの設定
-            harassment_flag = len(detected_words) > 0
-
-            # テキストを保存
-            text_instance = Text.objects.create(
-                input_text=input_text,
-                harassment_flag=harassment_flag,
-                detected_words=', '.join(detected_words) if detected_words else None
-            )
-
-            return render(request, 'detection_result.html', {
-                'input_text': input_text,
-                'detected_words': detected_words,
-                'harassment_flag': harassment_flag,
-                'id': id
-            })
+            # 検出ワードがある場合
+            if detected_words:
+                print('🔥')
+                harassment_flag: bool = True
+                # テキストを保存
+                text_instance = Text.objects.create(
+                    input_text=input_text,
+                    harassment_flag=harassment_flag,
+                    detected_words=', '.join(detected_words) if detected_words else None
+                )
+                return render(request, 'detection.html', {'form': form, 'text': text_instance})
+            # 検出単語がない場合
+            else:
+                print('🔥🔥')
+                harassment_flag: bool = False
+                # テキストを保存
+                text_instance = Text.objects.create(
+                    input_text=input_text,
+                    harassment_flag=harassment_flag,
+                )
+                return render(request, 'detection.html', {'form': form, 'text': text_instance})
         return render(request, 'detection.html', {'form': form})
 
     def detect_harassment(self, text):
