@@ -71,13 +71,8 @@ class SendSuperuserForm(forms.Form):
 
 
 #検出
-class DetectionForm(forms.ModelForm):
-    class Meta:
-        model = Text
-        fields = ['input_text']
-        widgets = {
-            'input_text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-        }
+class DetectionForm(forms.Form):
+    input_text = forms.CharField(label='検出', max_length=500)
 
 #パスワード変更
 class CustomPasswordChangeForm(forms.Form):
