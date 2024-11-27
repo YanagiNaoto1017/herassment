@@ -13,6 +13,9 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 
+import spacy
+
+    
 # ホーム
 class IndexView(LoginRequiredMixin,View):
     def get(self, request):
@@ -149,17 +152,31 @@ class DetectionView(LoginRequiredMixin,View):
         return render(request, 'detection.html', {'form': form})
 
     def post(self, request):
+        nlp = spacy.load("ja_core_news_sm") # モデルのロード
+        print('🔥')
+        print(nlp)
         form = DetectionForm(request.POST)
         if form.is_valid():
             input_text = form.cleaned_data['input_text']
-            detected_words = []
+            
+            doc = nlp(input_text) # テキストを解析
+            print('🔥')
+            print(doc)
+
+            # detected_words = []
+
             # 辞書からキーワードを取得
             keywords = Dictionary.objects.values_list('keyword', flat=True)
 
             # 入力テキストにキーワードが含まれているかチェック
-            for keyword in keywords:
-                if keyword in input_text:
-                    detected_words.append(keyword)
+            # for keyword in keywords:
+            #     if keyword in input_text:
+            #         detected_words.append(keyword)
+
+            # 辞書との照合
+            detected_words = [token.text for token in doc if token.text in keywords]
+            print('🔥')
+            print(detected_words)
 
             # 検出ワードがある場合
             if detected_words:
