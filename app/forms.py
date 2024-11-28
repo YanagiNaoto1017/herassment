@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Users
-        fields = ("account_id","email",)
+        fields = ("account_id","account_name","email",)
 
 # 管理者ログイン
 class AdminLoginForm(AuthenticationForm):
@@ -25,14 +25,14 @@ class SuperUserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company","email")
+        fields = ("account_id","account_name","company","email")
     
 # ユーザー登録
 class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","company",)
+        fields = ("account_id","account_name")
     
     
 # ユーザーログイン
@@ -64,16 +64,24 @@ class SendEmailForm(forms.Form):
 # スーパーユーザーへ送信
 class SendSuperuserForm(forms.Form):
     superuser_name = forms.ChoiceField(
-        choices=[(p['account_id'], p['account_id']) for p in Users.objects.filter(superuser_flag=True).values('account_id')],
+        choices=[(p['account_name'], p['account_name']) for p in Users.objects.filter(superuser_flag=True).values('account_name')],
         label="誰に送りますか？",
         required=True
     )
 
+
 #検出
-class TextForm(forms.ModelForm):
-    class Meta:
-        model = Text
-        fields = ['input_text']
-        widgets = {
-            'input_text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-        }
+class DetectionForm(forms.Form):
+    input_text = forms.CharField(label='検出', max_length=500)
+
+#パスワード変更
+class CustomPasswordChangeForm(forms.Form):
+    new_password = forms.CharField(
+        label=("新しいパスワード"),
+        max_length=500,
+    )
+    new_password2 = forms.CharField(
+        label=("パスワードの確認"),
+        max_length=500,
+    )
+        

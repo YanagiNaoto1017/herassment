@@ -5,16 +5,18 @@
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">日付</th>
-            <th scope="col">内容</th>
+            <th scope="col" class="date-column">日付</th>
+            <th scope="col" class="content-column">内容</th>
+            <th scope="col">画像</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in page_obj %}
         <tr>
-            <td>{{ item.created_at }}</td>
-            <td>{{ item.report_detail }}</td>
+            <td class="date-column">{{ item.report_time }}</td>
+            <td class="content-column">{{ item.report_detail }}</td>
+            <td>{{ item.report_un }}</td>
         </tr>
         {% endfor %}
     </tbody>

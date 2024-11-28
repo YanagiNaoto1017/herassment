@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap');
+
 /* グローバルスタイル */
 html, body {
     height: 100%; /* ページ全体を100%の高さに */
     margin: 0; /* ページ全体の余白を削除 */
     display: flex;
     flex-direction: column; /* コンテンツを縦に並べる */
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* サイドバーの基本スタイル */
@@ -28,7 +30,6 @@ html, body {
 
 .sidebar-heading {
     font-size: 1.5em;
-    margin: 20px 0;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
@@ -37,12 +38,12 @@ html, body {
 /* サイドバーの区切り線 */
 .sidebar-divider {
     border-top: 1px solid rgb(119, 227, 202);
-    margin: 15px 0;
+    margin: 5px 0;
 }
 
 /* リストアイテムのスタイル */
 .nav-item {
-    margin: 15px 0;
+    margin: 5px 0;
     list-style: none;
     display: flex;
     align-items: center;
@@ -64,12 +65,12 @@ html, body {
     border-radius: 8px;
     transition: all 0.3s ease;
     font-size: 1em;
-    border: 5px solid rgb(119, 227, 202);
+    border: 1px solid rgb(119, 227, 202);
 }
 
 /* ホバー時のスタイル */
 .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color:rgb(85, 167, 148);
     transform: translateX(5px);
 }
 
@@ -209,20 +210,22 @@ a {
     transition: all 0.3s ease-in-out; /* スムーズな遷移 */
     border: 2px solid #3498db; /* ボーダー色 */
     background-color: #ffffff; /* 背景色 */
+    margin: 2px;
 }
 
 a:hover,
 a:focus {
     background-color: #3498db; /* ホバー時の背景色 */
-    color: #ffffff; /* ホバー時の文字色 */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
     transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+    color: #ffffff; 
 }
 
 a:active {
     background-color: #2980b9; /* クリック時の背景色 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
     transform: translateY(0); /* クリック時に元に戻る */
+    color: #ffffff; 
 }
 
 
@@ -248,13 +251,14 @@ select,
 textarea {
     width: 100%;
     padding: 12px 16px; /* 少し広めのパディング */
-    border: 1px solid #ddd; /* ほんのり薄いボーダー */
-    border-radius: 8px; /* 角を丸く */
-    font-size: 1em;
-    background-color: #fafafa; /* 明るい背景色 */
+    border: 2px solid #ccc; /* 明るいボーダー */
+    border-radius: 12px; /* 角を丸く、少し大きく */
+    font-size: 1rem; /* 適切なフォントサイズ */
+    background-color: #f9f9f9; /* 明るい背景色 */
     color: #333; /* 文字色を少し濃く */
     transition: all 0.3s ease; /* ボーダーと影のスムーズな遷移 */
     box-sizing: border-box; /* パディングを含めた幅の計算 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを統一 */
 }
 
 /* フォーカス時のスタイル */
@@ -264,9 +268,9 @@ input[type="email"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #3498db; /* フォーカス時のボーダー色 */
+    border-color: #4CAF50; /* フォーカス時のボーダー色 */
     outline: none; /* フォーカス時のアウトラインを消す */
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* フォーカス時のボックスシャドウ */
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* フォーカス時のボックスシャドウ */
     background-color: #ffffff; /* フォーカス時の背景色変更 */
 }
 
@@ -277,7 +281,7 @@ input[type="email"]:hover,
 input[type="number"]:hover,
 select:hover,
 textarea:hover {
-    border-color: #bbb; /* ホバー時のボーダー色 */
+    border-color: #888; /* ホバー時のボーダー色 */
 }
 
 /* プレースホルダーテキストのスタイル */
@@ -286,8 +290,26 @@ input[type="password"]::placeholder,
 input[type="email"]::placeholder,
 input[type="number"]::placeholder,
 textarea::placeholder {
-    color: #999; /* 薄いグレーでプレースホルダーテキストを表示 */
+    color: #bbb; /* 薄いグレーでプレースホルダーテキストを表示 */
     font-style: italic; /* イタリック体にして目立たせる */
+}
+
+/* 選択フィールドのスタイル */
+select {
+    -webkit-appearance: none; /* Safariなどでデフォルトのスタイルを無効化 */
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f9f9f9; /* 背景色 */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>'); /* ドロップダウンアイコン */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* アイコンの位置 */
+    padding-right: 35px; /* アイコンの余白 */
+}
+
+/* テキストエリアのスタイル */
+textarea {
+    resize: vertical; /* 縦のリサイズを可能に */
+    min-height: 120px; /* 最小高さを設定 */
 }
 
 
@@ -299,6 +321,7 @@ textarea::placeholder {
 
 /* ボタンスタイル */
 button {
+    font-family: 'Roboto', sans-serif;
     background-color: var(--primary-color);
     color: white;
     padding: 10px 15px;
@@ -328,7 +351,7 @@ header .btn-logout {
 }
 
 header .btn:hover {
-    background-color: #0056b3;
+    background-color: #b0b300;
 }
 
 /* ページネーション */
@@ -433,7 +456,7 @@ header .btn:hover {
 }
 
 .primary-btn:active {
-    background-color: #004494;
+    background-color: #f8fbff;
 }
 
 /* 検出・校正ボックスのスタイル */
@@ -462,7 +485,7 @@ header .btn:hover {
 }
 
 .detect-box .list-group-item a:hover {
-    color: #2980b9; /* ホバー時のリンク色 */
+    color: #f8f8f8; /* ホバー時のリンク色 */
 }
 
 /* 校正ボックス */
@@ -502,7 +525,7 @@ header .btn:hover {
 
 .detect-box .list-group-item a:hover,
 .proofreading-box .list-group-item a:hover {
-    color: #2980b9; /* ホバー時のリンク色 */
+    color: #eff2f3; /* ホバー時のリンク色 */
 }
 
 /* テーブルのスタイル */
@@ -563,4 +586,70 @@ table {
 td:focus, th:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
+}
+
+/* 親要素を中央揃え */
+.center-container {
+    display: flex;
+    justify-content: center; /* 横方向の中央揃え */
+    margin: 0;
+    padding: 0;
+}
+
+/* テーブルのカラムスタイル */
+.date-column {
+    width: 20%; /* 日付カラムを狭める */
+    white-space: nowrap; /* 内容が折り返されないようにする */
+}
+
+.content-column {
+    width: 60%; /* 内容カラムを広げる */
+    word-wrap: break-word; /* 必要に応じて折り返しを有効にする */
+    white-space: normal; /* テキストが長すぎる場合は折り返す */
+}
+
+/* テーブルの全体的なスタイル調整 */
+.table {
+    table-layout: fixed; /* 固定レイアウトでカラム幅を制御 */
+    width: 100%; /* テーブル全体の幅を確保 */
+}
+
+.table tbody tr {
+    height: 80.98px; /* すべての行の高さを固定 */
+}
+
+/* 見出し1のフォントスタイル */
+h1 {
+    font-family: 'Playfair Display', serif; /* 高級感あるフォント */
+    font-size: 2.5rem; /* 見出し1の文字サイズ */
+    font-weight: 700;
+    color: #2c3e50; /* ダークブルー系の色 */
+    margin-bottom: 20px;
+}
+
+/* 見出し2のフォントスタイル */
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #34495e; /* 少し薄めの色 */
+    margin-bottom: 15px;
+}
+
+/* 見出し3のフォントスタイル */
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #7f8c8d; /* グレー寄りの色 */
+    margin-bottom: 10px;
+}
+
+/* パラグラフのスタイル */
+p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333;
+    margin-bottom: 15px;
 }
