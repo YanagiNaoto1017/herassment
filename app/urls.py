@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls import handler403, handler404, handler500
 from app.views import Custom403View, Custom404View, Custom500View
+from .views import AdminDeleteView, AdminListView
 
 app_name = 'app'
 

@@ -84,4 +84,5 @@ class CustomPasswordChangeForm(forms.Form):
         label=("パスワードの確認"),
         max_length=500,
     )
-        
+class TextForm(forms.Form):
+    text_field = forms.CharField(max_length=100)
