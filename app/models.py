@@ -49,6 +49,7 @@ class Harassment_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
     company_id = models.CharField(
         verbose_name=_("企業ID"),
+        max_length=50,
         null=True,
     )
     report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
@@ -177,13 +178,3 @@ class Notification(models.Model):
         verbose_name=_("送信日時"),
         default=timezone.now,
     )
-    
-class User(models.Model):
-    account_name = models.CharField(max_length=255)
-
-class SomeModel(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
