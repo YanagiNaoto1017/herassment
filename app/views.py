@@ -13,8 +13,19 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 import spacy
+from django.core.mail import send_mail
+from django.conf import settings
+ 
+# メール送信関数
+def send_email(to_email, subject, message):
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,  # 送信者のメールアドレス
+        [to_email],  # 受信者のメールアドレス
+        fail_silently=False,
+    )
 
-    
 # ホーム
 class IndexView(LoginRequiredMixin,View):
     def get(self, request):
@@ -311,8 +322,11 @@ class ForgetPasswordView(View):
             form = SendEmailForm(request.POST)
             if form.is_valid():
                 email = form.cleaned_data['email']
-                return redirect("app:pw_send_comp")
-            return render(request, "forget_password.html", {"form": form})
+                subject = '件名'  # メールの件名
+                message = 'パスワード変更URL'  # メールの内容
+                send_email(email, subject, message)  # メール送信
+                return redirect("app:pw_send_comp")  # 送信完了後のリダイレクト先
+            return render(request, "send_email.html", {"form": form})
         # ユーザーの場合
         elif not superuser_flag and user_flag:
             form = SendSuperuserForm(request.POST)
