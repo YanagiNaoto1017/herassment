@@ -177,4 +177,4 @@ class Notification(models.Model):
     created_at = models.DateTimeField(
         verbose_name=_("送信日時"),
         default=timezone.now,
-    )   
+    )
