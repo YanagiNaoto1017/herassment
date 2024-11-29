@@ -143,7 +143,6 @@ class CompanyListView(LoginRequiredMixin,View):
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-            return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
         return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
