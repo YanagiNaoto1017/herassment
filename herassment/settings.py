@@ -145,3 +145,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'l3lqcky.sr@gmail.com'  # あなたのメールアドレス
 EMAIL_HOST_PASSWORD = 'cvvl zarz vwqu qoaa'  # あなたのメールパスワード
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 画像を保存するディレクトリ
+MEDIA_URL = '/media/'  # 画像ファイルにアクセスするURL

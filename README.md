@@ -93,3 +93,6 @@ python manage.py collectstatic
 pip install pandas
 pip install joblib
 pip install scikit-learn
+
+# Pillowのインストール
+python -m pip install Pillow
