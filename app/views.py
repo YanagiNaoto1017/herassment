@@ -123,17 +123,28 @@ class AdminListView(LoginRequiredMixin,View):
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-            return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
         return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
 class CompanyListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         company_list = Company.objects.all()
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "company_list.html", {"page_obj": page_obj})
+        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            company_list = Company.objects.filter(company_name__icontains=search_text)
+            paginator = Paginator(company_list, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+            return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
+        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
 class UserListView(LoginRequiredMixin,View):
@@ -166,7 +177,6 @@ class UserListView(LoginRequiredMixin,View):
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-            return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
         return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
 
 
