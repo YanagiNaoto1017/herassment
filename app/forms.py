@@ -84,5 +84,8 @@ class CustomPasswordChangeForm(forms.Form):
         label=("パスワードの確認"),
         max_length=500,
     )
+        
+class SearchForm(forms.Form):
+    query = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
 class TextForm(forms.Form):
     text_field = forms.CharField(max_length=100)

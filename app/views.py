@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+
 import spacy
 
     
@@ -125,6 +126,16 @@ class UserListView(LoginRequiredMixin,View):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, "user_list.html", {"page_obj": page_obj})
+    def user_list(request):
+        form = SearchForm(request.GET)
+        users = Users.objects.all()  # ユーザーのリストを取得
+
+        # フォームが有効であれば、検索ワードでフィルタリング
+        if form.is_valid():
+            company = form.cleaned_data.get('company')
+            if company:
+                users = users.filter(company__icontains=company)  # 企業名で絞り込み
+        return render(request, 'user_list.html', {'form': form})
 
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):
@@ -389,7 +400,7 @@ class CompanyDeleteView(DeleteView):
     model = Company
     template_name = 'company_confirm_delete.html'
     success_url = reverse_lazy('app:company_list')
-    
+
 # パスワードリセット
 class PasswordReset(LoginRequiredMixin, View):
     template_name = 'confirm_pw_reset.html'
@@ -458,17 +469,11 @@ class SuperuserDeleteView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"object": delete_user})
 
 # エラー
-class Custom403View(View):
-    def get(self, request, exception=None, *args, **kwargs):
-        # 403エラーページを表示
-        return render(request, '403.html', status=403)
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
 
-class Custom404View(View):
-    def get(self, request, exception, *args, **kwargs):
-        # 404エラーページを表示
-        return render(request, '404.html', status=404)
-    
-class Custom500View(View):
-    def get(self, request, *args, **kwargs):
-        # 500エラーページを表示
-        return render(request, '500.html', status=500)
+def custom_403_view(request, exception):
+    return render(request, '403.html', status=403)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)

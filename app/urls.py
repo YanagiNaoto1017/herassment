@@ -1,13 +1,13 @@
 from django.urls import path
 from . import views
 from django.conf.urls import handler403, handler404, handler500
-from app.views import Custom403View, Custom404View, Custom500View
+from app.views import custom_404_view, custom_500_view
 
 app_name = 'app'
 
-handler403 = Custom403View.as_view()
-handler404 = Custom404View.as_view()
-handler500 = Custom500View.as_view()
+handler404 = 'app.views.custom_404_view'
+handler403 = 'app.views.custom_403_view'
+handler500 = 'app.views.custom_500_view'
 
 urlpatterns = [
     path('', views.UserLoginView.as_view(), name='user_login'), # ユーザーログイン
@@ -19,6 +19,7 @@ urlpatterns = [
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
     path('user_list', views.UserListView.as_view(), name='user_list'), # ユーザー一覧
+    
 
     # 管理者
     path('admin_signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録
