@@ -149,7 +149,6 @@ class CompanyListView(LoginRequiredMixin,View):
 # ユーザー一覧画面
 class UserListView(LoginRequiredMixin,View):
     def get(self, request):
-        print('🔥')
         form = SearchForm()
         # スーパーユーザーの場合
         if request.user.superuser_flag:
