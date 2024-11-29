@@ -2,6 +2,12 @@
 
 {% block content %}
 <h1>エラー報告一覧</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">検索</button>
+</form>
+
 <table class="table">
     <thead class="table-dark">
         <tr>

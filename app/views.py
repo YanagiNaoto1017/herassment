@@ -182,11 +182,22 @@ class UserListView(LoginRequiredMixin,View):
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         error_list = Error_report.objects.all()
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "error_list.html", {"page_obj": page_obj})
+        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            error_list = Error_report.objects.filter(error_detail__icontains=search_text)
+            paginator = Paginator(error_list, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin,View):
