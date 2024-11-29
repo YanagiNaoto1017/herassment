@@ -108,11 +108,23 @@ class DeleteCompleteView(LoginRequiredMixin,View):
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         user = Users.objects.filter(admin_flag=True)  # データベースを検索
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "admin_list.html", {"page_obj": page_obj})
+        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            user = Users.objects.filter(admin_flag=True,account_id__icontains=search_text)  # あいまい検索
+            paginator = Paginator(user, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+            return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
 class CompanyListView(LoginRequiredMixin,View):
