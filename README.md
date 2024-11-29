@@ -86,6 +86,9 @@ pip install spacy
 pip install ja-ginza
 python -m spacy download ja_core_news_sm
 
+# static
+python manage.py collectstatic
+
 # 機械学習に関するインストール
 pip install pandas
 pip install joblib

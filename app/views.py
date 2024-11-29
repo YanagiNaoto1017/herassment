@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
@@ -107,24 +108,47 @@ class DeleteCompleteView(LoginRequiredMixin,View):
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         user = Users.objects.filter(admin_flag=True)  # データベースを検索
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "admin_list.html", {"page_obj": page_obj})
+        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            user = Users.objects.filter(admin_flag=True,account_id__icontains=search_text)  # あいまい検索
+            paginator = Paginator(user, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
 class CompanyListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         company_list = Company.objects.all()
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "company_list.html", {"page_obj": page_obj})
+        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            company_list = Company.objects.filter(company_name__icontains=search_text)
+            paginator = Paginator(company_list, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
 class UserListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         # スーパーユーザーの場合
         if request.user.superuser_flag:
             company = request.user.company
@@ -135,16 +159,44 @@ class UserListView(LoginRequiredMixin,View):
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"page_obj": page_obj})
+        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            # スーパーユーザーの場合
+            if request.user.superuser_flag:
+                company = request.user.company
+                user = Users.objects.filter(user_flag=True,company=company,account_id__icontains=search_text)  # あいまい検索
+            # 管理者の場合
+            elif request.user.admin_flag:
+                user = Users.objects.filter(user_flag=True,account_id__icontains=search_text)  # データベースを検索
+            paginator = Paginator(user, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+
 
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):
     def get(self, request):
+        form = SearchForm()
         error_list = Error_report.objects.all()
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "error_list.html", {"page_obj": page_obj})
+        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_text = form.cleaned_data['search_text']
+            error_list = Error_report.objects.filter(error_detail__icontains=search_text)
+            paginator = Paginator(error_list, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin,View):
@@ -403,7 +455,7 @@ class CompanyDeleteView(DeleteView):
     model = Company
     template_name = 'company_confirm_delete.html'
     success_url = reverse_lazy('app:company_list')
-    
+
 # パスワードリセット
 class PasswordReset(LoginRequiredMixin, View):
     template_name = 'confirm_pw_reset.html'
@@ -472,17 +524,11 @@ class SuperuserDeleteView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"object": delete_user})
 
 # エラー
-class Custom403View(View):
-    def get(self, request, exception=None, *args, **kwargs):
-        # 403エラーページを表示
-        return render(request, '403.html', status=403)
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
 
-class Custom404View(View):
-    def get(self, request, exception, *args, **kwargs):
-        # 404エラーページを表示
-        return render(request, '404.html', status=404)
-    
-class Custom500View(View):
-    def get(self, request, *args, **kwargs):
-        # 500エラーページを表示
-        return render(request, '500.html', status=500)
+def custom_403_view(request, exception):
+    return render(request, '403.html', status=403)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)
