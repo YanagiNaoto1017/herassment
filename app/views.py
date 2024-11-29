@@ -126,6 +126,8 @@ class CompanyListView(LoginRequiredMixin,View):
 # ユーザー一覧画面
 class UserListView(LoginRequiredMixin,View):
     def get(self, request):
+        print('🔥')
+        form = SearchForm()
         # スーパーユーザーの場合
         if request.user.superuser_flag:
             company = request.user.company
@@ -136,17 +138,25 @@ class UserListView(LoginRequiredMixin,View):
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"page_obj": page_obj})
-    def user_list(request):
-        form = SearchForm(request.GET)
-        users = Users.objects.all()  # ユーザーのリストを取得
-
-        # フォームが有効であれば、検索ワードでフィルタリング
+        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+    
+    def post(self, request):
+        form = SearchForm(request.POST)
         if form.is_valid():
-            company = form.cleaned_data.get('company')
-            if company:
-                users = users.filter(company__icontains=company)  # 企業名で絞り込み
-        return render(request, 'user_list.html', {'form': form})
+            search_text = form.cleaned_data['search_text']
+            # スーパーユーザーの場合
+            if request.user.superuser_flag:
+                company = request.user.company
+                user = Users.objects.filter(user_flag=True,company=company,account_id__icontains=search_text)  # あいまい検索
+            # 管理者の場合
+            elif request.user.admin_flag:
+                user = Users.objects.filter(user_flag=True,account_id__icontains=search_text)  # データベースを検索
+            paginator = Paginator(user, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+            return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+
 
 # エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):
