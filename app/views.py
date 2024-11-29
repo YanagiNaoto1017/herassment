@@ -301,7 +301,9 @@ class HarassmentReportView(LoginRequiredMixin,View):
         return render(request, "harassment_report.html", {"form": form})
     
     def post(self, request):
-        form = HarassmentReportForm(request.POST)
+        form = HarassmentReportForm(request.POST, request.FILES)
+        print('🔥')
+        print(request.FILES)
         if form.is_valid():
             harassment_report = form.save(commit=False)  # フォームの save を呼び出す
             harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
