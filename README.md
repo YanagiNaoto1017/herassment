@@ -62,12 +62,17 @@ wrapt              1.17.0
 python -m venv venv
 .\venv\Scripts\activate
 
+# PyMySQLインストール
+pip install PyMySQL
+
+pip install django-extensions
+
 # Pythonのバージョン
 python --version
 Python 3.12.4
 
 # Django インストール
-pip install Django
+pip install Django==4.2
 
 # Djangoのバージョン
 python -m django --version
