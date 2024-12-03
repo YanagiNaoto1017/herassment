@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
+from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -28,11 +28,9 @@ def send_email(to_email, subject, message):
         fail_silently=False,
     )
 
-# ホーム
-class IndexView(LoginRequiredMixin,View):
-    def get(self, request):
-        return render(
-            request, "index.html")
+# ホーム画面表示
+class IndexView(LoginRequiredMixin,TemplateView):
+    template_name = "index.html"
 
 # 管理者新規登録
 class SignupView(LoginRequiredMixin,CreateView):
@@ -46,18 +44,10 @@ class SignupView(LoginRequiredMixin,CreateView):
         user.start_password = user.password # 初期パスワードにも登録
         user.save()
         return super().form_valid(form)
-    
-# 管理者ログイン
-class AdminLoginView(BaseLoginView):
-    form_class = AdminLoginForm
-    template_name = 'admin_login.html'
 
 # ログアウト
 class LogoutView(BaseLogoutView):
-
-    def get(self, request):
-        logout(request)
-        return redirect('user_login')
+    success_url = reverse_lazy("app:login")
     
 # 企業登録
 class CompanySignupView(LoginRequiredMixin,CreateView):
@@ -79,193 +69,210 @@ class SuperUserSignupView(LoginRequiredMixin,CreateView):
         user.save()
         return super().form_valid(form)
 
-# ユーザーログイン
-class UserLoginView(BaseLoginView):
-    form_class = UserLoginForm
-    template_name = 'user_login.html'
+# ログイン
+class LoginView(BaseLoginView):
+    form_class = LoginForm
+    template_name = 'login.html'
 
 # 登録完了画面
-class CompleteView(LoginRequiredMixin,View):
-    def get(self, request):
-
-        return render(
-            request, "complete.html")
+class CompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "complete.html"
 
 # 報告完了画面
-class ReportCompleteView(LoginRequiredMixin,View):
-    def get(self, request):
-
-        return render(
-            request, "report_complete.html")
+class ReportCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "report_complete.html"
 
 # 削除完了画面
-class DeleteCompleteView(LoginRequiredMixin,View):
-    def get(self, request):
-
-        return render(
-            request, "delete_complete.html")
+class DeleteCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "delete_complete.html"
 
 # 管理者一覧画面
-class AdminListView(LoginRequiredMixin,View):
+class AdminListView(LoginRequiredMixin,TemplateView):
+    template_name = "admin_list.html"
+    form_class = SearchForm
+
     def get(self, request):
-        form = SearchForm()
-        user = Users.objects.filter(admin_flag=True)  # データベースを検索
+        form = self.form_class
+        user = Users.objects.filter(admin_flag=True)  # 管理者を取得
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
-        form = SearchForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text']
-            user = Users.objects.filter(admin_flag=True,account_id__icontains=search_text)  # あいまい検索
+            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
+            user = Users.objects.filter(admin_flag=True,account_id__icontains=search_text)  # 条件に一致するユーザーを取得
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-        return render(request, "admin_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
-class CompanyListView(LoginRequiredMixin,View):
+class CompanyListView(LoginRequiredMixin,TemplateView):
+    template_name = "company_list.html"
+    form_class = SearchForm
+
     def get(self, request):
-        form = SearchForm()
-        company_list = Company.objects.all()
+        form = self.form_class
+        company_list = Company.objects.all() # 企業を取得
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
+        return render(request, self.template_name, {"page_obj": page_obj,"form": form})
     
     def post(self, request):
-        form = SearchForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text']
-            company_list = Company.objects.filter(company_name__icontains=search_text)
+            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
+            company_list = Company.objects.filter(company_name__icontains=search_text) # 条件に一致する企業を取得
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-        return render(request, "company_list.html", {"page_obj": page_obj,"form": form})
+        return render(request, self.template_name, {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
-class UserListView(LoginRequiredMixin,View):
+class UserListView(LoginRequiredMixin,TemplateView):
+    template_name = "user_list.html"
+    form_class = SearchForm
+
     def get(self, request):
-        form = SearchForm()
+        form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            company = request.user.company
-            user = Users.objects.filter(user_flag=True,company=company)  # データベースを検索
+            user = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
         # 管理者の場合
         elif request.user.admin_flag:
-            user = Users.objects.filter(user_flag=True)  # データベースを検索
+            user = Users.objects.filter(user_flag=True)  # ユーザーを取得
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
-        form = SearchForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text']
+            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                company = request.user.company
-                user = Users.objects.filter(user_flag=True,company=company,account_id__icontains=search_text)  # あいまい検索
+                user = Users.objects.filter(user_flag=True,company=request.user.company,account_id__icontains=search_text)  # 条件に一致するユーザーを取得
             # 管理者の場合
             elif request.user.admin_flag:
-                user = Users.objects.filter(user_flag=True,account_id__icontains=search_text)  # データベースを検索
+                user = Users.objects.filter(user_flag=True,account_id__icontains=search_text)  # 条件に一致する管理者を取得
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 
 # エラー一覧画面
-class ErrorReportListView(LoginRequiredMixin,View):
+class ErrorReportListView(LoginRequiredMixin,TemplateView):
+    template_name = "error_list.html"
+    form_class = SearchForm
+
     def get(self, request):
-        form = SearchForm()
-        error_list = Error_report.objects.all()
+        form = self.form_class
+        error_list = Error_report.objects.all() # エラー報告を取得
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
-        form = SearchForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text']
-            error_list = Error_report.objects.filter(error_detail__icontains=search_text)
+            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
+            error_list = Error_report.objects.filter(error_detail__icontains=search_text) # 条件に一致するエラー報告を取得
             paginator = Paginator(error_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
-        return render(request, "error_list.html", {"page_obj": page_obj, "form": form})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 # 検出画面
-class DetectionView(LoginRequiredMixin,View):
+class DetectionView(LoginRequiredMixin,TemplateView):
+    template_name = 'detection.html'
+    form_class = DetectionForm
     def get(self, request):
-        form = DetectionForm()
-        return render(request, 'detection.html', {'form': form})
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         nlp = spacy.load("ja_core_news_sm") # モデルのロード
-        print('🔥')
-        print(nlp)
-        form = DetectionForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            input_text = form.cleaned_data['input_text']
+            input_text = form.cleaned_data['input_text'] # 入力されたテキスト
             
             doc = nlp(input_text) # テキストを解析
-            print('🔥')
-            print(doc)
 
-            # detected_words = []
+            keywords = Dictionary.objects.values_list('keyword', flat=True) # 辞書からキーワードを取得
 
-            # 辞書からキーワードを取得
-            keywords = Dictionary.objects.values_list('keyword', flat=True)
+            detected_words = [token.text for token in doc if token.text in keywords] # 辞書との照合
 
-            # 入力テキストにキーワードが含まれているかチェック
-            # for keyword in keywords:
-            #     if keyword in input_text:
-            #         detected_words.append(keyword)
-
-            # 辞書との照合
-            detected_words = [token.text for token in doc if token.text in keywords]
-            print('🔥')
-            print(detected_words)
-
-            # 検出ワードがある場合
+            # 検出単語がある場合
             if detected_words:
-                print('🔥')
-                harassment_flag: bool = True
-                # テキストを保存
+                print('検出あり')
+
                 text_instance = Text.objects.create(
-                    input_text=input_text,
-                    harassment_flag=harassment_flag,
+                    input_text=input_text, # 入力されたテキストを保存
+                    harassment_flag=True, # ハラスメントフラグをTrue
                     detected_words=', '.join(detected_words) if detected_words else None
                 )
-                return render(request, 'detection.html', {'form': form, 'text': text_instance})
+                return render(request, self.template_name, {'form': form, 'text': text_instance})
+            
             # 検出単語がない場合
             else:
-                print('🔥🔥')
-                harassment_flag: bool = False
-                # テキストを保存
-                text_instance = Text.objects.create(
-                    input_text=input_text,
-                    harassment_flag=harassment_flag,
-                )
-                return render(request, 'detection.html', {'form': form, 'text': text_instance})
-        return render(request, 'detection.html', {'form': form})
+                print('検出なし')
 
-    def detect_harassment(self, text):
-        # 辞書からキーワードを取得
-        keywords = Dictionary.objects.values_list('keyword', flat=True)
-        detected_words = [word for word in keywords if word in text]
-        return detected_words
+                text_instance = Text.objects.create(
+                    input_text=input_text, # 入力されたテキストを保存
+                    harassment_flag=False, # ハラスメントフラグをFalse
+                )
+                return render(request, self.template_name, {'form': form, 'text': text_instance})
+        return render(request, self.template_name, {'form': form})
     
 
 # 校正画面
-class ProofreadingView(LoginRequiredMixin,CreateView):
-    model = Text
-    template_name = 'proofreading.html'
-    fields = ['input_text', 'harassment_flag', 'text_flag', 'detected_words']
+class ProofreadingView(LoginRequiredMixin,TemplateView):
+    template_name = 'detection.html'
+    form_class = DetectionForm
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        nlp = spacy.load("ja_core_news_sm") # モデルのロード
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            input_text = form.cleaned_data['input_text'] # 入力されたテキスト
+            
+            doc = nlp(input_text) # テキストを解析
+
+            keywords = Dictionary.objects.values_list('keyword', flat=True) # 辞書からキーワードを取得
+
+            detected_words = [token.text for token in doc if token.text in keywords] # 辞書との照合
+
+            # 検出単語がある場合
+            if detected_words:
+                print('検出あり')
+
+                text_instance = Text.objects.create(
+                    input_text=input_text, # 入力されたテキストを保存
+                    harassment_flag=True, # ハラスメントフラグをTrue
+                    detected_words=', '.join(detected_words) if detected_words else None
+                )
+                return render(request, self.template_name, {'form': form, 'text': text_instance})
+            
+            # 検出単語がない場合
+            else:
+                print('検出なし')
+
+                text_instance = Text.objects.create(
+                    input_text=input_text, # 入力されたテキストを保存
+                    harassment_flag=False, # ハラスメントフラグをFalse
+                )
+                return render(request, self.template_name, {'form': form, 'text': text_instance})
+        return render(request, self.template_name, {'form': form})
 
 # ユーザー登録
 class UserSignupView(LoginRequiredMixin,CreateView):
@@ -282,163 +289,189 @@ class UserSignupView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
 # エラー報告画面
-class ErrorReportView(LoginRequiredMixin,View):
+class ErrorReportView(LoginRequiredMixin,TemplateView):
+    template_name = "error_report.html"
+    form_class = ErrorReportForm
+    success_url = reverse_lazy("app:report_complete")
+
     def get(self, request):
-        form = ErrorReportForm()
-        return render(request, "error_report.html", {"form": form})
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
     
     def post(self, request):
-        form = ErrorReportForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("app:report_complete")
-        return render(request, "error_report.html", {"form": form})
+            form.save() # 入力内容を保存
+            return self.success_url
+        return render(request, self.template_name, {"form": form})
 
 # ハラスメント報告画面
-class HarassmentReportView(LoginRequiredMixin,View):
+class HarassmentReportView(LoginRequiredMixin,TemplateView):
+    template_name = "harassment_report.html"
+    form_class = HarassmentReportForm
+    success_url = reverse_lazy("app:report_complete")
+
     def get(self, request):
-        form = HarassmentReportForm()
-        return render(request, "harassment_report.html", {"form": form})
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
     
     def post(self, request):
-        form = HarassmentReportForm(request.POST, request.FILES)
-        print('🔥')
-        print(request.FILES)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             harassment_report = form.save(commit=False)  # フォームの save を呼び出す
             harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
             form.save()
-            return redirect("app:report_complete")
-        return render(request, "harassment_report.html", {"form": form})
+            return self.success_url
+        return render(request, self.template_name, {"form": form})
     
 # ハラスメント一覧画面
-class HarassmentReportListView(LoginRequiredMixin,View):
+class HarassmentReportListView(LoginRequiredMixin,TemplateView):
+    template_name = "harassment_list.html"
+
     def get(self, request):
-        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id)
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id) # 同じ企業IDのハラスメント報告を取得
         paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "harassment_list.html", {"page_obj": page_obj})
+        return render(request, self.template_name, {"page_obj": page_obj})
 
 # アカウント情報確認画面
-class AccountInfoView(LoginRequiredMixin,View):
-    def get(self, request):
-        print(request.user)
-        user = request.user  # ログインしているユーザーを取得
-        user_info = Users.objects.filter(account_id=user.id)  # Usersモデルからログインユーザーの情報を取得
-        print(user_info)
-        return render(request, 'account_info.html', {
-            'object_list': user_info,  # テンプレートに渡す変数
-        })
+class AccountInfoView(LoginRequiredMixin,TemplateView):
+    template_name = 'account_info.html'
 
 # ID確認
-class CheckIdView(View):
+class CheckIdView(TemplateView):
+    template_name = "check_id.html"
+    form_class = CheckIdForm
+
     def get(self, request):
-        form = CheckIdForm()
-        return render(request, "check_id.html", {"form": form})
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
     
     def post(self, request):
-        form = CheckIdForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            account_id = form.cleaned_data['account_id']
-            user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-            user_id = user.account_id
-            if account_id == user_id:
-                self.request.session['account_id'] = user.account_id  # セッションに保存
-                self.request.session['company_id'] = user.company.id  # セッションに保存
-                self.request.session['superuser_flag'] = user.superuser_flag  # セッションに保存
-                self.request.session['user_flag'] = user.user_flag  # セッションに保存
-                return redirect("app:forget_password")
-            else:
-                return render(request, "check_id.html", {"form": form})
-        return render(request, "check_id.html", {"form": form})
+            account_id = form.cleaned_data['account_id'] # 入力されたアカウントID
+            user = Users.objects.filter(account_id=account_id).first()  # 条件に一致するユーザー情報を取得
 
-# メール送信
-class ForgetPasswordView(View):
+            # 入力されたアカウントIDが存在した場合
+            if account_id == user.account_id:
+                self.request.session['account_id'] = user.account_id  # アカウントIDをセッションに保存
+                # スーパーユーザーの場合
+                if user.superuser_flag and user.user_flag:
+                    return redirect("app:send_email")
+                # ユーザーの場合
+                elif not user.superuser_flag and user.user_flag:
+                    return redirect("app:send_superuser")
+            
+            # 入力されたアカウントIDが存在しない場合
+            else:
+                return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {"form": form})
+        
+# Email送信
+class SendEmailView(TemplateView):
+    template_name = "forget_password.html"
+    form_class = SendEmailForm
+    success_url = reverse_lazy("app:pw_send_comp")
+
     def get(self, request):
-        superuser_flag = self.request.session.get('superuser_flag')
-        user_flag = self.request.session.get('user_flag')
-        company_id = self.request.session.get('company_id')
-        # スーパーユーザーの場合
-        if superuser_flag and user_flag:
-            form = SendEmailForm()
-        # ユーザーの場合
-        elif not superuser_flag and user_flag:
-            form = SendSuperuserForm()
-        return render(request, "forget_password.html", {"form": form})
-        
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
+    
     def post(self, request):
-        superuser_flag = self.request.session.get('superuser_flag')
-        user_flag = self.request.session.get('user_flag')
-        account_id = self.request.session.get('account_id')
-        
-        # スーパーユーザーの場合
-        if superuser_flag and user_flag:
-            form = SendEmailForm(request.POST)
-            if form.is_valid():
-                email = form.cleaned_data['email']
-                subject = '件名'  # メールの件名
-                message = 'パスワード変更URL'  # メールの内容
-                send_email(email, subject, message)  # メール送信
-                return redirect("app:pw_send_comp")  # 送信完了後のリダイレクト先
-            return render(request, "send_email.html", {"form": form})
-        # ユーザーの場合
-        elif not superuser_flag and user_flag:
-            form = SendSuperuserForm(request.POST)
-            if form.is_valid():
-                superuser_id = form.cleaned_data['superuser_name']
-                user = Users.objects.filter(account_id=account_id).first()  # データベースを検索
-                notification = Notification.objects.create(
-                    sender_name = user.account_name,
-                    company_id = user.company.id,
-                    destination = superuser_id,
-                    genre = 1,
-                )
-                notification.save()
-                return redirect("app:pw_send_comp")
-            return render(request, "forget_password.html", {"form": form})
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email'] # 入力されたメールアドレス
+            subject = '件名'  # メールの件名
+            message = 'パスワード変更URL'  # メールの内容
+            send_email(email, subject, message)  # メール送信
+            return self.success_url
+        return render(request, self.template_name, {"form": form})
+
+# PWリセット要請
+class SendSuperuserView(TemplateView):
+    template_name = "forget_password.html"
+    form_class = SendSuperuserForm
+    success_url = reverse_lazy("app:pw_send_comp")
+
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
+    
+    def post(self, request):
+        account_id = self.request.session.get('account_id') # ID確認で入力したアカウントIDを取得
+
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            superuser_id = form.cleaned_data['superuser_name'] # 選択したスーパーユーザー
+            user = Users.objects.filter(account_id=account_id).first()  # 条件に一致するユーザーを取得
+            notification = Notification.objects.create(
+                sender_name = user.account_name, # 送信元を登録
+                company_id = user.company.id, # 企業IDを登録
+                destination = superuser_id, # 送り先を登録
+                genre = 1, # ジャンルを1に設定
+            )
+            notification.save() # 保存
+            return self.success_url
+        return render(request, self.template_name, {"form": form})
         
 # メール送信完了
-class PwSendCompleteView(View):
-    def get(self, request):
-        return render(
-            request, "pw_send_comp.html")
+class PwSendCompleteView(TemplateView):
+    template_name = "pw_send_comp.html"
     
 #パスワード変更画面
-class PasswordChangeView(LoginRequiredMixin,View):
+class PasswordChangeView(LoginRequiredMixin,TemplateView):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
     form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy("app:pw_change_complete")
     
     def get(self, request):
-        form = CustomPasswordChangeForm()
+        form = self.form_class
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = CustomPasswordChangeForm(request.POST)
-        user = Users.objects.get(id=request.user.id)
+        form = self.form_class(request.POST)
+        user = Users.objects.get(id=request.user.id) # ログインユーザーの情報を取得
         if form.is_valid():
-            new_password = form.cleaned_data['new_password']
-            new_password = make_password(new_password)            
-            user.password = new_password
-            user.save()
-            update_session_auth_hash(request, user)
-        return render(request, "pw_complete.html", {"form": form})    
+            new_password = form.cleaned_data['new_password'] # 入力されたパスワード
+            new_password = make_password(new_password) # 入力されたパスワードをハッシュ化      
+            user.password = new_password # パスワードを更新
+            user.save() # 保存
+            update_session_auth_hash(request, user) # ログインを継続
+            return self.success_url 
+        return render(request, self.template_name, {"form": form})  
 
-class PwChangeCompleteView(View):
+# PWリセット完了画面
+class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
 
 # PWリセット通知
-class NotificationView(View):
+class NotificationView(LoginRequiredMixin,TemplateView):
     template_name = 'notification.html'
+
     def get(self, request):
+        # スーパーユーザーの場合
         if request.user.superuser_flag:
-            notifications = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_id, genre='1', is_read=False)  # データベースを検索        
+            # 条件に一致する通知を取得
+            notifications = Notification.objects.filter(
+                company_id=request.user.company.id,
+                destination=request.user.account_name,
+                genre='1',
+                is_read=False
+            )
+        # 管理者の場合  
         elif request.user.admin_flag:
-            notifications = Notification.objects.filter(genre='2', is_read=False)  # データベースを検索
+            # 条件に一致する通知を取得
+            notifications = Notification.objects.filter(
+                genre='2',
+                is_read=False
+            )
         paginator = Paginator(notifications, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "notification.html", {"page_obj": page_obj})
+        return render(request, self.template_name, {"page_obj": page_obj})
     
 # ユーザー削除
 class UserDeleteView(DeleteView):
@@ -459,70 +492,65 @@ class CompanyDeleteView(DeleteView):
     success_url = reverse_lazy('app:company_list')
 
 # パスワードリセット
-class PasswordReset(LoginRequiredMixin, View):
+class PasswordReset(LoginRequiredMixin, TemplateView):
     template_name = 'confirm_pw_reset.html'
+    success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
-        user = Users.objects.get(account_name=sender_name)
+        user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
         return render(request, self.template_name, {"object": user})
     
     def post(self, request, sender_name):
         if request.method == 'POST':
-            user = Users.objects.get(account_name=sender_name) # リセットするユーザーを取得
-            notification = Notification.objects.get(sender_name=sender_name) # リセットする報告を取得
-            user.password = user.start_password # 初期パスワードを代入
+            user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
+            notification = Notification.objects.get(sender_name=sender_name) # 選択した報告の情報を取得
+            user.password = user.start_password # 現在のPWを初期パスワードに変更
             notification.is_read = True # リセットした通知をTrueに変更
             user.save()
             notification.save()
-            return redirect('app:notification')
+            return self.success_url
         return render(request, self.template_name)
     
 # スーパーユーザー削除要請
-class SendSuperuserDeleteView(LoginRequiredMixin, View):
+class SendSuperuserDeleteView(LoginRequiredMixin, TemplateView):
     template_name = 'send_superuser_delete.html'
+    success_url = reverse_lazy('app:user_list')
 
     def get(self, request, pk):
-        user = Users.objects.get(id=pk)
+        user = Users.objects.get(id=pk) # 選択したスーパーユーザーの情報を取得
         return render(request, self.template_name, {"object": user})
     
     def post(self, request, pk):
         if request.method == 'POST':
-            user = Users.objects.get(id=pk)
-            print(user)
+            user = Users.objects.get(id=pk) # 選択したスーパーユーザーの情報を取得
             notification = Notification.objects.create(
-                    sender_name = user.account_name,
-                    company_id = user.company.id,
-                    destination = 'admin',
-                    genre = 2,
+                    sender_name = user.account_name, # 送り元を登録
+                    company_id = user.company.id, # 企業IDを登録
+                    destination = 'admin', # 送り先を登録
+                    genre = 2, # ジャンルを2に設定
                 )
-            notification.save()
-            return redirect('app:user_list')
+            notification.save() # 保存
+            return self.success_url
         return render(request, self.template_name, {"object": user})
     
 # スーパーユーザー削除
-class SuperuserDeleteView(LoginRequiredMixin, View):
+class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
     template_name = 'superuser_confirm_delete.html'
-    success_url = reverse_lazy('app:user_list')
+    success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
-        print('🔥')
-        print(sender_name)
-        delete_user = Users.objects.filter(account_name=sender_name).first()
-        print(delete_user)
+        delete_user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
         return render(request, self.template_name, {"object": delete_user})
     
     def post(self, request, sender_name):
         if request.method == 'POST':
-            print('🔥')
-            delete_user = Users.objects.filter(account_name=sender_name).first()
-            notifications = Notification.objects.filter(sender_name=sender_name)
-            delete_user.delete()
+            delete_user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
+            notifications = Notification.objects.filter(sender_name=sender_name) # 選択した報告の情報を取得
+            delete_user.delete() # 選択したユーザーを削除
             for notification in notifications:
-                notification.is_read = True
-                notification.save()
-                print('🔥🔥')
-                print(notification)
-            return redirect ('app:notification')
+                notification.is_read = True # is_readをTrue
+                notification.save() # 保存
+            return self.success_url
         return render(request, self.template_name, {"object": delete_user})
 
 # エラー

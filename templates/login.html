@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者ログイン画面</title>
+    <title>ログイン画面</title>
     <style>
         /* ベース設定 */
         body {
@@ -18,22 +18,25 @@
         }
 
         h1 {
-            text-align: right; /* 右寄せ */
+            text-align: center;
+            /* 右寄せ */
             color: #333;
             font-size: 2rem;
             margin-bottom: 20px;
-            margin-right: 13px; /* 右側に余白を追加 */
+            margin-left: 75px;
         }
 
 
         /* フォーム全体のスタイル */
         form {
             background: #ffffff;
-            padding: 40px 50px; /* 横幅調整: 左右の余白を広げる */
+            padding: 40px 50px;
+            /* 横幅調整: 左右の余白を広げる */
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 600px; /* 横幅調整: 最大幅を広げる */
+            max-width: 600px;
+            /* 横幅調整: 最大幅を広げる */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -114,18 +117,21 @@
 
 <body>
     <div>
-        <h1>管理者ログイン</h1>
+        <h1>ログイン</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <label for="{{ field.id_for_label }}"
+                style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">
+                {{ field.label }}
+            </label>
             {{ field }}
-            <div class="error">{{ field.errors }}</div>
+            <span class="error">{{ field.errors }}</span>
             {% endfor %}
             <button type="submit">ログイン</button>
             <div class="link">
-                <a href="{% url 'app:user_login' %}">ユーザーログインはこちら</a>
+                <a href="check_id">パスワードを忘れた場合はこちら</a>
             </div>
         </form>
     </div>
