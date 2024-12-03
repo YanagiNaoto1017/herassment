@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
+from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -46,11 +46,6 @@ class SignupView(LoginRequiredMixin,CreateView):
         user.start_password = user.password # 初期パスワードにも登録
         user.save()
         return super().form_valid(form)
-    
-# 管理者ログイン
-class AdminLoginView(BaseLoginView):
-    form_class = AdminLoginForm
-    template_name = 'admin_login.html'
 
 # ログアウト
 class LogoutView(BaseLogoutView):
@@ -79,10 +74,10 @@ class SuperUserSignupView(LoginRequiredMixin,CreateView):
         user.save()
         return super().form_valid(form)
 
-# ユーザーログイン
-class UserLoginView(BaseLoginView):
-    form_class = UserLoginForm
-    template_name = 'user_login.html'
+# ログイン
+class LoginView(BaseLoginView):
+    form_class = LoginForm
+    template_name = 'login.html'
 
 # 登録完了画面
 class CompleteView(LoginRequiredMixin,View):

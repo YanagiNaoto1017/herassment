@@ -9,11 +9,6 @@ class AdminSignUpForm(UserCreationForm):
         model = Users
         fields = ("account_id","account_name","email",)
 
-# 管理者ログイン
-class AdminLoginForm(AuthenticationForm):
-    class Meta:
-        model = Users
-
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
     class Meta:
@@ -34,9 +29,8 @@ class UserSignUpForm(UserCreationForm):
         model = Users
         fields = ("account_id","account_name")
     
-    
-# ユーザーログイン
-class UserLoginForm(AuthenticationForm):
+# ログイン
+class LoginForm(AuthenticationForm):
     class Meta:
         model = Users
     
