@@ -432,7 +432,7 @@ class NotificationView(View):
     template_name = 'notification.html'
     def get(self, request):
         if request.user.superuser_flag:
-            notifications = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_id, genre='1', is_read=False)  # データベースを検索        
+            notifications = Notification.objects.filter(company_id=request.user.company.id, destination=request.user.account_name, genre='1', is_read=False)  # データベースを検索        
         elif request.user.admin_flag:
             notifications = Notification.objects.filter(genre='2', is_read=False)  # データベースを検索
         paginator = Paginator(notifications, 10) # 1ページ当たり10件
