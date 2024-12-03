@@ -13,7 +13,8 @@ urlpatterns = [
     path('', views.LoginView.as_view(), name='user_login'), # ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
-    path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password'), # メール送信
+    path('forget_password/', views.SendEmailView.as_view(), name='send_email'), # メール送信
+    path('forget_password/', views.SendSuperuserView.as_view(), name='send_superuser'), # パスワードリセット要請
 
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
@@ -35,6 +36,7 @@ urlpatterns = [
     path('report_complete', views.ReportCompleteView.as_view(), name='report_complete'), # 報告完了画面
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
     path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_comp'), # メール送信完了画面
+    path('pw_send_comp', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), # PWリセット完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
