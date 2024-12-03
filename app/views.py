@@ -47,10 +47,7 @@ class SignupView(LoginRequiredMixin,CreateView):
 
 # ログアウト
 class LogoutView(BaseLogoutView):
-
-    def get(self, request):
-        logout(request)
-        return redirect('user_login')
+    success_url = reverse_lazy("app:login")
     
 # 企業登録
 class CompanySignupView(LoginRequiredMixin,CreateView):

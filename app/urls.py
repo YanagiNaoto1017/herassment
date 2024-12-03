@@ -10,7 +10,7 @@ handler403 = 'app.views.custom_403_view'
 handler500 = 'app.views.custom_500_view'
 
 urlpatterns = [
-    path('', views.LoginView.as_view(), name='user_login'), # ログイン
+    path('', views.LoginView.as_view(), name='login'), # ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
     path('forget_password/', views.SendEmailView.as_view(), name='send_email'), # メール送信
