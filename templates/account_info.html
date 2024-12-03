@@ -12,9 +12,13 @@
         <tr>
             <td>
                 <div>ID: {{ user.account_id }}</div>
+                <div>アカウント名: {{ user.account_name }}</div>
+                {% if user.superuser_flag %}
+                <div>メールアドレス: {{ user.email }}</div>
+                {% endif %}
                 <div>
-                    パスワード: {{ user.password }}
-                    <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a> 
+                    パスワード:
+                    <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
                 </div>
             </td>
         </tr>

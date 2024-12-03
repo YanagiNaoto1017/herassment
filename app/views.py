@@ -321,15 +321,8 @@ class HarassmentReportListView(LoginRequiredMixin,View):
         return render(request, "harassment_list.html", {"page_obj": page_obj})
 
 # アカウント情報確認画面
-class AccountInfoView(LoginRequiredMixin,View):
-    def get(self, request):
-        print(request.user)
-        user = request.user  # ログインしているユーザーを取得
-        user_info = Users.objects.filter(account_id=user.id)  # Usersモデルからログインユーザーの情報を取得
-        print(user_info)
-        return render(request, 'account_info.html', {
-            'object_list': user_info,  # テンプレートに渡す変数
-        })
+class AccountInfoView(LoginRequiredMixin,TemplateView):
+    template_name = 'account_info.html'
 
 # ID確認
 class CheckIdView(View):
