@@ -6,8 +6,7 @@
     <thead class="table-dark">
         <tr>
             <th scope="col" class="date-column">日付</th>
-            <th scope="col" class="content-column">内容</th>
-            <th scope="col">画像</th>
+            <th scope="col" class="content-column">タイトル</th>
         </tr>
     </thead>
     <tbody>
@@ -15,8 +14,7 @@
         {% for item in page_obj %}
         <tr>
             <td class="date-column">{{ item.report_time }}</td>
-            <td class="content-column">{{ item.report_detail }}</td>
-            <td>{{ item.report_un }}</td>
+            <td class="content-column">{{ item.report_title }}</td>
         </tr>
         {% endfor %}
     </tbody>

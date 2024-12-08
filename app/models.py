@@ -52,6 +52,7 @@ class Harassment_report(models.Model):
         max_length=50,
         null=True,
     )
+    report_title = models.CharField(verbose_name=_("タイトル"),null=False,blank=False,max_length=50,default="",)
     report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
     report_image = models.ImageField(verbose_name=_("画像"),null=True,blank=True,upload_to='images/')
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
