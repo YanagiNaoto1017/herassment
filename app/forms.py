@@ -45,7 +45,7 @@ class ErrorReportForm(forms.ModelForm):
 class HarassmentReportForm(forms.ModelForm):
     class Meta:
         model = Harassment_report
-        fields = ("id","report_detail","report_image","report_time")
+        fields = ("id","report_title","report_detail","report_image","report_time")
 
 # ID確認
 class CheckIdForm(forms.Form):
