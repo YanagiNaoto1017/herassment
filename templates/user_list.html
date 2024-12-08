@@ -9,13 +9,16 @@
     <button type="submit" class="btn btn-primary">検索</button>
 </form>
 
-{% if user.superuser_flag %}
 <table class="table">
     <thead class="table-dark">
         <tr>
+            <th scope="col"></th>
+            {% if user.admin_flag %}
             <th scope="col">ID</th>
-            <th scope="col">企業名</th>
+            {% endif %}
+            <th scope="col">ユーザー名</th>
             <th scope="col">登録日時</th>
+            <th scope="col">メールアドレス</th>
             <th scope="col">操作</th>
         </tr>
     </thead>
@@ -23,47 +26,29 @@
         {% csrf_token %}
         {% for item in page_obj %}
         <tr>
+            <td>{% if item.superuser_flag %}★{% endif %}</td>
+            {% if user.admin_flag %}
             <td>{{ item.account_id }}</td>
-            <td>{{ item.company }}</td>
+            {% endif %}
+            <td>{{ item.account_name }}</td>
             <td>{{ item.created_at }}</td>
+            <td>{{ item.email }}</td>
             <td>
+                {% if user.superuser_flag %}
                 {% if item.superuser_flag %}
                 <a href="{% url 'app:send_superuser_delete' item.pk %}">削除要請</a>
                 {% else %}
                 <a href="{% url 'app:user_delete' item.pk %}">削除</a>
                 {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<table class="table">
-    <thead class="table-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">企業名</th>
-            <th scope="col">登録日時</th>
-            <th scope="col">操作</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% csrf_token %}
-        {% for item in page_obj %}
-        <tr>
-            <td>{{ item.account_id }}</td>
-            <td>{{ item.company }}</td>
-            <td>{{ item.created_at }}</td>
-            <td>
+                {% elif user.admin_flag %}
                 {% if item.superuser_flag %}
                 <a href="{% url 'app:user_delete' item.pk %}">削除</a>
-                {% else %}
+                {% endif %}
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-{% endif %}
 {% include "pagination.html" %}
 {% endblock %}
