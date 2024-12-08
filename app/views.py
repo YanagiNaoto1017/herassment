@@ -302,7 +302,7 @@ class ErrorReportView(LoginRequiredMixin,TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save() # 入力内容を保存
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
 
 # ハラスメント報告画面
@@ -321,7 +321,7 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
             harassment_report = form.save(commit=False)  # フォームの save を呼び出す
             harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
             form.save()
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
     
 # ハラスメント一覧画面
@@ -386,7 +386,7 @@ class SendEmailView(TemplateView):
             subject = '件名'  # メールの件名
             message = 'パスワード変更URL'  # メールの内容
             send_email(email, subject, message)  # メール送信
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
 
 # PWリセット要請
@@ -414,7 +414,7 @@ class SendSuperuserView(TemplateView):
                 genre = 1, # ジャンルを1に設定
             )
             notification.save() # 保存
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
         
 # メール送信完了
@@ -440,7 +440,7 @@ class PasswordChangeView(LoginRequiredMixin,TemplateView):
             user.password = new_password # パスワードを更新
             user.save() # 保存
             update_session_auth_hash(request, user) # ログインを継続
-            return self.success_url 
+            return redirect(self.success_url) 
         return render(request, self.template_name, {"form": form})  
 
 # PWリセット完了画面
@@ -508,7 +508,7 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
             notification.is_read = True # リセットした通知をTrueに変更
             user.save()
             notification.save()
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name)
     
 # スーパーユーザー削除要請
@@ -530,7 +530,7 @@ class SendSuperuserDeleteView(LoginRequiredMixin, TemplateView):
                     genre = 2, # ジャンルを2に設定
                 )
             notification.save() # 保存
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"object": user})
     
 # スーパーユーザー削除
@@ -550,7 +550,7 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
             for notification in notifications:
                 notification.is_read = True # is_readをTrue
                 notification.save() # 保存
-            return self.success_url
+            return redirect(self.success_url)
         return render(request, self.template_name, {"object": delete_user})
 
 # エラー
