@@ -13,7 +13,6 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
-from .filters import UserFilter
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
