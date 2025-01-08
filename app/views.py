@@ -162,8 +162,6 @@ class UserListView(LoginRequiredMixin,TemplateView):
     
 
 class ErrorReportListView(LoginRequiredMixin,View):
-        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
-    
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
