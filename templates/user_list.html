@@ -4,9 +4,11 @@
 <h1>登録者一覧</h1>
 
 <form method="get">
-    {{ form.as_p }}
+    {{ form.as_p }}  <!-- DjangoFilterをフォームとして表示 -->
     <button type="submit" class="btn btn-primary">検索</button>
 </form>
+
+
 
 {% if user.superuser_flag %}
 <table class="table">

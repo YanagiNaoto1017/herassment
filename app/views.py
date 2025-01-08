@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
+from .forms import AdminSignUpForm,AdminLoginForm,CompanySignUpForm,SuperUserSignUpForm,UserLoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
 from django.contrib.auth import logout
@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
-
+from .filters import UserFilter
 import spacy
 
     
@@ -124,19 +124,19 @@ class UserListView(LoginRequiredMixin,View):
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        return render(request, "user_list.html", {"page_obj": page_obj})
-    def user_list(request):
-        form = SearchForm(request.GET)
-        users = Users.objects.all()  # ユーザーのリストを取得
+        users = self.get_queryset()
+        return render(request, "user_list.html", {"users" : users ,"page_obj": page_obj})
+    
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        if query:
+            members = Users.objects.filter(name__icontains=query, deletion_flag=False)
+        else:
+            # フォーム未入力の場合はすべて
+            members = Users.objects.filter(deletion_flag=False)
+        return members
+    
 
-        # フォームが有効であれば、検索ワードでフィルタリング
-        if form.is_valid():
-            company = form.cleaned_data.get('company')
-            if company:
-                users = users.filter(company__icontains=company)  # 企業名で絞り込み
-        return render(request, 'user_list.html', {'form': form})
-
-# エラー一覧画面
 class ErrorReportListView(LoginRequiredMixin,View):
     def get(self, request):
         error_list = Error_report.objects.all()
