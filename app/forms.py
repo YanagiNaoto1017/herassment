@@ -9,11 +9,6 @@ class AdminSignUpForm(UserCreationForm):
         model = Users
         fields = ("account_id","account_name","email",)
 
-# 管理者ログイン
-class AdminLoginForm(AuthenticationForm):
-    class Meta:
-        model = Users
-
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
     class Meta:
@@ -34,9 +29,8 @@ class UserSignUpForm(UserCreationForm):
         model = Users
         fields = ("account_id","account_name")
     
-    
-# ユーザーログイン
-class UserLoginForm(AuthenticationForm):
+# ログイン
+class LoginForm(AuthenticationForm):
     class Meta:
         model = Users
     
@@ -51,7 +45,7 @@ class ErrorReportForm(forms.ModelForm):
 class HarassmentReportForm(forms.ModelForm):
     class Meta:
         model = Harassment_report
-        fields = ("id","report_detail","report_image","report_time")
+        fields = ("id","report_title","report_detail","report_image","report_time")
 
 # ID確認
 class CheckIdForm(forms.Form):
@@ -85,3 +79,5 @@ class CustomPasswordChangeForm(forms.Form):
         max_length=500,
     )
         
+class SearchForm(forms.Form):
+    search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
