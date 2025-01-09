@@ -334,6 +334,17 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj})
+    
+# ハラスメント詳細画面
+class HarassmentDetailView(LoginRequiredMixin, TemplateView):
+    template_name = "harassment_detail.html"
+
+    def get(self, request, pk):
+        harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
+        print('🔥')
+        print(harassment_report)
+        return render(request, self.template_name, {"harassment_report": harassment_report})
+
 
 # アカウント情報確認画面
 class AccountInfoView(LoginRequiredMixin,TemplateView):
