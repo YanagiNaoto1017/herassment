@@ -17,8 +17,9 @@
             <th scope="col">ID</th>
             {% endif %}
             <th scope="col">ユーザー名</th>
-            <th scope="col">登録日時</th>
+            <th scope="col">会社名</th>
             <th scope="col">メールアドレス</th>
+            <th scope="col">登録日時</th>
             <th scope="col">操作</th>
         </tr>
     </thead>
@@ -31,8 +32,9 @@
             <td>{{ item.account_id }}</td>
             {% endif %}
             <td>{{ item.account_name }}</td>
-            <td>{{ item.created_at }}</td>
+            <td>{{ item.company }}</td>
             <td>{{ item.email }}</td>
+            <td>{{ item.created_at }}</td>
             <td>
                 {% if user.superuser_flag %}
                 {% if item.superuser_flag %}
