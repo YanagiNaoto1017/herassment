@@ -66,7 +66,7 @@ html, body {
     transition: all 0.3s ease;
     font-size: 1.0em; /* 少し小さくする */
     border: 1px solid rgb(119, 227, 202);
-    width: 160px; /* 幅を200pxに設定 */
+    width: 200px; /* 幅を200pxに設定 */
     /* box-sizing: border-box; padding や border の分も考慮する */
 }
 /* ホバー時のスタイル */
