@@ -55,19 +55,20 @@ html, body {
     font-size: 1.2em;
 }
 
-/* リンクのスタイル */
 .nav-link {
     color: rgb(85, 167, 148);
     text-decoration: none;
     display: flex;
-    align-items: center;
-    padding: 12px 20px;
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: center; /* 横方向中央揃え */
+    padding: 12px 24px; /* 左右の余白を16pxに設定 */
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-size: 1em;
+    font-size: 1.0em; /* 少し小さくする */
     border: 1px solid rgb(119, 227, 202);
+    width: 160px; /* 幅を200pxに設定 */
+    /* box-sizing: border-box; padding や border の分も考慮する */
 }
-
 /* ホバー時のスタイル */
 .nav-link:hover {
     background-color:rgb(85, 167, 148);
@@ -118,6 +119,8 @@ html, body {
     list-style: none;
     padding: 0;
     margin: 0;
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: center; /* 横方向中央揃え */
 }
 
 /* 中央ボックスのスタイル */
@@ -211,6 +214,7 @@ a {
     border: 2px solid #3498db; /* ボーダー色 */
     background-color: #ffffff; /* 背景色 */
     margin: 2px;
+    
 }
 
 a:hover,
