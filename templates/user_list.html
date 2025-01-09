@@ -13,11 +13,9 @@
     <thead class="table-dark">
         <tr>
             <th scope="col"></th>
-            {% if user.admin_flag %}
-            <th scope="col">ID</th>
-            {% endif %}
+            {% if user.admin_flag %} <th scope="col">ID</th> {% endif %}
             <th scope="col">ユーザー名</th>
-            <th scope="col">会社名</th>
+            {% if user.admin_flag %} <th scope="col">会社名</th> {% endif %}
             <th scope="col">メールアドレス</th>
             <th scope="col">登録日時</th>
             <th scope="col">操作</th>
@@ -27,12 +25,10 @@
         {% csrf_token %}
         {% for item in page_obj %}
         <tr>
-            <td>{% if item.superuser_flag %}★{% endif %}</td>
-            {% if user.admin_flag %}
-            <td>{{ item.account_id }}</td>
-            {% endif %}
+            <td>{% if item.superuser_flag %} ★ {% endif %}</td>
+            {% if user.admin_flag %} <td>{{ item.account_id }}</td> {% endif %}
             <td>{{ item.account_name }}</td>
-            <td>{{ item.company }}</td>
+            {% if user.admin_flag %} <td>{{ item.company }}</td> {% endif %}
             <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
             <td>
