@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 import spacy
 from django.core.mail import send_mail
@@ -156,10 +157,10 @@ class UserListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data['search_text'] # 入力されたテキスト
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                user = Users.objects.filter(user_flag=True,company=request.user.company,account_id__icontains=search_text)  # 条件に一致するユーザーを取得
+                user = Users.objects.filter(user_flag=True,company=request.user.company).filter(Q(account_name__icontains=search_text)) # 条件に一致するユーザーを取得
             # 管理者の場合
             elif request.user.admin_flag:
-                user = Users.objects.filter(user_flag=True,account_id__icontains=search_text)  # 条件に一致する管理者を取得
+                user = Users.objects.filter(user_flag=True).filter(Q(account_id__icontains=search_text) | Q(account_name__icontains=search_text))  # 条件に一致する管理者を取得
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
