@@ -15,6 +15,7 @@
         <tr>
             <td class="date-column">{{ item.report_time }}</td>
             <td class="content-column">{{ item.report_title }}</td>
+            <td><a href="{% url 'app:harassment_detail' item.id %}">詳細</a></td>
         </tr>
         {% endfor %}
     </tbody>

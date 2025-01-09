@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>ハラスメント詳細</h1>
+
+<h2>{{ harassment_report.report_title }}</h2>
+<p>{{ harassment_report.report_time }}</p>
+<p>{{ harassment_report.report_detail }}</p>
+<p>{{ harassment_report.report_image }}</p>
+
+{% include "pagination.html" %}
+{% endblock %}
