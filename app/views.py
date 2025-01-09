@@ -1,4 +1,5 @@
 
+
 from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
@@ -13,6 +14,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
@@ -147,20 +149,8 @@ class UserListView(LoginRequiredMixin,TemplateView):
         paginator = Paginator(user, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
-        users = self.get_queryset()
-        return render(request, "user_list.html", {"users" : users ,"page_obj": page_obj})
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
-    def get_queryset(self):
-        query = self.request.GET.get('query')
-        if query:
-            members = Users.objects.filter(name__icontains=query, deletion_flag=False)
-        else:
-            # フォーム未入力の場合はすべて
-            members = Users.objects.filter(deletion_flag=False)
-        return members
-    
-
-class ErrorReportListView(LoginRequiredMixin,View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
