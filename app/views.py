@@ -519,17 +519,24 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
     success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
-        user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
+        user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
+        if not user:
+            return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
         return render(request, self.template_name, {"object": user})
     
     def post(self, request, sender_name):
         if request.method == 'POST':
-            user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
-            notification = Notification.objects.get(sender_name=sender_name) # 選択した報告の情報を取得
+            user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
+            if not user:
+                return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
+            
+            notification = Notification.objects.filter(sender_name=sender_name) # 選択した報告の情報を取得
+            if not notification.exists():
+                return render(request, self.template_name, {"error": "通知が見つかりません。"})
+            
             user.password = user.start_password # 現在のPWを初期パスワードに変更
-            notification.is_read = True # リセットした通知をTrueに変更
             user.save()
-            notification.save()
+            notification.update(is_read=True)
             return redirect(self.success_url)
         return render(request, self.template_name)
     
