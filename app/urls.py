@@ -13,8 +13,8 @@ urlpatterns = [
     path('', views.LoginView.as_view(), name='login'), # ログイン
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
-    path('forget_password/', views.SendEmailView.as_view(), name='send_email'), # メール送信
-    path('forget_password/', views.SendSuperuserView.as_view(), name='send_superuser'), # パスワードリセット要請
+    path('send_email/', views.SendEmailView.as_view(), name='send_email'), # メール送信
+    path('send_superuser/', views.SendSuperuserView.as_view(), name='send_superuser'), # パスワードリセット要請
 
     # 管理者とユーザー
     path('index/', views.IndexView.as_view(), name='index'), # ホーム画面
