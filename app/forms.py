@@ -80,4 +80,7 @@ class CustomPasswordChangeForm(forms.Form):
     )
         
 class SearchForm(forms.Form):
-    search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
+    search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
+    search_company = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
+    start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))

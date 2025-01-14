@@ -178,8 +178,20 @@ class UserListView(LoginRequiredMixin,TemplateView):
 
             # 管理者の場合
             elif request.user.admin_flag:
-                user = Users.objects.filter(user_flag=True
-                                   ).filter(Q(account_id__icontains=search_text) | Q(account_name__icontains=search_text))  # 条件に一致する管理者を取得
+                users = Users.objects.filter(user_flag=True)
+                
+                filters = Q()  # 空のQオブジェクトを作成
+
+                if search_text:
+                    filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text) | Q(company__company_name__icontains=search_text)
+                if start_date:
+                    filters &= Q(created_at__gte=start_date)
+                if end_date:
+                    filters &= Q(created_at__lte=end_date)
+
+                # フィルタを適用してクエリセットを取得
+                user = users.filter(filters)
+
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
