@@ -5,10 +5,14 @@
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
     <div>
-        <label for="datetime">日付:</label>
-        <input type="datetime" id="start_date" name="start_date">~<input type="datetime" id="end_date" name="end_date">
+        <label for="search_text">名前:</label>
+        <input type="text" id="search_text" name="search_text" placeholder="ユーザー名で検索"
+            value="{{ form.search_text.value|default:'' }}">
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
     </div>
     <button type="submit" class="btn btn-primary">検索</button>
 </form>

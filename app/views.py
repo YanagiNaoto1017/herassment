@@ -156,23 +156,30 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             # 検索フォームで入力されたものを取得
-            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
-            start_date = request.POST.get('start_date')    # 始まりの日付
-            end_date = request.POST.get('end_date')        # 終わりの日付
-            print(start_date)
-            print(end_date)
+            search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                user = Users.objects.filter(
-                    user_flag=True,company=request.user.company
-                    ).filter(Q(account_name__icontains=search_text)
-                    ).filter(Q(create_at__gte=start_date)
-                    ).filter(Q(create_at__lte=end_date)) # 条件に一致するユーザーを取得
+                users = Users.objects.filter(user_flag=True,company=request.user.company)
+
+                filters = Q()  # 空のQオブジェクトを作成
+
+                if search_text:
+                    filters &= Q(account_name__icontains=search_text)
+                if start_date:
+                    filters &= Q(created_at__gte=start_date)
+                if end_date:
+                    filters &= Q(created_at__lte=end_date)
+
+                # フィルタを適用してクエリセットを取得
+                user = users.filter(filters)
+
             # 管理者の場合
             elif request.user.admin_flag:
-                user = Users.objects.filter(
-                    user_flag=True
-                    ).filter(Q(account_id__icontains=search_text) | Q(account_name__icontains=search_text))  # 条件に一致する管理者を取得
+                user = Users.objects.filter(user_flag=True
+                                   ).filter(Q(account_id__icontains=search_text) | Q(account_name__icontains=search_text))  # 条件に一致する管理者を取得
             paginator = Paginator(user, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
