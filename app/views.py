@@ -407,6 +407,7 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
 # ハラスメント一覧画面
 class HarassmentReportListView(LoginRequiredMixin,TemplateView):
     template_name = "harassment_list.html"
+    form_class = SearchForm
 
     def get(self, request):
         harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id) # 同じ企業IDのハラスメント報告を取得
@@ -414,6 +415,30 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj})
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # 検索フォームで入力されたものを取得
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
+            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id)
+
+            filters = Q()  # 空のQオブジェクトを作成
+
+            if start_date:
+                filters &= Q(report_time__gte=start_date)
+            if end_date:
+                filters &= Q(report_time__lte=end_date)
+
+            # フィルタを適用してクエリセットを取得
+            harassment_list = harassment_list.filter(filters)
+
+            paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
+            page_number = request.GET.get('page') # 現在のページ番号を取得
+            page_obj = paginator.get_page(page_number)
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
 # ハラスメント詳細画面
 class HarassmentDetailView(LoginRequiredMixin, TemplateView):
