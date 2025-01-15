@@ -127,8 +127,25 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
-            company_list = Company.objects.filter(company_name__icontains=search_text) # 条件に一致する企業を取得
+            # 検索フォームで入力されたものを取得
+            search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
+            company = Company.objects.all()
+
+            filters = Q()  # 空のQオブジェクトを作成
+
+            if search_text:
+                filters &= Q(company_name__icontains=search_text) | Q(id__icontains=search_text)
+            if start_date:
+                filters &= Q(created_at__gte=start_date)
+            if end_date:
+                filters &= Q(created_at__lte=end_date)
+
+            # フィルタを適用してクエリセットを取得
+            company_list = company.filter(filters)
+
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
