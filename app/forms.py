@@ -66,7 +66,11 @@ class SendSuperuserForm(forms.Form):
 
 #検出
 class DetectionForm(forms.Form):
-    input_text = forms.CharField(label='検出', max_length=500)
+    input_text = forms.CharField(
+        label='検出',
+        max_length=500,
+        widget=forms.Textarea()
+    )
 
 #パスワード変更
 class CustomPasswordChangeForm(forms.Form):
