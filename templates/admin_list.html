@@ -4,7 +4,15 @@
 <h1>管理者一覧</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        <label for="search_text">検索:</label>
+        <input type="text" id="search_text" name="search_text" placeholder="IDまたはユーザー名で検索"
+            value="{{ form.search_text.value|default:'' }}">
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
+    </div>
     <button type="submit" class="btn btn-primary">検索</button>
 </form>
 
@@ -12,6 +20,7 @@
     <thead class="table-dark">
         <tr>
             <th scope="col">ID</th>
+            <th scope="col">ユーザー名</th>
             <th scope="col">メールアドレス</th>
             <th scope="col">登録日時</th>
             <th scope="col">操作</th>
@@ -22,6 +31,7 @@
         {% for item in page_obj %}
         <tr>
             <td>{{ item.account_id }}</td>
+            <td>{{ item.account_name }}</td>
             <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
             <td>
