@@ -446,8 +446,6 @@ class HarassmentDetailView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, pk):
         harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
-        print('🔥')
-        print(harassment_report)
         return render(request, self.template_name, {"harassment_report": harassment_report})
 
 
