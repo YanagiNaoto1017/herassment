@@ -104,9 +104,26 @@ class AdminListView(LoginRequiredMixin,TemplateView):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
-            user = Users.objects.filter(admin_flag=True,account_id__icontains=search_text)  # 条件に一致するユーザーを取得
-            paginator = Paginator(user, 10) # 1ページ当たり10件
+            # 検索フォームで入力されたものを取得
+            search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
+            admin = Users.objects.filter(admin_flag=True)
+
+            filters = Q()  # 空のQオブジェクトを作成
+
+            if search_text:
+                filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text)
+            if start_date:
+                filters &= Q(created_at__gte=start_date)
+            if end_date:
+                filters &= Q(created_at__lte=end_date)
+
+            # フィルタを適用してクエリセットを取得
+            admin_list = admin.filter(filters)
+
+            paginator = Paginator(admin_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -235,7 +252,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            company = Company.objects.all()
+            error_report = Error_report.objects.all()
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -245,7 +262,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            error_list = company.filter(filters)
+            error_list = error_report.filter(filters)
 
             paginator = Paginator(error_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
