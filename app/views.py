@@ -471,13 +471,13 @@ class CheckIdView(TemplateView):
             user = Users.objects.filter(account_id=account_id).first()  # 条件に一致するユーザー情報を取得
 
             # 入力されたアカウントIDが存在した場合
-            if account_id == user.account_id:
+            if user:
                 self.request.session['account_id'] = user.account_id  # アカウントIDをセッションに保存
                 # スーパーユーザーの場合
-                if user.superuser_flag and user.user_flag:
+                if user.superuser_flag:
                     return redirect("app:send_email")
                 # ユーザーの場合
-                elif not user.superuser_flag and user.user_flag:
+                if user. user_flag and not user.superuser_flag:
                     return redirect("app:send_superuser")
             
             # 入力されたアカウントIDが存在しない場合
@@ -492,6 +492,11 @@ class SendEmailView(TemplateView):
     success_url = reverse_lazy("app:pw_send_comp")
 
     def get(self, request):
+        account_id = request.session.get('account_id')
+        user = Users.objects.filter(account_id=account_id).first()
+        if not user or not user.superuser_flag:
+            return redirect("app:check_id")
+        
         form = self.form_class
         return render(request, self.template_name, {"form": form})
     
@@ -518,6 +523,10 @@ class SendSuperuserView(TemplateView):
     
     def post(self, request):
         account_id = self.request.session.get('account_id') # ID確認で入力したアカウントIDを取得
+        user = Users.objects.filter(account_id=account_id).first()
+
+        if not user:
+            return redirect("app:check_id")
 
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -531,7 +540,7 @@ class SendSuperuserView(TemplateView):
             )
             notification.save() # 保存
             return redirect(self.success_url)
-        return render(request, self.template_name, {"form": form})
+        return render(self.template_name, {"form": form})
         
 # メール送信完了
 class PwSendCompleteView(TemplateView):
@@ -613,17 +622,24 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
     success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
-        user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
+        user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
+        if not user:
+            return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
         return render(request, self.template_name, {"object": user})
     
     def post(self, request, sender_name):
         if request.method == 'POST':
-            user = Users.objects.get(account_name=sender_name) # 選択したユーザーの情報を取得
-            notification = Notification.objects.get(sender_name=sender_name) # 選択した報告の情報を取得
+            user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
+            if not user:
+                return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
+            
+            notification = Notification.objects.filter(sender_name=sender_name) # 選択した報告の情報を取得
+            if not notification.exists():
+                return render(request, self.template_name, {"error": "通知が見つかりません。"})
+            
             user.password = user.start_password # 現在のPWを初期パスワードに変更
-            notification.is_read = True # リセットした通知をTrueに変更
             user.save()
-            notification.save()
+            notification.update(is_read=True)
             return redirect(self.success_url)
         return render(request, self.template_name)
     
