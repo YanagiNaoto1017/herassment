@@ -231,8 +231,22 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            search_text = form.cleaned_data['search_text'] # 入力されたテキスト
-            error_list = Error_report.objects.filter(error_detail__icontains=search_text) # 条件に一致するエラー報告を取得
+            # 検索フォームで入力されたものを取得
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
+            company = Company.objects.all()
+
+            filters = Q()  # 空のQオブジェクトを作成
+
+            if start_date:
+                filters &= Q(created_at__gte=start_date)
+            if end_date:
+                filters &= Q(created_at__lte=end_date)
+
+            # フィルタを適用してクエリセットを取得
+            error_list = company.filter(filters)
+
             paginator = Paginator(error_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
