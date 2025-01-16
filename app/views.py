@@ -95,8 +95,8 @@ class AdminListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        user = Users.objects.filter(admin_flag=True)  # 管理者を取得
-        paginator = Paginator(user, 10) # 1ページ当たり10件
+        admin_list = Users.objects.filter(admin_flag=True)  # 管理者を取得
+        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -109,7 +109,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            admin = Users.objects.filter(admin_flag=True)
+            admin_list = Users.objects.filter(admin_flag=True)
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -121,7 +121,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            admin_list = admin.filter(filters)
+            admin_list = admin_list.filter(filters)
 
             paginator = Paginator(admin_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -149,7 +149,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            company = Company.objects.all()
+            company_list = Company.objects.all()
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -161,7 +161,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            company_list = company.filter(filters)
+            company_list = company_list.filter(filters)
 
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -177,11 +177,12 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            user = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
+            user_list = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
         # 管理者の場合
         elif request.user.admin_flag:
-            user = Users.objects.filter(user_flag=True)  # ユーザーを取得
-        paginator = Paginator(user, 10) # 1ページ当たり10件
+            user_list = Users.objects.filter(user_flag=True)  # ユーザーを取得
+
+        paginator = Paginator(user_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -196,7 +197,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
 
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                users = Users.objects.filter(user_flag=True,company=request.user.company)
+                user_list = Users.objects.filter(user_flag=True,company=request.user.company)
 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -208,11 +209,11 @@ class UserListView(LoginRequiredMixin,TemplateView):
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
-                user = users.filter(filters)
+                user_list = user_list.filter(filters)
 
             # 管理者の場合
             elif request.user.admin_flag:
-                users = Users.objects.filter(user_flag=True)
+                user_list = Users.objects.filter(user_flag=True)
                 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -224,9 +225,9 @@ class UserListView(LoginRequiredMixin,TemplateView):
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
-                user = users.filter(filters)
+                user_list = user_list.filter(filters)
 
-            paginator = Paginator(user, 10) # 1ページ当たり10件
+            paginator = Paginator(user_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
