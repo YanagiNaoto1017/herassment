@@ -15,6 +15,7 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Q
+from datetime import datetime, timedelta
 
 import spacy
 from django.core.mail import send_mail
@@ -118,6 +119,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             if start_date:
                 filters &= Q(created_at__gte=start_date)
             if end_date:
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
@@ -158,6 +160,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             if start_date:
                 filters &= Q(created_at__gte=start_date)
             if end_date:
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
@@ -206,6 +209,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
                 if start_date:
                     filters &= Q(created_at__gte=start_date)
                 if end_date:
+                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
@@ -222,6 +226,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
                 if start_date:
                     filters &= Q(created_at__gte=start_date)
                 if end_date:
+                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
@@ -258,9 +263,10 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             filters = Q()  # 空のQオブジェクトを作成
 
             if start_date:
-                filters &= Q(created_at__gte=start_date)
+                filters &= Q(report_time__gte=start_date)
             if end_date:
-                filters &= Q(created_at__lte=end_date)
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
+                filters &= Q(report_time__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
             error_list = error_report.filter(filters)
