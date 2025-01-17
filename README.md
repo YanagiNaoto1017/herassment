@@ -96,3 +96,6 @@ pip install scikit-learn
 
 # Pillowのインストール
 python -m pip install Pillow
+
+# jwtのインストール
+pip install djangorestframework-simplejwt
