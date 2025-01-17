@@ -28,7 +28,10 @@
         </tr>
         {% if user.superuser_flag %}
         <tr>
-            <td>メールアドレス: {{ user.email }}</td>
+            <td>
+                メールアドレス: {{ user.email }}
+                <a href="{% url 'app:email_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
+            </td>
         </tr>
         {% endif %}
         <tr>
