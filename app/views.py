@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
+from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
+from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -15,11 +15,15 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Q
+from datetime import datetime, timedelta
+from django.utils import timezone
+from django.http import HttpResponseForbidden
 
+import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
- 
+
 # メール送信関数
 def send_email(to_email, subject, message):
     send_mail(
@@ -95,8 +99,8 @@ class AdminListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        user = Users.objects.filter(admin_flag=True)  # 管理者を取得
-        paginator = Paginator(user, 10) # 1ページ当たり10件
+        admin_list = Users.objects.filter(admin_flag=True)  # 管理者を取得
+        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -109,7 +113,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            admin = Users.objects.filter(admin_flag=True)
+            admin_list = Users.objects.filter(admin_flag=True)
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -118,10 +122,11 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             if start_date:
                 filters &= Q(created_at__gte=start_date)
             if end_date:
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            admin_list = admin.filter(filters)
+            admin_list = admin_list.filter(filters)
 
             paginator = Paginator(admin_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -149,7 +154,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            company = Company.objects.all()
+            company_list = Company.objects.all()
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -158,10 +163,11 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             if start_date:
                 filters &= Q(created_at__gte=start_date)
             if end_date:
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            company_list = company.filter(filters)
+            company_list = company_list.filter(filters)
 
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -177,11 +183,12 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            user = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
+            user_list = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
         # 管理者の場合
         elif request.user.admin_flag:
-            user = Users.objects.filter(user_flag=True)  # ユーザーを取得
-        paginator = Paginator(user, 10) # 1ページ当たり10件
+            user_list = Users.objects.filter(user_flag=True)  # ユーザーを取得
+
+        paginator = Paginator(user_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -196,7 +203,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
 
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                users = Users.objects.filter(user_flag=True,company=request.user.company)
+                user_list = Users.objects.filter(user_flag=True,company=request.user.company)
 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -205,14 +212,15 @@ class UserListView(LoginRequiredMixin,TemplateView):
                 if start_date:
                     filters &= Q(created_at__gte=start_date)
                 if end_date:
+                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
-                user = users.filter(filters)
+                user_list = user_list.filter(filters)
 
             # 管理者の場合
             elif request.user.admin_flag:
-                users = Users.objects.filter(user_flag=True)
+                user_list = Users.objects.filter(user_flag=True)
                 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -221,12 +229,13 @@ class UserListView(LoginRequiredMixin,TemplateView):
                 if start_date:
                     filters &= Q(created_at__gte=start_date)
                 if end_date:
+                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
-                user = users.filter(filters)
+                user_list = user_list.filter(filters)
 
-            paginator = Paginator(user, 10) # 1ページ当たり10件
+            paginator = Paginator(user_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
             page_obj = paginator.get_page(page_number)
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
@@ -257,9 +266,10 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             filters = Q()  # 空のQオブジェクトを作成
 
             if start_date:
-                filters &= Q(created_at__gte=start_date)
+                filters &= Q(report_time__gte=start_date)
             if end_date:
-                filters &= Q(created_at__lte=end_date)
+                end_date = end_date + timedelta(days=1) # 終了日を1日加算
+                filters &= Q(report_time__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
             error_list = error_report.filter(filters)
@@ -400,7 +410,10 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
         if form.is_valid():
             harassment_report = form.save(commit=False)  # フォームの save を呼び出す
             harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
-            form.save()
+            harassment_report.save()
+            images = request.FILES.getlist('images')  # 複数画像を取得
+            for img in images:
+                HarassmentReportImage.objects.create(report=harassment_report, image=img)  # 画像を保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
     
@@ -446,7 +459,8 @@ class HarassmentDetailView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, pk):
         harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
-        return render(request, self.template_name, {"harassment_report": harassment_report})
+        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
+        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
 
 
 # アカウント情報確認画面
@@ -484,6 +498,23 @@ class CheckIdView(TemplateView):
         return render(request, self.template_name, {"form": form})
         
 # Email送信
+def send_email(to_email, user):
+    token = jwt.encode(
+        {'user_id': user.id, 'exp': timezone.now() + timezone.timedelta(hours=1)},
+        settings.SECRET_KEY,
+        algorithm='HS256'
+    )
+    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
+    subject = 'へらすめんと　パスワード再設定'  # メールの件名
+    message = f'パスワード再設定用のURLです: {url}'  # 内容
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [to_email],
+        fail_silently=False,
+    )
+
 class SendEmailView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendEmailForm
@@ -498,14 +529,21 @@ class SendEmailView(TemplateView):
         form = self.form_class
         return render(request, self.template_name, {"form": form})
     
+        form = self.form_class()
+        return render(request, self.template_name, {"form": form})  
+
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email'] # 入力されたメールアドレス
-            subject = '件名'  # メールの件名
-            message = 'パスワード変更URL'  # メールの内容
-            send_email(email, subject, message)  # メール送信
-            return redirect(self.success_url)
+            email = form.cleaned_data['email']  # 入力されたメールアドレス
+            
+            try:
+                user = Users.objects.get(email=email)  # メールアドレスからユーザーを取得
+                send_email(email, user)  # メール送信
+                return redirect(self.success_url)
+            except Users.DoesNotExist:
+                form.add_error('email', "このメールアドレスは登録されていません。")
+        
         return render(request, self.template_name, {"form": form})
 
 # PWリセット要請
@@ -546,7 +584,7 @@ class PwSendCompleteView(TemplateView):
     
 #パスワード変更画面
 class PasswordChangeView(LoginRequiredMixin,TemplateView):
-    template_name = 'password_change.html'  # パスワード変更用のテンプレート
+    template_name = 'mail_PWchange.html'  # パスワード変更用のテンプレート
     form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("app:pw_change_complete")
     
@@ -682,6 +720,44 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
                 notification.save() # 保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"object": delete_user})
+
+class MailPWChangeView(TemplateView):
+    template_name = 'mail_PWchange.html'
+    success_url = reverse_lazy('app:mail_PWcomp')
+
+    def get(self, request):
+        token = request.GET.get('token')
+        if token:
+            try:
+                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+                user = Users.objects.get(id=payload['user_id'])
+                login(request, user)  # ユーザーをログインさせる
+                form = MailPWChangeForm()  # フォームのインスタンスを作成
+                return render(request, self.template_name, {'form': form})
+            except (jwt.ExpiredSignatureError, jwt.DecodeError, Users.DoesNotExist):
+                return HttpResponseForbidden("無効なトークンです。")
+        return redirect('app:login')  # トークンがない場合はログインページにリダイレクト
+
+    def post(self, request):
+        form = MailPWChangeForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            new_password2 = form.cleaned_data['new_password2']
+
+            if new_password == new_password2:
+                user = request.user  # ログインしたユーザーを取得
+                user.set_password(new_password)  # パスワードをハッシュ化して保存
+                user.save()  # ユーザーを保存
+                return redirect(self.success_url)  # 成功した場合のリダイレクト
+            else:
+                form.add_error('new_password2', "パスワードが一致しません。")
+        
+        return render(request, self.template_name, {'form': form})
+    
+class MailPwCompleteView(TemplateView):
+    template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
+
+
 
 # エラー
 def custom_404_view(request, exception):

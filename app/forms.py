@@ -43,13 +43,19 @@ class ErrorReportForm(forms.ModelForm):
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
+    images = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        required=False,
+        label="画像を追加"
+    )
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail","report_image","report_time")
+        fields = ("id","report_title","report_detail","report_time")
+        
 
 # ID確認
 class CheckIdForm(forms.Form):
-    account_id = forms.CharField(label='IDを入力してください', max_length=100)
+    account_id = forms.CharField(label='ユーザーID', max_length=100)
 
 # メール送信
 class SendEmailForm(forms.Form):
@@ -87,3 +93,17 @@ class SearchForm(forms.Form):
     search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
     start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
+    search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
+
+
+#メールからのパスワード変更
+class MailPWChangeForm(forms.Form):
+    new_password = forms.CharField(
+        label=("新しいパスワード"),
+        max_length=500,
+    )
+    new_password2 = forms.CharField(
+        label=("パスワードの確認"),
+        max_length=500,
+    )

@@ -30,7 +30,7 @@ urlpatterns = [
     path('company_list', views.CompanyListView.as_view(), name='company_list'), # 企業一覧
     path('error_list', views.ErrorReportListView.as_view(), name='error_list'), # エラー一覧
     path('admin_delete/<int:pk>/', views.AdminDeleteView.as_view(), name='admin_delete'), # 管理者削除
-    path('superuser_delete<str:sender_name>/', views.SuperuserDeleteView.as_view(), name='superuser_delete'), # スーパーユーザー削除
+    path('superuser_delete/<str:sender_name>/', views.SuperuserDeleteView.as_view(), name='superuser_delete'), # スーパーユーザー削除
 
     # 完了画面
     path('complete', views.CompleteView.as_view(), name='complete'), # 登録完了画面
@@ -53,4 +53,6 @@ urlpatterns = [
     path('user/company_delete/<int:pk>/', views.CompanyDeleteView.as_view(), name='company_delete'), # 企業削除
     path('user/password_reset<str:sender_name>/', views.PasswordReset.as_view(), name='password_reset'), # パスワードリセット
     path('user/superuser_delete<int:pk>/', views.SendSuperuserDeleteView.as_view(), name='send_superuser_delete'), # スーパーユーザー削除要請
-]
+    path('mail_PWchange/', views.MailPWChangeView.as_view(), name='mail_PWchange'), #パスワード変更画面
+    path('mail_PWcomp/', views.MailPwCompleteView.as_view(), name='mail_PWcomp') #パスワード再設定完了画面
+ ]
