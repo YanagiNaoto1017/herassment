@@ -2,11 +2,24 @@
 
 {% block content %}
 <h1>ハラスメント報告一覧</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
+    </div>
+    <button type="submit" class="btn btn-primary">検索</button>
+</form>
+
 <table class="table">
     <thead class="table-dark">
         <tr>
             <th scope="col" class="date-column">日付</th>
             <th scope="col" class="content-column">タイトル</th>
+            <th scope="col" class="content-column">詳細</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +28,7 @@
         <tr>
             <td class="date-column">{{ item.report_time }}</td>
             <td class="content-column">{{ item.report_title }}</td>
+            <td><a href="{% url 'app:harassment_detail' item.id %}">詳細</a></td>
         </tr>
         {% endfor %}
     </tbody>

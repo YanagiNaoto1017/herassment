@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .table {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <h1>アカウント情報</h1>
 <table class="table">
     <thead class="table-dark">
@@ -10,16 +21,20 @@
     <tbody>
         {% csrf_token %}
         <tr>
+            <td>ID: {{ user.account_id }}</td>
+        </tr>
+        <tr>
+            <td>アカウント名: {{ user.account_name }}</td>
+        </tr>
+        {% if user.superuser_flag %}
+        <tr>
+            <td>メールアドレス: {{ user.email }}</td>
+        </tr>
+        {% endif %}
+        <tr>
             <td>
-                <div>ID: {{ user.account_id }}</div>
-                <div>アカウント名: {{ user.account_name }}</div>
-                {% if user.superuser_flag %}
-                <div>メールアドレス: {{ user.email }}</div>
-                {% endif %}
-                <div>
-                    パスワード:
-                    <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
-                </div>
+                パスワード:
+                <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
             </td>
         </tr>
     </tbody>

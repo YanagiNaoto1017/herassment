@@ -27,24 +27,6 @@
             もちろん、プライバシーはしっかり守りますので、見つかった情報は厳重に管理されます。<br> 違反行為があれば、警告や行動についてのフィードバックをユーザーに届けます。<br> <br> <b>目的：</b><br>
             ハラスメントを防いで、みんなが安心して過ごせる場を作ることです！<br> 健康的で楽しいコミュニケーションをみんなで広げていきましょう！</p>
     </div>
-    <div class="center-box proofreading-box">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
-        </ul>
-        <p style="text-align: left;"> このシステムは、あなたのメッセージをもっと素敵に、もっと健全にするためのサポーターです！<br>
-            会話の中で不適切な言葉や行動を見逃さず、すぐにアドバイスをくれるので、思わぬトラブルを防ぐ手助けをします✨<br><br> システムがチェックするのはこんな言葉たち： </p>
-        <ul style="text-align: left;">
-            <li><strong>攻撃的な言葉：</strong>バッドマウスや嫌なこと言っちゃった…って時にサポート。</li>
-            <li><strong>差別的な発言：</strong>みんな平等でないと！偏見や差別的な言葉もガイド。</li>
-            <li><strong>セクシャルハラスメント：</strong>不快に感じるような性的な言葉や行動をストップ！</li>
-            <li><strong>パワハラっぽい圧力：</strong>強すぎる言葉や圧力をかけないようにリマインド。</li>
-        </ul>
-        <p style="text-align: left;"> このシステムは、あなたが入力したテキストを瞬時にチェックして、もしちょっと引っかかる言葉があったら、すぐに優しく教えてくれます。<br>
-            「こうした方がいいかも！」ってアドバイスが出るので、それに従って、もっと安心で楽しいコミュニケーションを目指せます🎯<br><br>
-            もちろん、あなたのプライバシーは大切に守られているので、安心して使えますよ！<br> このシステムがあれば、みんなが楽しく、思いやりのある会話をする手助けができちゃいます💬 </p>
-        <p style="text-align: left;"> <strong>目的：</strong><br> このシステムの目標は、みんなが気持ちよく過ごせるスペースを作ること！<br>
-            優しい言葉でお互いを尊重し、楽しく、安全にやり取りできる環境を提供します✨ </p>
-    </div>
 </div>
 {% elif user.user_flag and not user.superuser_flag %}
 <div class="flex-container">
@@ -66,43 +48,39 @@
             もちろん、プライバシーはしっかり守りますので、見つかった情報は厳重に管理されます。<br> 違反行為があれば、警告や行動についてのフィードバックをユーザーに届けます。<br> <br> <b>目的：</b><br>
             ハラスメントを防いで、みんなが安心して過ごせる場を作ることです！<br> 健康的で楽しいコミュニケーションをみんなで広げていきましょう！</p>
     </div>
-    <div class="center-box proofreading-box">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:proofreading' %}">校正</a></li>
+</div>
+{% else %}
+<div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
+    <div class="center-box" style="flex: 1; box-sizing: border-box; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;">
+        <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:superuser_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">ユーザー登録</a>
+            </li>
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:company_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">企業登録</a>
+            </li>
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:admin_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">管理者登録</a>
+            </li>
         </ul>
-        <p style="text-align: left;"> このシステムは、あなたのメッセージをもっと素敵に、もっと健全にするためのサポーターです！<br>
-            会話の中で不適切な言葉や行動を見逃さず、すぐにアドバイスをくれるので、思わぬトラブルを防ぐ手助けをします✨<br><br> システムがチェックするのはこんな言葉たち： </p>
-        <ul style="text-align: left;">
-            <li><strong>攻撃的な言葉：</strong>バッドマウスや嫌なこと言っちゃった…って時にサポート。</li>
-            <li><strong>差別的な発言：</strong>みんな平等でないと！偏見や差別的な言葉もガイド。</li>
-            <li><strong>セクシャルハラスメント：</strong>不快に感じるような性的な言葉や行動をストップ！</li>
-            <li><strong>パワハラっぽい圧力：</strong>強すぎる言葉や圧力をかけないようにリマインド。</li>
+    </div>
+    <div class="center-box" style="flex: 1; box-sizing: border-box; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;">
+        <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:user_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">登録者</a>
+            </li>
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:company_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">企業</a>
+            </li>
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:error_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">エラー報告</a>
+            </li>
+            <li class="list-group-item" style="padding: 10px; text-align: center;">
+                <a href="{% url 'app:admin_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">管理者</a>
+            </li>
         </ul>
-        <p style="text-align: left;"> このシステムは、あなたが入力したテキストを瞬時にチェックして、もしちょっと引っかかる言葉があったら、すぐに優しく教えてくれます。<br>
-            「こうした方がいいかも！」ってアドバイスが出るので、それに従って、もっと安心で楽しいコミュニケーションを目指せます🎯<br><br>
-            もちろん、あなたのプライバシーは大切に守られているので、安心して使えますよ！<br> このシステムがあれば、みんなが楽しく、思いやりのある会話をする手助けができちゃいます💬 </p>
-        <p style="text-align: left;"> <strong>目的：</strong><br> このシステムの目標は、みんなが気持ちよく過ごせるスペースを作ること！<br>
-            優しい言葉でお互いを尊重し、楽しく、安全にやり取りできる環境を提供します✨ </p>
     </div>
 </div>
 
-{% else %}
-<div class="flex-container">
-    <div class="center-box">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:superuser_signup' %}">ユーザー登録</a></li>
-            <li class="list-group-item"><a href="{% url 'app:company_signup' %}">企業登録</a></li>
-            <li class="list-group-item"><a href="{% url 'app:admin_signup' %}">管理者登録</a></li>
-        </ul>
-    </div>
-    <div class="center-box">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:admin_list' %}">登録者</a></li>
-            <li class="list-group-item"><a href="{% url 'app:company_list' %}">企業</a></li>
-            <li class="list-group-item"><a href="{% url 'app:error_list' %}">エラー報告</a></li>
-            <li class="list-group-item"><a href="{% url 'app:admin_list' %}">管理者</a></li>
-        </ul>
-    </div>
-</div>
 {% endif %}
 {% endblock %}

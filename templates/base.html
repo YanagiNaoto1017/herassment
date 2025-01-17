@@ -11,7 +11,7 @@
 <body id="page-top">
 
     <!-- ヘッダー -->
-    <header id="header" style="text-align: right; padding: 20px;">
+    <header id="header" style="text-align: right; padding: 20px; border-bottom: 1px solid #b2efe3;">
 
         <!-- ホームに戻るボタン -->
         <a href="{% url 'app:index' %}" class="btn btn-primary">ホーム</a>
@@ -34,7 +34,6 @@
         <hr class="sidebar-divider">
         <div class="sidebar-heading">文章</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
         <hr class="sidebar-divider">
         <div class="sidebar-heading">報告</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>
@@ -54,7 +53,6 @@
         <hr class="sidebar-divider">
         <div class="sidebar-heading">文章</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:detection' %}">検出</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:proofreading' %}">校正</a></li>
         <hr class="sidebar-divider">
         <div class="sidebar-heading">報告</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:harassment_report' %}">ハラスメント</a></li>

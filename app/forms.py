@@ -66,7 +66,11 @@ class SendSuperuserForm(forms.Form):
 
 #検出
 class DetectionForm(forms.Form):
-    input_text = forms.CharField(label='検出', max_length=500)
+    input_text = forms.CharField(
+        label='検出',
+        max_length=500,
+        widget=forms.Textarea()
+    )
 
 #パスワード変更
 class CustomPasswordChangeForm(forms.Form):
@@ -80,6 +84,10 @@ class CustomPasswordChangeForm(forms.Form):
     )
         
 class SearchForm(forms.Form):
+    search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
+    start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
     search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
 
 
