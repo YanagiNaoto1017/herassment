@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
+from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
 from django.contrib.auth import logout
@@ -16,11 +16,14 @@ from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Q
 from datetime import datetime, timedelta
+from django.utils import timezone
+from django.http import HttpResponseForbidden
 
+import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
- 
+
 # メール送信関数
 def send_email(to_email, subject, message):
     send_mail(
@@ -495,6 +498,23 @@ class CheckIdView(TemplateView):
         return render(request, self.template_name, {"form": form})
         
 # Email送信
+def send_email(to_email, user):
+    token = jwt.encode(
+        {'user_id': user.id, 'exp': timezone.now() + timezone.timedelta(hours=1)},
+        settings.SECRET_KEY,
+        algorithm='HS256'
+    )
+    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
+    subject = 'へらすめんと　パスワード再設定'  # メールの件名
+    message = f'パスワード再設定用のURLです: {url}'  # 内容
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [to_email],
+        fail_silently=False,
+    )
+
 class SendEmailView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendEmailForm
@@ -509,14 +529,21 @@ class SendEmailView(TemplateView):
         form = self.form_class
         return render(request, self.template_name, {"form": form})
     
+        form = self.form_class()
+        return render(request, self.template_name, {"form": form})  
+
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email'] # 入力されたメールアドレス
-            subject = '件名'  # メールの件名
-            message = 'パスワード変更URL'  # メールの内容
-            send_email(email, subject, message)  # メール送信
-            return redirect(self.success_url)
+            email = form.cleaned_data['email']  # 入力されたメールアドレス
+            
+            try:
+                user = Users.objects.get(email=email)  # メールアドレスからユーザーを取得
+                send_email(email, user)  # メール送信
+                return redirect(self.success_url)
+            except Users.DoesNotExist:
+                form.add_error('email', "このメールアドレスは登録されていません。")
+        
         return render(request, self.template_name, {"form": form})
 
 # PWリセット要請
@@ -557,7 +584,7 @@ class PwSendCompleteView(TemplateView):
     
 #パスワード変更画面
 class PasswordChangeView(LoginRequiredMixin,TemplateView):
-    template_name = 'password_change.html'  # パスワード変更用のテンプレート
+    template_name = 'mail_PWchange.html'  # パスワード変更用のテンプレート
     form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("app:pw_change_complete")
     
@@ -693,6 +720,44 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
                 notification.save() # 保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"object": delete_user})
+
+class MailPWChangeView(TemplateView):
+    template_name = 'mail_PWchange.html'
+    success_url = reverse_lazy('app:mail_PWcomp')
+
+    def get(self, request):
+        token = request.GET.get('token')
+        if token:
+            try:
+                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+                user = Users.objects.get(id=payload['user_id'])
+                login(request, user)  # ユーザーをログインさせる
+                form = MailPWChangeForm()  # フォームのインスタンスを作成
+                return render(request, self.template_name, {'form': form})
+            except (jwt.ExpiredSignatureError, jwt.DecodeError, Users.DoesNotExist):
+                return HttpResponseForbidden("無効なトークンです。")
+        return redirect('app:login')  # トークンがない場合はログインページにリダイレクト
+
+    def post(self, request):
+        form = MailPWChangeForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            new_password2 = form.cleaned_data['new_password2']
+
+            if new_password == new_password2:
+                user = request.user  # ログインしたユーザーを取得
+                user.set_password(new_password)  # パスワードをハッシュ化して保存
+                user.save()  # ユーザーを保存
+                return redirect(self.success_url)  # 成功した場合のリダイレクト
+            else:
+                form.add_error('new_password2', "パスワードが一致しません。")
+        
+        return render(request, self.template_name, {'form': form})
+    
+class MailPwCompleteView(TemplateView):
+    template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
+
+
 
 # エラー
 def custom_404_view(request, exception):
