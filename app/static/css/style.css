@@ -1,32 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap');
 
-/* グローバルスタイル */
-html, body {
-    height: 100%; /* ページ全体を100%の高さに */
-    margin: 0; /* ページ全体の余白を削除 */
+html,
+body {
+    height: 100%;
+    margin: 0;
     display: flex;
-    flex-direction: column; /* コンテンツを縦に並べる */
+    flex-direction: column;
     font-family: 'Roboto', sans-serif;
 }
 
-/* サイドバーの基本スタイル */
 .sidebar {
     width: 230px;
     height: 100vh;
-    background: linear-gradient(180deg, #f9f9f9, #e6f7f4); /* 優しいグラデーション */
-    color: rgb(34, 112, 93); /* 調和の取れた色合い */
+    background: linear-gradient(180deg, #f9f9f9, #e6f7f4);
+    color: rgb(34, 112, 93);
     position: fixed;
     top: -20px;
     left: 0;
     padding: 20px;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2); /* 柔らかな影 */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
-    border: 1px solid rgba(119, 227, 202, 0.8); /* 控えめな枠線 */
-    border-radius: 8px; /* 角を丸める */
+    border: 1px solid rgba(119, 227, 202, 0.8);
+    border-radius: 8px;
 }
-
 
 .sidebar-heading {
     font-size: 1.5em;
@@ -35,13 +33,11 @@ html, body {
     text-align: center;
 }
 
-/* サイドバーの区切り線 */
 .sidebar-divider {
     border-top: 1px solid rgb(119, 227, 202);
     margin: 5px 0;
 }
 
-/* リストアイテムのスタイル */
 .nav-item {
     margin: 5px 0;
     list-style: none;
@@ -49,7 +45,6 @@ html, body {
     align-items: center;
 }
 
-/* アイコンとテキストの配置 */
 .nav-item .icon {
     margin-right: 10px;
     font-size: 1.2em;
@@ -59,29 +54,26 @@ html, body {
     color: rgb(85, 167, 148);
     text-decoration: none;
     display: flex;
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: center; /* 横方向中央揃え */
-    padding: 12px 24px; /* 左右の余白を16pxに設定 */
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-size: 1.0em; /* 少し小さくする */
+    font-size: 1.0em;
     border: 1px solid rgb(119, 227, 202);
-    width: 200px; /* 幅を200pxに設定 */
-    /* box-sizing: border-box; padding や border の分も考慮する */
+    width: 200px;
 }
-/* ホバー時のスタイル */
+
 .nav-link:hover {
-    background-color:rgb(85, 167, 148);
+    background-color: rgb(85, 167, 148);
     transform: translateX(5px);
 }
 
-/* アクティブリンクのスタイル */
 .nav-link.active {
     background-color: rgba(255, 255, 255, 0.3);
     font-weight: bold;
 }
 
-/* スクロールバーのカスタマイズ */
 .sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -94,19 +86,17 @@ html, body {
 .sidebar::-webkit-scrollbar-track {
     background: transparent;
 }
-/* コンテンツラッパーのスタイル */
+
 #content-wrapper {
     margin-left: 275px;
     flex: 1;
 }
 
-/* メインコンテンツのスタイル */
 #content {
     background-color: #ffffff;
     min-height: 83vh;
 }
 
-/* フレックスコンテナのスタイル */
 .flex-container {
     display: flex;
     justify-content: flex-start;
@@ -114,16 +104,14 @@ html, body {
     margin: 20px 0;
 }
 
-/* リストグループのスタイル */
 .list-group {
     list-style: none;
     padding: 0;
     margin: 0;
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: center; /* 横方向中央揃え */
+    align-items: center;
+    justify-content: center;
 }
 
-/* 中央ボックスのスタイル */
 .center-box {
     border: 2px solid #0595c5;
     border-radius: 16px;
@@ -134,36 +122,31 @@ html, body {
     text-align: center;
 }
 
-/* ヘッダーのスタイル */
 header {
     background-color: #ffffff;
     text-align: center;
 }
 
-/* ヘッダー内のタイトルスタイル */
 header h1 {
     margin: 0;
     font-size: 2em;
     background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
-    -webkit-background-clip: text; /* WebKitブラウザ向け */
-    background-clip: text; /* 標準プロパティ */
-    -webkit-text-fill-color: transparent; /* WebKitブラウザ向け */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* フッターのスタイル */
 footer {
-    background: #00787e;/* サイドバーと調和するグラデーション */
-    color: rgb(244, 246, 246); /* サイドバーと一致する色 */
+    background: #00787e;
+    color: rgb(244, 246, 246);
     text-align: center;
     padding: 20px;
-    border-top: 1px solid rgba(119, 227, 202, 0.8); /* サイドバーと統一した枠線 */
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 上部に柔らかな影 */
+    border-top: 1px solid rgba(119, 227, 202, 0.8);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    border-radius: 8px 8px 0 0; /* 上部角を丸める */
+    border-radius: 8px 8px 0 0;
 }
 
-
-/* フォームやボタンのスタイル */
 button[type="submit"] {
     background-color: #007bff;
     color: white;
@@ -184,7 +167,6 @@ button[type="submit"]:active {
     background-color: #004494;
 }
 
-/* フォームスタイル */
 form {
     max-width: 500px;
     margin: 0 auto;
@@ -192,7 +174,6 @@ form {
     border-radius: 12px;
 }
 
-/* 見出しスタイル */
 h1 {
     text-align: center;
     font-family: 'Arial', sans-serif;
@@ -201,39 +182,36 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* リンクのスタイル */
 a {
     display: inline-block;
-    text-decoration: none; /* 下線なし */
+    text-decoration: none;
     font-size: 1rem;
-    color: #3498db; /* リンク色 */
-    padding: 12px 24px; /* より広いパディング */
-    border-radius: 8px; /* 角を丸く */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* より柔らかい影 */
-    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #ffffff; /* 背景色 */
+    color: #3498db;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #3498db;
+    background-color: #ffffff;
     margin: 2px;
-    
+
 }
 
 a:hover,
 a:focus {
-    background-color: #3498db; /* ホバー時の背景色 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
-    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
-    color: #ffffff; 
+    background-color: #3498db;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #ffffff;
 }
 
 a:active {
-    background-color: #2980b9; /* クリック時の背景色 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
-    transform: translateY(0); /* クリック時に元に戻る */
-    color: #ffffff; 
+    background-color: #2980b9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    color: #ffffff;
 }
 
-
-/* フォームフィールドとラベルのスタイル */
 form div {
     margin-bottom: 20px;
 }
@@ -246,7 +224,6 @@ label {
     font-size: 0.9em;
 }
 
-/* 入力フィールドのスタイル */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -254,76 +231,69 @@ input[type="number"],
 select,
 textarea {
     width: 100%;
-    padding: 12px 16px; /* 少し広めのパディング */
-    border: 2px solid #ccc; /* 明るいボーダー */
-    border-radius: 12px; /* 角を丸く、少し大きく */
-    font-size: 1rem; /* 適切なフォントサイズ */
-    background-color: #f9f9f9; /* 明るい背景色 */
-    color: #333; /* 文字色を少し濃く */
-    transition: all 0.3s ease; /* ボーダーと影のスムーズな遷移 */
-    box-sizing: border-box; /* パディングを含めた幅の計算 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを統一 */
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* フォーカス時のスタイル */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #4CAF50; /* フォーカス時のボーダー色 */
-    outline: none; /* フォーカス時のアウトラインを消す */
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* フォーカス時のボックスシャドウ */
-    background-color: #ffffff; /* フォーカス時の背景色変更 */
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+    background-color: #ffffff;
 }
 
-/* 入力フィールドのホバー時のスタイル */
 input[type="text"]:hover,
 input[type="password"]:hover,
 input[type="email"]:hover,
 input[type="number"]:hover,
 select:hover,
 textarea:hover {
-    border-color: #888; /* ホバー時のボーダー色 */
+    border-color: #888;
 }
 
-/* プレースホルダーテキストのスタイル */
 input[type="text"]::placeholder,
 input[type="password"]::placeholder,
 input[type="email"]::placeholder,
 input[type="number"]::placeholder,
 textarea::placeholder {
-    color: #bbb; /* 薄いグレーでプレースホルダーテキストを表示 */
-    font-style: italic; /* イタリック体にして目立たせる */
+    color: #bbb;
+    font-style: italic;
 }
 
-/* 選択フィールドのスタイル */
 select {
-    -webkit-appearance: none; /* Safariなどでデフォルトのスタイルを無効化 */
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #f9f9f9; /* 背景色 */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>'); /* ドロップダウンアイコン */
+    background-color: #f9f9f9;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 10px center; /* アイコンの位置 */
-    padding-right: 35px; /* アイコンの余白 */
+    background-position: right 10px center;
+    padding-right: 35px;
 }
 
-/* テキストエリアのスタイル */
 textarea {
-    resize: vertical; /* 縦のリサイズを可能に */
-    min-height: 120px; /* 最小高さを設定 */
+    resize: vertical;
+    min-height: 120px;
 }
 
 
-/* エラーメッセージのスタイル */
 .error {
     color: #e74c3c;
     font-size: 0.85em;
 }
 
-/* ボタンスタイル */
 button {
     font-family: 'Roboto', sans-serif;
     background-color: var(--primary-color);
@@ -358,7 +328,6 @@ header .btn:hover {
     background-color: #b0b300;
 }
 
-/* ページネーション */
 .pagination {
     display: flex;
     justify-content: center;
@@ -368,12 +337,10 @@ header .btn:hover {
     font-family: 'Arial', sans-serif;
 }
 
-/* ページアイテム */
 .page-item {
     margin: 0 6px;
 }
 
-/* ページリンク */
 .page-item a,
 .page-item span {
     display: inline-flex;
@@ -384,46 +351,41 @@ header .btn:hover {
     font-weight: 600;
     text-decoration: none;
     color: #fff;
-    background-color: #007bff; /* 初期背景色 */
+    background-color: #007bff;
     border: 1px solid #007bff;
-    border-radius: 50px; /* 丸みを強調 */
+    border-radius: 50px;
     transition: all 0.3s ease;
 }
 
-/* ホバー時のスタイル */
 .page-item a:hover,
 .page-item span:hover {
-    background-color: #0056b3; /* 少し濃い青に */
+    background-color: #0056b3;
     color: #fff;
     cursor: pointer;
-    transform: scale(1.1); /* ホバー時に少し大きく */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* アクティブページのスタイル */
 .page-item.active span {
-    background-color: #28a745; /* アクティブなページは緑 */
+    background-color: #28a745;
     color: white;
     border-color: #28a745;
 }
 
-/* 無効なページのスタイル */
 .page-item.disabled a,
 .page-item.disabled span {
     color: #6c757d;
-    background-color: #f8f9fa; /* グレーの背景色 */
+    background-color: #f8f9fa;
     border-color: #ddd;
-    pointer-events: none; /* クリック不可 */
+    pointer-events: none;
 }
 
-/* フォーカス時のスタイル */
 .page-item a:focus,
 .page-item span:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
 
-/* 「前へ」「次へ」ボタン */
 .page-item a[aria-label="Previous"],
 .page-item a[aria-label="Next"] {
     font-size: 18px;
@@ -431,21 +393,18 @@ header .btn:hover {
     font-weight: bold;
 }
 
-/* アイコンボタンのスタイル (例: ページ番号の隣に矢印などを追加) */
 .page-item a[aria-label="Previous"]::before,
 .page-item a[aria-label="Next"]::before {
     font-size: 18px;
     margin: 0 6px;
 }
 
-/* 固定ボタン */
 .fixed-button {
     position: fixed;
     margin: 20px 0;
     z-index: 1000;
 }
 
-/* プライマリボタンのスタイル */
 .primary-btn {
     background-color: #007bff;
     color: white;
@@ -463,197 +422,960 @@ header .btn:hover {
     background-color: #f8fbff;
 }
 
-/* 検出・校正ボックスのスタイル */
 .detect-box,
 .proofreading-box {
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブル風の影を追加 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* 検出ボックス */
 .detect-box {
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #f4f8fb; /* 背景色 */
+    border: 2px solid #3498db;
+    background-color: #f4f8fb;
 }
 
 .detect-box:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .detect-box .list-group-item a {
-    color: #3498db; /* リンク色 */
+    color: #3498db;
     text-decoration: none;
 }
 
 .detect-box .list-group-item a:hover {
-    color: #f8f8f8; /* ホバー時のリンク色 */
+    color: #f8f8f8;
 }
 
-/* 校正ボックス */
 .proofreading-box {
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #f4f8fb; /* 背景色 */
+    border: 2px solid #3498db;
+    background-color: #f4f8fb;
 }
 
 .proofreading-box:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .proofreading-box .list-group-item a {
-    color: #3498db; /* リンク色 */
+    color: #3498db;
     text-decoration: none;
 }
 
 .proofreading-box .list-group-item a:hover {
-    color: #2980b9; /* ホバー時のリンク色 */
+    color: #2980b9;
 }
 
-/* 新しいセクション */
 .detect-box,
 .proofreading-box {
-    border-radius: 8px; /* 丸みを持たせる */
+    border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #ffffff; /* 白い背景に変更 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* アニメーション */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .detect-box .list-group-item a,
 .proofreading-box .list-group-item a {
-    color: #3498db; /* デフォルトのリンク色 */
+    color: #3498db;
 }
 
 .detect-box .list-group-item a:hover,
 .proofreading-box .list-group-item a:hover {
-    color: #eff2f3; /* ホバー時のリンク色 */
+    color: #eff2f3;
 }
 
-/* テーブルのスタイル */
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブルに影をつけて立体感 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* テーブルのヘッダー */
 th {
-    background-color: #3498db; /* ヘッダーの背景色 */
-    color: #fff; /* ヘッダー文字色 */
+    background-color: #3498db;
+    color: #fff;
     font-size: 16px;
     font-weight: 600;
     padding: 12px 20px;
     text-align: left;
     text-transform: uppercase;
-    letter-spacing: 1px; /* ヘッダー文字の間隔を広げる */
-    border-bottom: 2px solid #2980b9; /* ヘッダー下に強調されたボーダー */
+    letter-spacing: 1px;
+    border-bottom: 2px solid #2980b9;
 }
 
-/* テーブルのセル */
 td {
     padding: 12px 20px;
     font-size: 14px;
     text-align: left;
-    color: #333; /* テーブルの文字色 */
-    background-color: #fafafa; /* セルの背景色 */
+    color: #333;
+    background-color: #fafafa;
     border-bottom: 1px solid #ddd;
 }
 
-/* 偶数行の背景色を少し変更 */
 tr:nth-child(even) td {
     background-color: #f9f9f9;
 }
 
-/* ホバー時の行の背景色 */
 tr:hover td {
-    background-color: #f0f8ff; /* ホバー時に薄い青色 */
-    cursor: pointer; /* ポインタが手のひらに変わる */
+    background-color: #f0f8ff;
+    cursor: pointer;
 }
 
-/* テーブルのボーダー */
-td, th {
+td,
+th {
     border: 1px solid #ddd;
 }
 
-/* テーブル全体に枠線を設定 */
 table {
-    border-radius: 8px; /* 丸い角を追加 */
-    overflow: hidden; /* 角の丸みを維持 */
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-/* フォーカス時のセル */
-td:focus, th:focus {
+td:focus,
+th:focus {
     outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
 }
 
-/* 親要素を中央揃え */
 .center-container {
     display: flex;
-    justify-content: center; /* 横方向の中央揃え */
+    justify-content: center;
     margin: 0;
     padding: 0;
 }
 
-/* テーブルのカラムスタイル */
 .date-column {
-    width: 20%; /* 日付カラムを狭める */
-    white-space: nowrap; /* 内容が折り返されないようにする */
+    width: 20%;
+    white-space: nowrap;
 }
 
 .content-column {
-    width: 60%; /* 内容カラムを広げる */
-    word-wrap: break-word; /* 必要に応じて折り返しを有効にする */
-    white-space: normal; /* テキストが長すぎる場合は折り返す */
+    width: 60%;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
-/* テーブルの全体的なスタイル調整 */
 .table {
-    table-layout: fixed; /* 固定レイアウトでカラム幅を制御 */
-    width: 100%; /* テーブル全体の幅を確保 */
+    table-layout: fixed;
+    width: 100%;
 }
 
 .table tbody tr {
-    height: 80.98px; /* すべての行の高さを固定 */
+    height: 80.98px;
 }
 
-/* 見出し1のフォントスタイル */
 h1 {
-    font-family: 'Playfair Display', serif; /* 高級感あるフォント */
-    font-size: 2.5rem; /* 見出し1の文字サイズ */
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
     font-weight: 700;
-    color: #2c3e50; /* ダークブルー系の色 */
+    color: #2c3e50;
     margin-bottom: 20px;
 }
 
-/* 見出し2のフォントスタイル */
 h2 {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     font-weight: 600;
-    color: #34495e; /* 少し薄めの色 */
+    color: #34495e;
     margin-bottom: 15px;
 }
 
-/* 見出し3のフォントスタイル */
 h3 {
     font-family: 'Roboto', sans-serif;
     font-size: 1.75rem;
     font-weight: 500;
-    color: #7f8c8d; /* グレー寄りの色 */
+    color: #7f8c8d;
     margin-bottom: 10px;
 }
 
-/* パラグラフのスタイル */
 p {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     color: #333;
     margin-bottom: 15px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+h1 {
+    color: black;
+    font-family: Arial, sans-serif;
+    display: flex;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 50;
+    font-size: 5ch;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+form {
+    background: white;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.flex-container {
+    width: 250px;
+    height: 100vh;
+    background-color: #0595c5;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
+}
+
+.container {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #fff;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+a:hover {
+    background: linear-gradient(to right, #0056b3, #007bff);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    margin-left: 75px;
+}
+
+
+form {
+    background: #ffffff;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+form input {
+    margin-bottom: 20px;
+    padding: 12px;
+    width: 92%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+form input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+form button {
+    padding: 14px;
+    width: 100%;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    background: linear-gradient(to right, #0056b3, #007bff);
+    transform: scale(1.02);
+}
+
+.link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.link a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.link a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.harassment-detail {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.harassment-header {
+    margin-bottom: 20px;
+}
+
+.harassment-header h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.report-time {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.harassment-body .report-detail {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.report-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
+}
+
+.container {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+form {
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+button[type="submit"] {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(to right, #0056b3, #007bff);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+form .errorlist {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 100px 100px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #eef2f3, #8e9eab);
+}
+
+container {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+form {
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+button[type="submit"] {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(to right, #0056b3, #007bff);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+form .errorlist {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+
+.table {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
