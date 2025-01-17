@@ -53,9 +53,14 @@ class Harassment_report(models.Model):
         null=True,
     )
     report_title = models.CharField(verbose_name=_("タイトル"),null=False,blank=False,max_length=50,default="",)
-    report_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
-    report_image = models.ImageField(verbose_name=_("画像"),null=True,blank=True,upload_to='images/')
+    report_detail = models.TextField(verbose_name=_("内容"),null=False)
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
+
+# 画像
+class HarassmentReportImage(models.Model):
+    report = models.ForeignKey(Harassment_report, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(verbose_name=_("画像"),null=True,blank=True,upload_to='images/')
+    uploaded_at = models.DateTimeField(verbose_name=_("アップロード日時"),default=timezone.now)
 
 # エラー報告
 class Error_report(models.Model):

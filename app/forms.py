@@ -43,9 +43,15 @@ class ErrorReportForm(forms.ModelForm):
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
+    images = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        required=False,
+        label="画像を追加"
+    )
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail","report_image","report_time")
+        fields = ("id","report_title","report_detail","report_time")
+        
 
 # ID確認
 class CheckIdForm(forms.Form):

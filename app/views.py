@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification
+from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -407,7 +407,10 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
         if form.is_valid():
             harassment_report = form.save(commit=False)  # フォームの save を呼び出す
             harassment_report.company_id = request.user.company.id # ログインユーザーの企業IDを登録
-            form.save()
+            harassment_report.save()
+            images = request.FILES.getlist('images')  # 複数画像を取得
+            for img in images:
+                HarassmentReportImage.objects.create(report=harassment_report, image=img)  # 画像を保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
     
