@@ -511,23 +511,32 @@ def send_email(to_email, user):
         fail_silently=False,
     )
 
+def send_email(to_email, user):
+    token = jwt.encode(
+        {'user_id': user.id, 'exp': timezone.now() + timezone.timedelta(hours=1)},  # timezoneを使用
+        settings.SECRET_KEY,
+        algorithm='HS256'
+    )
+    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
+    subject = 'へらすめんと　パスワード再設定'  # メールの件名
+    message = f'パスワード再設定用のURLです: {url}'  # 内容
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [to_email],
+        fail_silently=False,
+    )
+
 class SendEmailView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendEmailForm
     success_url = reverse_lazy("app:pw_send_comp")
 
     def get(self, request):
-        account_id = request.session.get('account_id')
-        user = Users.objects.filter(account_id=account_id).first()
-        if not user or not user.superuser_flag:
-            return redirect("app:check_id")
-        
-        form = self.form_class
+        form = self.form_class()
         return render(request, self.template_name, {"form": form})
     
-        form = self.form_class()
-        return render(request, self.template_name, {"form": form})  
-
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
