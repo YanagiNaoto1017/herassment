@@ -46,14 +46,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID')),
                 ('company_id', models.CharField(max_length=50, null=True, verbose_name='企業ID')),
-<<<<<<< HEAD
                 ('report_title', models.CharField(default='', max_length=50, verbose_name='タイトル')),
                 ('report_detail', models.TextField(verbose_name='内容')),
                 ('report_image', models.ImageField(blank=True, null=True, upload_to='images/', verbose_name='画像')),
-=======
-                ('report_detail', models.TextField(verbose_name='内容')),
-                ('report_image', models.CharField(blank=True, max_length=100, null=True, verbose_name='画像')),
->>>>>>> parent of 1f053e1 (a)
                 ('report_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='報告日時')),
             ],
         ),
