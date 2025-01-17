@@ -456,7 +456,8 @@ class HarassmentDetailView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, pk):
         harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
-        return render(request, self.template_name, {"harassment_report": harassment_report})
+        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
+        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
 
 
 # アカウント情報確認画面
