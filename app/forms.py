@@ -49,7 +49,7 @@ class HarassmentReportForm(forms.ModelForm):
 
 # ID確認
 class CheckIdForm(forms.Form):
-    account_id = forms.CharField(label='IDを入力してください', max_length=100)
+    account_id = forms.CharField(label='ユーザーID', max_length=100)
 
 # メール送信
 class SendEmailForm(forms.Form):
@@ -82,4 +82,14 @@ class CustomPasswordChangeForm(forms.Form):
 class SearchForm(forms.Form):
     search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
 
-#校正
+
+#メールからのパスワード変更
+class MailPWChangeForm(forms.Form):
+    new_password = forms.CharField(
+        label=("新しいパスワード"),
+        max_length=500,
+    )
+    new_password2 = forms.CharField(
+        label=("パスワードの確認"),
+        max_length=500,
+    )
