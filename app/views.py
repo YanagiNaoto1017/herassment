@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm
+from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm,MailChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
 from django.contrib.auth import logout
@@ -603,10 +603,34 @@ class PasswordChangeView(LoginRequiredMixin,TemplateView):
             update_session_auth_hash(request, user) # ログインを継続
             return redirect(self.success_url) 
         return render(request, self.template_name, {"form": form})  
+    
+# メールアドレス変更画面
+class EmailChangeView(LoginRequiredMixin,TemplateView):
+    template_name = 'email_change.html'  # メールアドレス変更用のテンプレート
+    form_class = MailChangeForm
+    success_url = reverse_lazy("app:email_change_comp")
+    
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        user = Users.objects.get(id=request.user.id) # ログインユーザーの情報を取得
+        if form.is_valid():
+            new_email = form.cleaned_data['new_email'] # 入力されたメールアドレス
+            user.email = new_email # メールアドレスを更新
+            user.save() # 保存
+            return redirect(self.success_url) 
+        return render(request, self.template_name, {"form": form})
 
 # PWリセット完了画面
 class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
+
+# メールアドレス変更完了画面
+class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
 
 # PWリセット通知
 class NotificationView(LoginRequiredMixin,TemplateView):
