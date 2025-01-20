@@ -23,6 +23,10 @@ import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
+from transformers import BertForSequenceClassification, BertTokenizer
+import torch
+import torch.nn.functional as F
+from decimal import Decimal, ROUND_DOWN
 
 # メール送信関数
 def send_email(to_email, subject, message):
@@ -288,12 +292,42 @@ class DetectionView(LoginRequiredMixin,TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        nlp = spacy.load("ja_core_news_sm") # モデルのロード
         form = self.form_class(request.POST)
         if form.is_valid():
             input_text = form.cleaned_data['input_text'] # 入力されたテキスト
+
+            # 日本語BERTモデルとトークナイザーをロード
+            model_name = "cl-tohoku/bert-base-japanese"
+            model = BertForSequenceClassification.from_pretrained(model_name)
+            tokenizer = BertTokenizer.from_pretrained(model_name)
+
+            # テキストをトークン化
+            input = tokenizer(input_text, return_tensors="pt", truncation=True, padding=True)
+
+             # モデルで予測
+            with torch.no_grad():
+                logits = model(**input).logits
+
+            # softmaxを適用して確率を計算
+            probabilities = F.softmax(logits, dim=-1)
+
+            # 各クラスの確率（感情スコア）
+            positive_prob = probabilities[0][1].item()  # Positiveクラスの確率
+            negative_prob = probabilities[0][0].item()  # Negativeクラスの確率
+
+            # 予測された感情（0 = Negative, 1 = Positive）
+            predicted_class = torch.argmax(logits, dim=1).item()
+
+            sentiment = "Positive" if predicted_class == 1 else "Negative"
+            print('🔥')
+            print(f"Text: {input_text}")
+            print(f"Sentiment: {sentiment}")
+            print(f"Positive Probability: {positive_prob:.4f}")
+            print(f"Negative Probability: {negative_prob:.4f}")
+            print("-" * 50)
             
-            doc = nlp(input_text) # テキストを解析
+            nlp = spacy.load("ja_core_news_sm") # モデルのロード
+            doc = nlp(input_text) # 入力テキストを単語に分割
 
             keywords = Dictionary.objects.values_list('keyword', flat=True) # 辞書からキーワードを取得
 
@@ -302,13 +336,30 @@ class DetectionView(LoginRequiredMixin,TemplateView):
             # 検出単語がある場合
             if detected_words:
                 print('検出あり')
+                print(detected_words)
 
                 text_instance = Text.objects.create(
                     input_text=input_text, # 入力されたテキストを保存
                     harassment_flag=True, # ハラスメントフラグをTrue
                     detected_words=', '.join(detected_words) if detected_words else None
                 )
-                return render(request, self.template_name, {'form': form, 'text': text_instance})
+
+                if sentiment == "Positive":
+                    sentiment = "ポジティブ"
+                elif sentiment == "Negative":
+                    sentiment = "ネガティブ"
+
+                # 小数点第3位まで表示
+                positive_prob = Decimal(positive_prob*100).quantize(Decimal('0.01'))
+                negative_prob = Decimal(negative_prob*100).quantize(Decimal('0.01'))
+
+                return render(request, self.template_name, {
+                    'form': form,
+                    'text': text_instance,
+                    'sentiment': sentiment,
+                    'positive_prob': positive_prob,
+                    'negative_prob': negative_prob,
+                    })
             
             # 検出単語がない場合
             else:

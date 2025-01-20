@@ -46,6 +46,11 @@
         </div>
         {% else %}
         {% endif %}
+        <div>
+            <p>感情：{{ sentiment }}</p>
+            <p>ポジティブ：{{ positive_prob }}%</p>
+            <p>ネガティブ：{{ negative_prob }}%</p>
+        </div>
     </form>
 </div>
 {% endblock %}
