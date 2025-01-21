@@ -103,7 +103,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        admin_list = Users.objects.filter(admin_flag=True)  # 管理者を取得
+        admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')  # 管理者を取得
         paginator = Paginator(admin_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -117,7 +117,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            admin_list = Users.objects.filter(admin_flag=True)
+            admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -130,7 +130,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            admin_list = admin_list.filter(filters)
+            admin_list = admin_list.filter(filters).order_by('-created_at')
 
             paginator = Paginator(admin_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -144,7 +144,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        company_list = Company.objects.all() # 企業を取得
+        company_list = Company.objects.all().order_by('-created_at') # 企業を取得
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -158,7 +158,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            company_list = Company.objects.all()
+            company_list = Company.objects.all().order_by('-created_at')
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -171,7 +171,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            company_list = company_list.filter(filters)
+            company_list = company_list.filter(filters).order_by('-created_at')
 
             paginator = Paginator(company_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -187,10 +187,10 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            user_list = Users.objects.filter(user_flag=True,company=request.user.company)  # 条件に一致するユーザーを取得
+            user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')  # 条件に一致するユーザーを取得
         # 管理者の場合
         elif request.user.admin_flag:
-            user_list = Users.objects.filter(user_flag=True)  # ユーザーを取得
+            user_list = Users.objects.filter(user_flag=True).order_by('-created_at')  # ユーザーを取得
 
         paginator = Paginator(user_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -207,7 +207,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
 
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                user_list = Users.objects.filter(user_flag=True,company=request.user.company)
+                user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')
 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -224,7 +224,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
 
             # 管理者の場合
             elif request.user.admin_flag:
-                user_list = Users.objects.filter(user_flag=True)
+                user_list = Users.objects.filter(user_flag=True).order_by('-created_at')
                 
                 filters = Q()  # 空のQオブジェクトを作成
 
@@ -237,7 +237,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
                     filters &= Q(created_at__lte=end_date)
 
                 # フィルタを適用してクエリセットを取得
-                user_list = user_list.filter(filters)
+                user_list = user_list.filter(filters).order_by('-created_at')
 
             paginator = Paginator(user_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -252,7 +252,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        error_list = Error_report.objects.all() # エラー報告を取得
+        error_list = Error_report.objects.all().order_by('-report_time') # エラー報告を取得
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -265,7 +265,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            error_report = Error_report.objects.all()
+            error_report = Error_report.objects.all().order_by('-report_time')
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -276,7 +276,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(report_time__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            error_list = error_report.filter(filters)
+            error_list = error_report.filter(filters).order_by('-report_time')
 
             paginator = Paginator(error_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -474,7 +474,7 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
     form_class = SearchForm
 
     def get(self, request):
-        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id) # 同じ企業IDのハラスメント報告を取得
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
         paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -487,7 +487,7 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
 
-            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id)
+            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
 
             filters = Q()  # 空のQオブジェクトを作成
 
@@ -497,7 +497,7 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
                 filters &= Q(report_time__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
-            harassment_list = harassment_list.filter(filters)
+            harassment_list = harassment_list.filter(filters).order_by('-report_time')
 
             paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
             page_number = request.GET.get('page') # 現在のページ番号を取得
