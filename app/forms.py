@@ -39,7 +39,7 @@ class LoginForm(AuthenticationForm):
 class ErrorReportForm(forms.ModelForm):
     class Meta:
         model = Error_report
-        fields = ("id","error_detail","report_time")
+        fields = ("id","error_detail",)
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
