@@ -1,24 +1,60 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h1>登録者一覧</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="search_text">名前:</label>
+        <input type="text" id="search_text" name="search_text" placeholder="名前で検索"
+            value="{{ form.search_text.value|default:'' }}">
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
+    </div>
+    <button type="submit" class="btn btn-primary">検索</button>
+</form>
+
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">企業名</th>
+            <th scope="col"></th>
+            {% if user.admin_flag %} <th scope="col">ID</th> {% endif %}
+            <th scope="col">ユーザー名</th>
+            {% if user.admin_flag %} <th scope="col">会社名</th> {% endif %}
+            <th scope="col">メールアドレス</th>
             <th scope="col">登録日時</th>
+            <th scope="col">操作</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in page_obj %}
         <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.company }}</td>
+            <td>{% if item.superuser_flag %} ★ {% endif %}</td>
+            {% if user.admin_flag %} <td>{{ item.account_id }}</td> {% endif %}
+            <td>{{ item.account_name }}</td>
+            {% if user.admin_flag %} <td>{{ item.company }}</td> {% endif %}
+            <td>{{ item.email }}</td>
             <td>{{ item.created_at }}</td>
+            <td>
+                {% if user.superuser_flag %}
+                {% if item.superuser_flag %}
+                <a href="{% url 'app:send_superuser_delete' item.pk %}">削除要請</a>
+                {% else %}
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+                {% endif %}
+                {% elif user.admin_flag %}
+                {% if item.superuser_flag %}
+                <a href="{% url 'app:user_delete' item.pk %}">削除</a>
+                {% endif %}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}

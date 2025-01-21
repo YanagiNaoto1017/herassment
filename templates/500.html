@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 Internal Server Error</title>
+    <style>
+body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(145deg, #f0f8ff, #d3e0ea); /* 優しい青系グラデーション */
+        color: #333; /* 読みやすい文字色 */
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    /* コンテナスタイル */
+    .container {
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 柔らかい影 */
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+        animation: shake 0.5s infinite; /* エラーっぽい振動 */
+    }
+    
+    /* タイトル */
+    h1 {
+        font-size: 3rem;
+        margin: 0;
+        color: #ff6f61; /* 優しい赤系でアクセント */
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(255, 111, 97, 0.2);
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin: 10px 0 20px;
+        color: #555;
+    }
+    
+    /* 戻るボタン */
+    .back-link {
+        display: inline-block;
+        font-size: 1rem;
+        color: #fff;
+        background: #007bff;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+        transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    
+    .back-link:hover {
+        background: #0056b3;
+        box-shadow: 0 6px 10px rgba(0, 123, 255, 0.4);
+        transform: scale(1.05);
+    }
+    
+    /* リンク以外の要素に余白 */
+    .container > * {
+        margin-bottom: 15px;
+    }
+    
+    /* 振動アニメーション */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-3px);
+    }
+    50% {
+        transform: translateX(3px);
+    }
+    75% {
+        transform: translateX(-3px);
+    }
+}
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>500 (Internal Server Error)</h1>
+        <h2>サーバーが予期しない条件が発生したためリクエストを実行できませんでした</h2>
+        <a href="javascript:history.back()" class="back-link">前の画面へ戻る</a>
+    </div>
+</body>
+
+</html>

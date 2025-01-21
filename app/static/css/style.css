@@ -1,151 +1,659 @@
-/* サイドバーの基本スタイル */
-.sidebar {
-    width: 250px; /* サイドバーの幅 */
-    height: 100vh; /* ビューポートの高さに合わせる */
-    background-color: #0595c5; /* 背景色 */
-    color: white; /* テキストの色 */
-    position: fixed; /* 固定位置 */
-    top: 0;
-    left: 0;
-    padding: 20px; /* 内側の余白 */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 影の効果 */
-    z-index: 1000;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap');
+
+/* グローバルスタイル */
+html, body {
+    height: 100%; /* ページ全体を100%の高さに */
+    margin: 0; /* ページ全体の余白を削除 */
+    display: flex;
+    flex-direction: column; /* コンテンツを縦に並べる */
+    font-family: 'Roboto', sans-serif;
 }
 
-/* サイドバーの見出し */
+/* サイドバーの基本スタイル */
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    background: linear-gradient(180deg, #f9f9f9, #e6f7f4); /* 優しいグラデーション */
+    color: rgb(34, 112, 93); /* 調和の取れた色合い */
+    position: fixed;
+    top: -20px;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2); /* 柔らかな影 */
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid rgba(119, 227, 202, 0.8); /* 控えめな枠線 */
+    border-radius: 8px; /* 角を丸める */
+}
+
+
 .sidebar-heading {
-    font-size: 1.2em; /* 見出しのサイズ */
-    margin: 20px 0 10px; /* 上下の余白 */
-    text-transform: uppercase; /* 大文字に変換 */
-    
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 /* サイドバーの区切り線 */
 .sidebar-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* 区切り線のスタイル */
-    margin: 10px 0; /* 上下の余白 */
+    border-top: 1px solid rgb(119, 227, 202);
+    margin: 5px 0;
 }
 
 /* リストアイテムのスタイル */
 .nav-item {
-    margin: 10px 0; /* 各アイテムの間隔 */
-    list-style: none; /* リストのドットを消す */
+    margin: 5px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
 }
 
-/* リンクのスタイル */
+/* アイコンとテキストの配置 */
+.nav-item .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
 .nav-link {
-    color: white; /* リンクの色 */
-    text-decoration: none; /* 下線を消す */
-    display: block; /* ブロック要素にする */
-    padding: 10px 15px; /* 内側の余白 */
-    transition: background-color 0.3s; /* ホバー時のアニメーション */
+    color: rgb(85, 167, 148);
+    text-decoration: none;
+    display: flex;
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: center; /* 横方向中央揃え */
+    padding: 12px 24px; /* 左右の余白を16pxに設定 */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 1.0em; /* 少し小さくする */
+    border: 1px solid rgb(119, 227, 202);
+    width: 200px; /* 幅を200pxに設定 */
+    /* box-sizing: border-box; padding や border の分も考慮する */
 }
-
 /* ホバー時のスタイル */
 .nav-link:hover {
-    background-color: #9bd9ee; /* ホバー時の背景色 */
+    background-color:rgb(85, 167, 148);
+    transform: translateX(5px);
 }
 
+/* アクティブリンクのスタイル */
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* スクロールバーのカスタマイズ */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
 /* コンテンツラッパーのスタイル */
 #content-wrapper {
-    margin-left: 250px; /* サイドバーの幅分だけ左にマージンを設定 */
-    padding: 20px;
+    margin-left: 275px;
+    flex: 1;
 }
 
 /* メインコンテンツのスタイル */
 #content {
-    padding: 20px;
-    background-color: #f8f9fa; /* メインコンテンツの背景色 */
-    min-height: 100vh; /* ビューポートの高さに合わせる */
+    background-color: #ffffff;
+    min-height: 83vh;
 }
 
 /* フレックスコンテナのスタイル */
 .flex-container {
-    display: flex; /* フレックスボックスを有効にする */
-    justify-content: flex-start; /* ボックスを左寄せにする */
-    align-items: flex-start; /* アイテムを上部に揃える */
-    margin: 20px 0; /* フレックスコンテナの余白 */
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 20px 0;
 }
 
 /* リストグループのスタイル */
 .list-group {
-    list-style: none; /* リストのドットを消す */
-    padding: 0; /* パディングをリセット */
-    margin: 0; /* マージンをリセット */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: center; /* 横方向中央揃え */
 }
 
 /* 中央ボックスのスタイル */
 .center-box {
-    border: 2px solid #0595c5; /* 枠の色 */
-    border-radius: 16px; /* 角を丸くする */
-    padding: 10px; /* 内側の余白 */
-    background-color: #ffffff; /* 背景色 */
-    margin: 30px auto; /* ボックスの周りの余白 */
-    flex: 0 0 600px; /* 横幅を300pxに固定 */
-    text-align: center; /* テキストを中央に配置 */
+    border: 2px solid #0595c5;
+    border-radius: 16px;
+    padding: 10px;
+    background-color: #ffffff;
+    margin: 30px auto;
+    flex: 0 0 600px;
+    text-align: center;
 }
 
 /* ヘッダーのスタイル */
 header {
-    background-color: #f8f9fa; /* ヘッダーの背景色 */
-    padding: 20px; /* 内側の余白 */
-    text-align: center; /* テキストを中央に配置 */
+    background-color: #ffffff;
+    text-align: center;
 }
 
 /* ヘッダー内のタイトルスタイル */
 header h1 {
-    margin: 0; /* マージンをリセット */
-    font-size: 2em; /* フォントサイズ */
-    color: #333; /* テキストの色 */
+    margin: 0;
+    font-size: 2em;
+    background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
+    -webkit-background-clip: text; /* WebKitブラウザ向け */
+    background-clip: text; /* 標準プロパティ */
+    -webkit-text-fill-color: transparent; /* WebKitブラウザ向け */
 }
 
 /* フッターのスタイル */
 footer {
-    background-color: #8f959c; /* ヘッダーの背景色 */
-    padding: 20px; /* 内側の余白 */
-    text-align: center; /* テキストを中央に配置 */
+    background: #00787e;/* サイドバーと調和するグラデーション */
+    color: rgb(244, 246, 246); /* サイドバーと一致する色 */
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(119, 227, 202, 0.8); /* サイドバーと統一した枠線 */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 上部に柔らかな影 */
+    position: relative;
+    border-radius: 8px 8px 0 0; /* 上部角を丸める */
 }
 
+
+/* フォームやボタンのスタイル */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"]:active {
+    background-color: #004494;
+}
+
+/* フォームスタイル */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+/* 見出しスタイル */
+h1 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* リンクのスタイル */
+a {
+    display: inline-block;
+    text-decoration: none; /* 下線なし */
+    font-size: 1rem;
+    color: #3498db; /* リンク色 */
+    padding: 12px 24px; /* より広いパディング */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* より柔らかい影 */
+    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #ffffff; /* 背景色 */
+    margin: 2px;
+    
+}
+
+a:hover,
+a:focus {
+    background-color: #3498db; /* ホバー時の背景色 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
+    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
+    color: #ffffff; 
+}
+
+a:active {
+    background-color: #2980b9; /* クリック時の背景色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
+    transform: translateY(0); /* クリック時に元に戻る */
+    color: #ffffff; 
+}
+
+
+/* フォームフィールドとラベルのスタイル */
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+/* 入力フィールドのスタイル */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 16px; /* 少し広めのパディング */
+    border: 2px solid #ccc; /* 明るいボーダー */
+    border-radius: 12px; /* 角を丸く、少し大きく */
+    font-size: 1rem; /* 適切なフォントサイズ */
+    background-color: #f9f9f9; /* 明るい背景色 */
+    color: #333; /* 文字色を少し濃く */
+    transition: all 0.3s ease; /* ボーダーと影のスムーズな遷移 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを統一 */
+}
+
+/* フォーカス時のスタイル */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #4CAF50; /* フォーカス時のボーダー色 */
+    outline: none; /* フォーカス時のアウトラインを消す */
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* フォーカス時のボックスシャドウ */
+    background-color: #ffffff; /* フォーカス時の背景色変更 */
+}
+
+/* 入力フィールドのホバー時のスタイル */
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+select:hover,
+textarea:hover {
+    border-color: #888; /* ホバー時のボーダー色 */
+}
+
+/* プレースホルダーテキストのスタイル */
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="email"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #bbb; /* 薄いグレーでプレースホルダーテキストを表示 */
+    font-style: italic; /* イタリック体にして目立たせる */
+}
+
+/* 選択フィールドのスタイル */
+select {
+    -webkit-appearance: none; /* Safariなどでデフォルトのスタイルを無効化 */
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f9f9f9; /* 背景色 */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>'); /* ドロップダウンアイコン */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* アイコンの位置 */
+    padding-right: 35px; /* アイコンの余白 */
+}
+
+/* テキストエリアのスタイル */
+textarea {
+    resize: vertical; /* 縦のリサイズを可能に */
+    min-height: 120px; /* 最小高さを設定 */
+}
+
+
+/* エラーメッセージのスタイル */
+.error {
+    color: #e74c3c;
+    font-size: 0.85em;
+}
+
+/* ボタンスタイル */
+button {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+header .btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+header .btn-primary {
+    background-color: #20aa60;
+    color: white;
+}
+
+header .btn-logout {
+    background-color: #dc3545;
+    color: white;
+}
+
+header .btn:hover {
+    background-color: #b0b300;
+}
+
+/* ページネーション */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 30px 0;
+    list-style: none;
+    font-family: 'Arial', sans-serif;
+}
+
+/* ページアイテム */
+.page-item {
+    margin: 0 6px;
+}
+
+/* ページリンク */
+.page-item a,
+.page-item span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff; /* 初期背景色 */
+    border: 1px solid #007bff;
+    border-radius: 50px; /* 丸みを強調 */
+    transition: all 0.3s ease;
+}
+
+/* ホバー時のスタイル */
+.page-item a:hover,
+.page-item span:hover {
+    background-color: #0056b3; /* 少し濃い青に */
+    color: #fff;
+    cursor: pointer;
+    transform: scale(1.1); /* ホバー時に少し大きく */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
+}
+
+/* アクティブページのスタイル */
+.page-item.active span {
+    background-color: #28a745; /* アクティブなページは緑 */
+    color: white;
+    border-color: #28a745;
+}
+
+/* 無効なページのスタイル */
+.page-item.disabled a,
+.page-item.disabled span {
+    color: #6c757d;
+    background-color: #f8f9fa; /* グレーの背景色 */
+    border-color: #ddd;
+    pointer-events: none; /* クリック不可 */
+}
+
+/* フォーカス時のスタイル */
+.page-item a:focus,
+.page-item span:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
+}
+
+/* 「前へ」「次へ」ボタン */
+.page-item a[aria-label="Previous"],
+.page-item a[aria-label="Next"] {
+    font-size: 18px;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+/* アイコンボタンのスタイル (例: ページ番号の隣に矢印などを追加) */
+.page-item a[aria-label="Previous"]::before,
+.page-item a[aria-label="Next"]::before {
+    font-size: 18px;
+    margin: 0 6px;
+}
+
+/* 固定ボタン */
+.fixed-button {
+    position: fixed;
+    margin: 20px 0;
+    z-index: 1000;
+}
+
+/* プライマリボタンのスタイル */
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.primary-btn:active {
+    background-color: #f8fbff;
+}
+
+/* 検出・校正ボックスのスタイル */
+.detect-box,
+.proofreading-box {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブル風の影を追加 */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* 検出ボックス */
+.detect-box {
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #f4f8fb; /* 背景色 */
+}
+
+.detect-box:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+}
+
+.detect-box .list-group-item a {
+    color: #3498db; /* リンク色 */
+    text-decoration: none;
+}
+
+.detect-box .list-group-item a:hover {
+    color: #f8f8f8; /* ホバー時のリンク色 */
+}
+
+/* 校正ボックス */
+.proofreading-box {
+    border: 2px solid #3498db; /* ボーダー色 */
+    background-color: #f4f8fb; /* 背景色 */
+}
+
+.proofreading-box:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+}
+
+.proofreading-box .list-group-item a {
+    color: #3498db; /* リンク色 */
+    text-decoration: none;
+}
+
+.proofreading-box .list-group-item a:hover {
+    color: #2980b9; /* ホバー時のリンク色 */
+}
+
+/* 新しいセクション */
+.detect-box,
+.proofreading-box {
+    border-radius: 8px; /* 丸みを持たせる */
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* 白い背景に変更 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* アニメーション */
+}
+
+.detect-box .list-group-item a,
+.proofreading-box .list-group-item a {
+    color: #3498db; /* デフォルトのリンク色 */
+}
+
+.detect-box .list-group-item a:hover,
+.proofreading-box .list-group-item a:hover {
+    color: #eff2f3; /* ホバー時のリンク色 */
+}
+
+/* テーブルのスタイル */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブルに影をつけて立体感 */
 }
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
+
+/* テーブルのヘッダー */
 th {
-    background-color: #f2f2f2;
-}
-button {
-    background-color: #f44336; /* 赤色 */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #d32f2f;
+    background-color: #3498db; /* ヘッダーの背景色 */
+    color: #fff; /* ヘッダー文字色 */
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 20px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* ヘッダー文字の間隔を広げる */
+    border-bottom: 2px solid #2980b9; /* ヘッダー下に強調されたボーダー */
 }
 
-.fixed-button {
-    position: fixed;
-    margin: 20px 0; /* 上下の余白 */
-    z-index: 1000; /* 他の要素の上に表示 */
-    position: relative; /* フッターの一部として動かす */
+/* テーブルのセル */
+td {
+    padding: 12px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #333; /* テーブルの文字色 */
+    background-color: #fafafa; /* セルの背景色 */
+    border-bottom: 1px solid #ddd;
 }
 
-.btn-primary {
-    background-color: #007bff; /* ボタンの背景色 */
-    color: white; /* ボタンの文字色 */
-    padding: 10px 20px; /* ボタンの内側の余白 */
-    border: none; /* 枠線をなしに */
-    border-radius: 5px; /* 角を丸くする */
-    text-decoration: none; /* 下線をなしに */
-    transition: background-color 0.3s; /* ホバー時のアニメーション */
+/* 偶数行の背景色を少し変更 */
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3; /* ホバー時の背景色 */
+/* ホバー時の行の背景色 */
+tr:hover td {
+    background-color: #f0f8ff; /* ホバー時に薄い青色 */
+    cursor: pointer; /* ポインタが手のひらに変わる */
+}
+
+/* テーブルのボーダー */
+td, th {
+    border: 1px solid #ddd;
+}
+
+/* テーブル全体に枠線を設定 */
+table {
+    border-radius: 8px; /* 丸い角を追加 */
+    overflow: hidden; /* 角の丸みを維持 */
+}
+
+/* フォーカス時のセル */
+td:focus, th:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
+}
+
+/* 親要素を中央揃え */
+.center-container {
+    display: flex;
+    justify-content: center; /* 横方向の中央揃え */
+    margin: 0;
+    padding: 0;
+}
+
+/* テーブルのカラムスタイル */
+.date-column {
+    width: 20%; /* 日付カラムを狭める */
+    white-space: nowrap; /* 内容が折り返されないようにする */
+}
+
+.content-column {
+    width: 60%; /* 内容カラムを広げる */
+    word-wrap: break-word; /* 必要に応じて折り返しを有効にする */
+    white-space: normal; /* テキストが長すぎる場合は折り返す */
+}
+
+/* テーブルの全体的なスタイル調整 */
+.table {
+    table-layout: fixed; /* 固定レイアウトでカラム幅を制御 */
+    width: 100%; /* テーブル全体の幅を確保 */
+}
+
+.table tbody tr {
+    height: 80.98px; /* すべての行の高さを固定 */
+}
+
+/* 見出し1のフォントスタイル */
+h1 {
+    font-family: 'Playfair Display', serif; /* 高級感あるフォント */
+    font-size: 2.5rem; /* 見出し1の文字サイズ */
+    font-weight: 700;
+    color: #2c3e50; /* ダークブルー系の色 */
+    margin-bottom: 20px;
+}
+
+/* 見出し2のフォントスタイル */
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #34495e; /* 少し薄めの色 */
+    margin-bottom: 15px;
+}
+
+/* 見出し3のフォントスタイル */
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #7f8c8d; /* グレー寄りの色 */
+    margin-bottom: 10px;
+}
+
+/* パラグラフのスタイル */
+p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333;
+    margin-bottom: 15px;
 }

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>通知一覧</h1>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">名前</th>
+            <th scope="col">受信内容</th>
+            <th scope="col">受信日時</th>
+            <th scope="col">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% csrf_token %}
+        {% for item in page_obj %}
+        {% if user.superuser_flag and user.user_flag %}
+        <tr>
+            <td>{{ item.sender_name }}</td>
+            <td>パスワードリセットの申請</td>
+            <td>{{ item.created_at }}</td>
+            <td><a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a></td>
+        </tr>
+        {% elif user.admin_flag %}
+        <tr>
+            <td>{{ item.sender_name }}</td>
+            <td>スーパーユーザー削除の申請</td>
+            <td>{{ item.created_at }}</td>
+            <td><a href="{% url 'app:superuser_delete' item.sender_name %}">削除</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% include "pagination.html" %}
+{% endblock %}

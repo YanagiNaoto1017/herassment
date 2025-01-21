@@ -1,7 +1,18 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h1>エラー報告一覧</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
+    </div>
+    <button type="submit" class="btn btn-primary">検索</button>
+</form>
+
 <table class="table">
     <thead class="table-dark">
         <tr>
@@ -11,12 +22,13 @@
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in page_obj %}
         <tr>
-            <td>{{ item.created_at }}</td>
-            <td>{{ item.content }}</td>
+            <td>{{ item.report_time }}</td>
+            <td>{{ item.error_detail }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}

@@ -1,24 +1,43 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h1>企業一覧</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="search_text">検索:</label>
+        <input type="text" id="search_text" name="search_text" placeholder="IDまたは企業名で検索"
+            value="{{ form.search_text.value|default:'' }}">
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
+    </div>
+    <button type="submit" class="btn btn-primary">検索</button>
+</form>
+
 <table class="table">
     <thead class="table-dark">
         <tr>
             <th scope="col">企業ID</th>
             <th scope="col">企業名</th>
             <th scope="col">登録日時</th>
+            <th scope="col">操作</th>
         </tr>
     </thead>
     <tbody>
         {% csrf_token %}
-        {% for item in object_list %}
+        {% for item in page_obj %}
         <tr>
             <td>{{ item.id }}</td>
             <td>{{ item.company_name }}</td>
             <td>{{ item.created_at }}</td>
+            <td>
+                <a href="{% url 'app:company_delete' item.pk %}">削除</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% include "pagination.html" %}
 {% endblock %}
