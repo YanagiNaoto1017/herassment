@@ -7,7 +7,7 @@
     {% csrf_token %}
     <div>
         <label for="search_text">名前:</label>
-        <input type="text" id="search_text" name="search_text" placeholder="名前で検索"
+        <input type="text" id="search_text" name="search_text" placeholder="IDまたは名前で検索"
             value="{{ form.search_text.value|default:'' }}">
         <label for="start_date">開始日:</label>
         <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
@@ -21,7 +21,7 @@
     <thead class="table-dark">
         <tr>
             <th scope="col"></th>
-            {% if user.admin_flag %} <th scope="col">ID</th> {% endif %}
+            <th scope="col">ID</th>
             <th scope="col">ユーザー名</th>
             {% if user.admin_flag %} <th scope="col">会社名</th> {% endif %}
             <th scope="col">メールアドレス</th>
@@ -34,7 +34,7 @@
         {% for item in page_obj %}
         <tr>
             <td>{% if item.superuser_flag %} ★ {% endif %}</td>
-            {% if user.admin_flag %} <td>{{ item.account_id }}</td> {% endif %}
+            <td>{{ item.account_id }}</td>
             <td>{{ item.account_name }}</td>
             {% if user.admin_flag %} <td>{{ item.company }}</td> {% endif %}
             <td>{{ item.email }}</td>
