@@ -650,6 +650,7 @@ class PasswordChangeView(LoginRequiredMixin,TemplateView):
             new_password = form.cleaned_data['new_password'] # 入力されたパスワード
             new_password = make_password(new_password) # 入力されたパスワードをハッシュ化      
             user.password = new_password # パスワードを更新
+            user.update_at = timezone.now() # 更新日時を更新
             user.save() # 保存
             update_session_auth_hash(request, user) # ログインを継続
             return redirect(self.success_url) 
