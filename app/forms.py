@@ -50,7 +50,7 @@ class HarassmentReportForm(forms.ModelForm):
     )
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail","report_time")
+        fields = ("id","report_title","report_detail")
         
 
 # ID確認
