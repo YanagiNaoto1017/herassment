@@ -671,6 +671,7 @@ class EmailChangeView(LoginRequiredMixin,TemplateView):
         if form.is_valid():
             new_email = form.cleaned_data['new_email'] # 入力されたメールアドレス
             user.email = new_email # メールアドレスを更新
+            user.update_at = timezone.now() # 更新日時を更新
             user.save() # 保存
             return redirect(self.success_url) 
         return render(request, self.template_name, {"form": form})
