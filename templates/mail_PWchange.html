@@ -74,14 +74,15 @@
 <body>
     <h2>パスワード変更</h2>
     <div class="container">
-        <form method="post">
+        <form method="post" novalidate>
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% for field in form %}
-                <label>{{ field.label }}</label>
-                {{ field }}
-                {{ field.errors }}
-                <br>
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
             {% endfor %}
             <button type="submit">変更</button>
         </form>

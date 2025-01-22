@@ -23,7 +23,7 @@ urlpatterns = [
     
 
     # 管理者
-    path('admin_signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録
+    path('admin_signup/', views.SignupView.as_view(), name='admin_signup'), # 管理者新規登録 直打ちで
     path('company_signup', views.CompanySignupView.as_view(), name='company_signup'), # 企業登録
     path('superuser_signup', views.SuperUserSignupView.as_view(), name='superuser_signup'), # スーパーユーザー登録
     path('admin_list', views.AdminListView.as_view(), name='admin_list'), # 管理者一覧
@@ -37,7 +37,7 @@ urlpatterns = [
     path('report_complete', views.ReportCompleteView.as_view(), name='report_complete'), # 報告完了画面
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
     path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_comp'), # メール送信完了画面
-    path('pw_change_comp', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), # PWリセット完了画面
+    path('pw_change_complete', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), # PWリセット完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面

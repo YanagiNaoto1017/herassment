@@ -1,5 +1,3 @@
-
-
 from pyexpat.errors import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
@@ -39,7 +37,7 @@ class IndexView(LoginRequiredMixin,TemplateView):
     template_name = "index.html"
 
 # 管理者新規登録
-class SignupView(LoginRequiredMixin,CreateView):
+class SignupView(CreateView):
     form_class = AdminSignUpForm
     template_name = "admin_signup.html"
     success_url = reverse_lazy("app:complete")
@@ -478,11 +476,15 @@ class CheckIdView(TemplateView):
             account_id = form.cleaned_data['account_id'] # 入力されたアカウントID
             user = Users.objects.filter(account_id=account_id).first()  # 条件に一致するユーザー情報を取得
 
+
             # 入力されたアカウントIDが存在した場合
             if user:
                 self.request.session['account_id'] = user.account_id  # アカウントIDをセッションに保存
                 # スーパーユーザーの場合
                 if user.superuser_flag:
+                    email = user.email
+                    print(f'{email}')
+                    send_email(email, user)
                     return redirect("app:send_email")
                 # ユーザーの場合
                 if user. user_flag and not user.superuser_flag:
@@ -497,23 +499,6 @@ class CheckIdView(TemplateView):
 def send_email(to_email, user):
     token = jwt.encode(
         {'user_id': user.id, 'exp': timezone.now() + timezone.timedelta(hours=1)},
-        settings.SECRET_KEY,
-        algorithm='HS256'
-    )
-    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
-    subject = 'へらすめんと　パスワード再設定'  # メールの件名
-    message = f'パスワード再設定用のURLです: {url}'  # 内容
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        [to_email],
-        fail_silently=False,
-    )
-
-def send_email(to_email, user):
-    token = jwt.encode(
-        {'user_id': user.id, 'exp': timezone.now() + timezone.timedelta(hours=1)},  # timezoneを使用
         settings.SECRET_KEY,
         algorithm='HS256'
     )
@@ -587,27 +572,44 @@ class SendSuperuserView(TemplateView):
 class PwSendCompleteView(TemplateView):
     template_name = "pw_send_comp.html"
     
-#パスワード変更画面
-class PasswordChangeView(LoginRequiredMixin,TemplateView):
-    template_name = 'mail_PWchange.html'  # パスワード変更用のテンプレート
+# パスワード変更画面
+class PasswordChangeView(LoginRequiredMixin, TemplateView):
+    template_name = 'password_change.html'  # パスワード変更用のテンプレート
     form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("app:pw_change_complete")
     
     def get(self, request):
-        form = self.form_class
+        form = self.form_class()
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
         form = self.form_class(request.POST)
-        user = Users.objects.get(id=request.user.id) # ログインユーザーの情報を取得
-        if form.is_valid():
-            new_password = form.cleaned_data['new_password'] # 入力されたパスワード
-            new_password = make_password(new_password) # 入力されたパスワードをハッシュ化      
-            user.password = new_password # パスワードを更新
-            user.save() # 保存
-            update_session_auth_hash(request, user) # ログインを継続
-            return redirect(self.success_url) 
-        return render(request, self.template_name, {"form": form})  
+
+        # パスワードフィールドの入力チェック
+        new_password = request.POST.get('new_password', '')
+        new_password2 = request.POST.get('new_password2', '')
+
+        if not new_password or not new_password2:
+            form.add_error(None, "どちらも入力してください。")  # フォーム全体にエラーメッセージを追加
+        elif form.is_valid():
+            # パスワードの長さをチェック
+            if len(new_password) < 4:
+                form.add_error('new_password', "パスワードは4文字以上でなければなりません。")
+            elif new_password != new_password2:
+                form.add_error('new_password2', "パスワードが一致しません。")
+            else:
+                user = request.user  # ログインしたユーザーを取得
+                user.set_password(new_password)  # パスワードをハッシュ化して保存
+                user.save()  # ユーザーを保存
+                print("パスワード変更完了")
+
+                # セッションの認証情報を更新
+                update_session_auth_hash(request, user)  # ログインを継続
+                return redirect(self.success_url)  # 成功した場合のリダイレクト
+
+        # フォームが無効な場合、またはエラーがある場合は再表示
+        return render(request, self.template_name, {'form': form})
+
 
 # PWリセット完了画面
 class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
@@ -745,20 +747,29 @@ class MailPWChangeView(TemplateView):
 
     def post(self, request):
         form = MailPWChangeForm(request.POST)
-        if form.is_valid():
-            new_password = form.cleaned_data['new_password']
-            new_password2 = form.cleaned_data['new_password2']
+        
+        # パスワードフィールドの入力チェック
+        new_password = request.POST.get('new_password', '')
+        new_password2 = request.POST.get('new_password2', '')
 
-            if new_password == new_password2:
+        if not new_password or not new_password2:
+            form.add_error(None, "どちらも入力してください。")  # フォーム全体にエラーメッセージを追加
+        elif form.is_valid():
+            # パスワードの長さをチェック
+            if len(new_password) < 4:
+                form.add_error('new_password', "パスワードは4文字以上でなければなりません。")
+            elif new_password != new_password2:
+                form.add_error('new_password2', "パスワードが一致しません。")
+            else:
                 user = request.user  # ログインしたユーザーを取得
                 user.set_password(new_password)  # パスワードをハッシュ化して保存
                 user.save()  # ユーザーを保存
+                print("パスワード変更完了")
                 return redirect(self.success_url)  # 成功した場合のリダイレクト
-            else:
-                form.add_error('new_password2', "パスワードが一致しません。")
-        
+
+        # フォームが無効な場合、またはエラーがある場合は再表示
         return render(request, self.template_name, {'form': form})
-    
+
 class MailPwCompleteView(TemplateView):
     template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
 
