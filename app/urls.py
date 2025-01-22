@@ -11,7 +11,6 @@ handler500 = custom_500_view
 
 urlpatterns = [
     path('', views.LoginView.as_view(), name='login'), # ログイン
-    path('user_login/', views.LoginView.as_view(), name='user_login'), # 明示的なログインURL
     path('logout/', views.LogoutView.as_view(), name='logout'), # ログアウト
     path('check_id/', views.CheckIdView.as_view(), name='check_id'), # ID確認
     path('send_email/', views.SendEmailView.as_view(), name='send_email'), # メール送信
