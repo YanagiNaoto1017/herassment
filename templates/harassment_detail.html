@@ -80,10 +80,12 @@
 
     <div class="harassment-body">
         <p class="report-detail">{{ harassment_report.report_detail }}</p>
-        {% if harassment_report.report_image %}
+        {% if harassment_report_img %}
+        {% for image in harassment_report_img.all %}
         <div class="report-image">
-            <img src="{{ harassment_report.report_image.url }}" alt="Report Image">
+            <img src="{{ image.image.url }}" alt="Report Image" alt="報告画像" style="max-width: 400px; height: auto;">
         </div>
+        {% endfor %}
         {% endif %}
     </div>
 </div>
