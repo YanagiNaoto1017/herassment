@@ -2,12 +2,20 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ValidationError
+import re
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Users
         fields = ("account_id","account_name","email",)
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
@@ -21,6 +29,12 @@ class SuperUserSignUpForm(UserCreationForm):
     class Meta:
         model = Users
         fields = ("account_id","account_name","company","email")
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
     
 # ユーザー登録
 class UserSignUpForm(UserCreationForm):
@@ -28,6 +42,12 @@ class UserSignUpForm(UserCreationForm):
     class Meta:
         model = Users
         fields = ("account_id","account_name")
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
     
 # ログイン
 class LoginForm(AuthenticationForm):
@@ -97,7 +117,6 @@ class SearchForm(forms.Form):
     search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
     start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
-
     search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
 
 
