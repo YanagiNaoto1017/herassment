@@ -99,3 +99,8 @@ python -m pip install Pillow
 
 # jwtのインストール
 pip install djangorestframework-simplejwt
+
+pip install nltk
+
+pip install transformers
+pip install torch

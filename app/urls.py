@@ -38,6 +38,7 @@ urlpatterns = [
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
     path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_comp'), # メール送信完了画面
     path('pw_change_comp', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), # PWリセット完了画面
+    path('email_change_comp', views.EmailChangeCompleteView.as_view(), name='email_change_comp'), # メールアドレス変更完了画面
     
     # ユーザー
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
@@ -48,6 +49,7 @@ urlpatterns = [
     path('user/error_report/', views.ErrorReportView.as_view(), name='error_report'), #エラー報告画面 
     path('user/account_info/', views.AccountInfoView.as_view(), name='account_info'), #アカウント情報確認画面
     path('user/password_change/', views.PasswordChangeView.as_view(), name='password_change'), #パスワード変更画面
+    path('user/email_change/', views.EmailChangeView.as_view(), name='email_change'), #メールアドレス変更画面
     path('user/notification', views.NotificationView.as_view(), name='notification'), #PWリセット通知
     path('user/user_delete/<int:pk>/', views.UserDeleteView.as_view(), name='user_delete'), # ユーザー削除
     path('user/company_delete/<int:pk>/', views.CompanyDeleteView.as_view(), name='company_delete'), # 企業削除

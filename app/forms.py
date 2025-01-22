@@ -59,7 +59,7 @@ class LoginForm(AuthenticationForm):
 class ErrorReportForm(forms.ModelForm):
     class Meta:
         model = Error_report
-        fields = ("id","error_detail","report_time")
+        fields = ("id","error_detail",)
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
@@ -70,7 +70,7 @@ class HarassmentReportForm(forms.ModelForm):
     )
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail","report_time")
+        fields = ("id","report_title","report_detail")
         
 
 # ID確認
@@ -108,6 +108,10 @@ class CustomPasswordChangeForm(forms.Form):
         label=("パスワードの確認"),
         max_length=500,
     )
+
+# メールアドレス変更
+class MailChangeForm(forms.Form):
+    new_email = forms.EmailField(label='新しいメールアドレス')
         
 class SearchForm(forms.Form):
     search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
