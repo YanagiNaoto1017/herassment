@@ -91,8 +91,8 @@ class Users(AbstractBaseUser,PermissionsMixin):
         null=True,
     )
     account_name = models.CharField(
-        verbose_name=_("ユーザー名"),
-        max_length=100,
+        verbose_name=_("ユーザーネーム"),
+        max_length=50,
         null=False,
         default="",
     )
