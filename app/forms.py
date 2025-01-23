@@ -4,6 +4,7 @@ from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 import re
+from django.core.validators import RegexValidator
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
@@ -102,11 +103,28 @@ class DetectionForm(forms.Form):
 class CustomPasswordChangeForm(forms.Form):
     new_password = forms.CharField(
         label=("新しいパスワード"),
-        max_length=500,
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+
     )
     new_password2 = forms.CharField(
         label=("パスワードの確認"),
-        max_length=500,
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
     )
 
 # メールアドレス変更
@@ -124,9 +142,25 @@ class SearchForm(forms.Form):
 class MailPWChangeForm(forms.Form):
     new_password = forms.CharField(
         label=("新しいパスワード"),
+        min_length=8,
         max_length=500,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
     )
     new_password2 = forms.CharField(
         label=("パスワードの確認"),
+        min_length=8,
         max_length=500,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
     )
