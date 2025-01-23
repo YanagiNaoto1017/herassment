@@ -142,15 +142,27 @@ class ErrorReportForm(forms.ModelForm):
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
+    class Meta:
+        model = Harassment_report
+        fields = ("id","report_title","report_detail")
+
+    # 画像アップロード
     images = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}),
         required=False,
         label="画像を追加"
     )
-    class Meta:
-        model = Harassment_report
-        fields = ("id","report_title","report_detail")
-        
+
+    report_title = forms.CharField(
+        label=("タイトル"),
+        max_length=100,
+    )
+
+    report_detail = forms.CharField(
+        label=("内容"),
+        max_length=500,
+        widget=forms.Textarea(attrs={'placeholder': '報告内容を入力してください'},),
+    )
 
 # ID確認
 class CheckIdForm(forms.Form):
