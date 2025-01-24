@@ -699,10 +699,15 @@ class NotificationView(LoginRequiredMixin,TemplateView):
         if request.user.superuser_flag:
             # 条件に一致する通知を取得
             notifications = Notification.objects.filter(
+                Q(
                 company_id=request.user.company.id,
-                destination=request.user.account_name,
+                destination=request.user.account_name, # 送り先が自分
                 genre='1',
-                is_read=False
+                is_read=False,
+                ) | Q(
+                    company_id=request.user.company.id,
+                    genre='2',
+                )
             )
         # 管理者の場合  
         elif request.user.admin_flag:
@@ -728,6 +733,19 @@ class UserDeleteView(DeleteView):
         if not request.user.superuser_flag:
             return HttpResponseForbidden(render(request, '403.html'))
         return super().get(request, *args, **kwargs)
+    
+    def post(self, request, pk):
+        if request.method == 'POST':
+            user = Users.objects.get(id=pk) # 選択したユーザーの情報を取得
+            # 削除するユーザーを通知テーブルに追加
+            Notification.objects.create(
+                sender_name = user.account_name,
+                company_id = request.user.company.id,
+                destination = request.user.account_name,
+                genre = '2',
+                is_read = True,
+            )
+        return redirect(self.success_url)
 
 # 管理者削除
 class AdminDeleteView(DeleteView):
