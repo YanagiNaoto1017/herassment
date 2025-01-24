@@ -699,10 +699,15 @@ class NotificationView(LoginRequiredMixin,TemplateView):
         if request.user.superuser_flag:
             # 条件に一致する通知を取得
             notifications = Notification.objects.filter(
+                Q(
                 company_id=request.user.company.id,
-                destination=request.user.account_name,
+                destination=request.user.account_name, # 送り先が自分
                 genre='1',
-                is_read=False
+                is_read=False,
+                ) | Q(
+                    company_id=request.user.company.id,
+                    genre='2',
+                )
             )
         # 管理者の場合  
         elif request.user.admin_flag:
