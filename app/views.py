@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.http import HttpResponseForbidden
 
+import re
 import jwt
 import spacy
 from django.core.mail import send_mail
@@ -652,6 +653,9 @@ class PasswordChangeView(LoginRequiredMixin, TemplateView):
                 form.add_error('new_password', "パスワードは4文字以上でなければなりません。")
             elif new_password != new_password2:
                 form.add_error('new_password2', "パスワードが一致しません。")
+            elif re.match(r'^[a-zA-Z0-9]+$', new_password) is None:
+                # 半角英数字のみのチェック
+                form.add_error('new_password', "パスワードは半角英数字のみでなければなりません。")
             else:
                 user = request.user  # ログインしたユーザーを取得
                 user.set_password(new_password)  # パスワードをハッシュ化して保存
@@ -663,18 +667,7 @@ class PasswordChangeView(LoginRequiredMixin, TemplateView):
                 return redirect(self.success_url)  # 成功した場合のリダイレクト
 
         # フォームが無効な場合、またはエラーがある場合は再表示
-        return render(request, self.template_name, {'form': form})
-
-        user = Users.objects.get(id=request.user.id) # ログインユーザーの情報を取得
-        if form.is_valid():
-            new_password = form.cleaned_data['new_password'] # 入力されたパスワード
-            new_password = make_password(new_password) # 入力されたパスワードをハッシュ化      
-            user.password = new_password # パスワードを更新
-            user.update_at = timezone.now() # 更新日時を更新
-            user.save() # 保存
-            update_session_auth_hash(request, user) # ログインを継続
-            return redirect(self.success_url) 
-        return render(request, self.template_name, {"form": form})  
+        return render(request, self.template_name, {'form': form}) 
     
 # メールアドレス変更画面
 class EmailChangeView(LoginRequiredMixin,TemplateView):
@@ -850,6 +843,9 @@ class MailPWChangeView(TemplateView):
                 form.add_error('new_password', "パスワードは4文字以上でなければなりません。")
             elif new_password != new_password2:
                 form.add_error('new_password2', "パスワードが一致しません。")
+            elif re.match(r'^[a-zA-Z0-9]+$', new_password) is None:
+                # 半角英数字のみのチェック
+                form.add_error('new_password', "パスワードは半角英数字のみでなければなりません。")
             else:
                 user = request.user  # ログインしたユーザーを取得
                 user.set_password(new_password)  # パスワードをハッシュ化して保存
