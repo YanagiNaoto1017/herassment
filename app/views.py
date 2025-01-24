@@ -47,6 +47,11 @@ class SignupView(CreateView):
     template_name = "admin_signup.html"
     success_url = reverse_lazy("app:complete")
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         user = form.save(commit=False)  # フォームの save を呼び出す
         user.admin_flag = True # 管理者フラグをTrue
@@ -64,11 +69,21 @@ class CompanySignupView(LoginRequiredMixin,CreateView):
     template_name = "company_signup.html"
     success_url = reverse_lazy("app:complete")
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
+
 # スーパーユーザー登録
 class SuperUserSignupView(LoginRequiredMixin,CreateView):
     form_class = SuperUserSignUpForm
     template_name = "superuser_signup.html"
     success_url = reverse_lazy("app:complete")
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.save(commit=False)  # フォームの save を呼び出す
@@ -101,6 +116,8 @@ class AdminListView(LoginRequiredMixin,TemplateView):
     form_class = SearchForm
 
     def get(self, request):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')  # 管理者を取得
         paginator = Paginator(admin_list, 10) # 1ページ当たり10件
@@ -142,6 +159,8 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
     form_class = SearchForm
 
     def get(self, request):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         company_list = Company.objects.all().order_by('-created_at') # 企業を取得
         paginator = Paginator(company_list, 10) # 1ページ当たり10件
@@ -190,6 +209,8 @@ class UserListView(LoginRequiredMixin,TemplateView):
         # 管理者の場合
         elif request.user.admin_flag:
             user_list = Users.objects.filter(user_flag=True).order_by('-created_at')  # ユーザーを取得
+        else:
+            return HttpResponseForbidden(render(request, '403.html'))
 
         paginator = Paginator(user_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -250,6 +271,8 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
     form_class = SearchForm
 
     def get(self, request):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         error_list = Error_report.objects.all().order_by('-report_time') # エラー報告を取得
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
@@ -286,7 +309,10 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
 class DetectionView(LoginRequiredMixin,TemplateView):
     template_name = 'detection.html'
     form_class = DetectionForm
+
     def get(self, request):
+        if not request.user.user_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         return render(request, self.template_name, {'form': form})
 
@@ -370,55 +396,17 @@ class DetectionView(LoginRequiredMixin,TemplateView):
                 )
                 return render(request, self.template_name, {'form': form, 'text': text_instance})
         return render(request, self.template_name, {'form': form})
-    
-
-# 校正画面
-class ProofreadingView(LoginRequiredMixin,TemplateView):
-    template_name = 'detection.html'
-    form_class = DetectionForm
-    def get(self, request):
-        form = self.form_class
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        nlp = spacy.load("ja_core_news_sm") # モデルのロード
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            input_text = form.cleaned_data['input_text'] # 入力されたテキスト
-            
-            doc = nlp(input_text) # テキストを解析
-
-            keywords = Dictionary.objects.values_list('keyword', flat=True) # 辞書からキーワードを取得
-
-            detected_words = [token.text for token in doc if token.text in keywords] # 辞書との照合
-
-            # 検出単語がある場合
-            if detected_words:
-                print('検出あり')
-
-                text_instance = Text.objects.create(
-                    input_text=input_text, # 入力されたテキストを保存
-                    harassment_flag=True, # ハラスメントフラグをTrue
-                    detected_words=', '.join(detected_words) if detected_words else None
-                )
-                return render(request, self.template_name, {'form': form, 'text': text_instance})
-            
-            # 検出単語がない場合
-            else:
-                print('検出なし')
-
-                text_instance = Text.objects.create(
-                    input_text=input_text, # 入力されたテキストを保存
-                    harassment_flag=False, # ハラスメントフラグをFalse
-                )
-                return render(request, self.template_name, {'form': form, 'text': text_instance})
-        return render(request, self.template_name, {'form': form})
 
 # ユーザー登録
 class UserSignupView(LoginRequiredMixin,CreateView):
     form_class = UserSignUpForm
     template_name = "user_signup.html"
     success_url = reverse_lazy("app:complete")
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.save(commit=False)  # フォームの save を呼び出す
@@ -435,6 +423,8 @@ class ErrorReportView(LoginRequiredMixin,TemplateView):
     success_url = reverse_lazy("app:report_complete")
 
     def get(self, request):
+        if not request.user.user_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         return render(request, self.template_name, {"form": form})
     
@@ -452,6 +442,8 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
     success_url = reverse_lazy("app:report_complete")
 
     def get(self, request):
+        if not request.user.user_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         return render(request, self.template_name, {"form": form})
     
@@ -473,6 +465,8 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
     form_class = SearchForm
 
     def get(self, request):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
         paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
@@ -508,6 +502,8 @@ class HarassmentDetailView(LoginRequiredMixin, TemplateView):
     template_name = "harassment_detail.html"
 
     def get(self, request, pk):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
         harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
         return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
@@ -516,6 +512,11 @@ class HarassmentDetailView(LoginRequiredMixin, TemplateView):
 # アカウント情報確認画面
 class AccountInfoView(LoginRequiredMixin,TemplateView):
     template_name = 'account_info.html'
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.user_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
 
 # ID確認
 class CheckIdView(TemplateView):
@@ -628,14 +629,16 @@ class SendSuperuserView(TemplateView):
 class PwSendCompleteView(TemplateView):
     template_name = "pw_send_comp.html"
     
-# パスワード変更画面
-class PasswordChangeView(LoginRequiredMixin, TemplateView):
+#アカウント情報からのパスワード変更画面
+class PasswordChangeView(LoginRequiredMixin,TemplateView):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
     form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("app:pw_change_complete")
     
     def get(self, request):
-        form = self.form_class()
+        if not request.user.user_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        form = self.form_class
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
@@ -676,6 +679,8 @@ class EmailChangeView(LoginRequiredMixin,TemplateView):
     success_url = reverse_lazy("app:email_change_comp")
     
     def get(self, request):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         return render(request, self.template_name, {"form": form})
 
@@ -719,6 +724,8 @@ class NotificationView(LoginRequiredMixin,TemplateView):
                 genre='2',
                 is_read=False
             )
+        else:
+            return HttpResponseForbidden(render(request, '403.html'))
         paginator = Paginator(notifications, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -730,11 +737,21 @@ class UserDeleteView(DeleteView):
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:user_list')
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
+
 # 管理者削除
 class AdminDeleteView(DeleteView):
     model = Users
     template_name = 'user_confirm_delete.html'
     success_url = reverse_lazy('app:admin_list')
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
 
 # 企業削除
 class CompanyDeleteView(DeleteView):
@@ -742,12 +759,19 @@ class CompanyDeleteView(DeleteView):
     template_name = 'company_confirm_delete.html'
     success_url = reverse_lazy('app:company_list')
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        return super().get(request, *args, **kwargs)
+
 # パスワードリセット
 class PasswordReset(LoginRequiredMixin, TemplateView):
     template_name = 'confirm_pw_reset.html'
     success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
         if not user:
             return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
@@ -775,6 +799,8 @@ class SendSuperuserDeleteView(LoginRequiredMixin, TemplateView):
     success_url = reverse_lazy('app:user_list')
 
     def get(self, request, pk):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         user = Users.objects.get(id=pk) # 選択したスーパーユーザーの情報を取得
         return render(request, self.template_name, {"object": user})
     
@@ -797,6 +823,8 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
     success_url = reverse_lazy('app:notification')
     
     def get(self, request, sender_name):
+        if not request.user.admin_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
         delete_user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
         return render(request, self.template_name, {"object": delete_user})
     
