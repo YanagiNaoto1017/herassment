@@ -47,9 +47,9 @@ class Company(models.Model):
 # ハラスメント報告
 class Harassment_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
-    company_id = models.CharField(
-        verbose_name=_("企業ID"),
-        max_length=50,
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE,
+        verbose_name=_("企業id"),
         null=True,
     )
     report_title = models.CharField(verbose_name=_("タイトル"),null=False,blank=False,max_length=50,default="",)
