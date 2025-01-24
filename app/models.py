@@ -114,6 +114,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(
         verbose_name=_("メールアドレス"),
         null=True,
+        unique=True,
     )
     user_flag = models.BooleanField(
         verbose_name=_("ユーザーフラグ"),
