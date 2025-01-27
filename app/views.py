@@ -690,7 +690,7 @@ class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
 class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
 
-# PWリセット通知
+# 通知
 class NotificationView(LoginRequiredMixin,TemplateView):
     template_name = 'notification.html'
 
@@ -698,24 +698,15 @@ class NotificationView(LoginRequiredMixin,TemplateView):
         # スーパーユーザーの場合
         if request.user.superuser_flag:
             # 条件に一致する通知を取得
-            notifications = Notification.objects.filter(
-                Q(
-                company_id=request.user.company.id,
-                destination=request.user.account_name, # 送り先が自分
-                genre='1',
-                is_read=False,
-                ) | Q(
-                    company_id=request.user.company.id,
-                    genre='2',
-                )
-            )
+            notifications = Notification.objects.filter(company_id=request.user.company.id,).order_by('-created_at')
+
         # 管理者の場合  
         elif request.user.admin_flag:
             # 条件に一致する通知を取得
             notifications = Notification.objects.filter(
                 genre='2',
                 is_read=False
-            )
+            ).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
         paginator = Paginator(notifications, 10) # 1ページ当たり10件
@@ -777,6 +768,7 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
     def get(self, request, sender_name):
         if not request.user.superuser_flag:
             return HttpResponseForbidden(render(request, '403.html'))
+        
         user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
         if not user:
             return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
@@ -787,14 +779,14 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
             user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
             if not user:
                 return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
+            user.password = user.start_password # 現在のPWを初期パスワードに変更
+            user.save()
             
             notification = Notification.objects.filter(sender_name=sender_name) # 選択した報告の情報を取得
             if not notification.exists():
                 return render(request, self.template_name, {"error": "通知が見つかりません。"})
-            
-            user.password = user.start_password # 現在のPWを初期パスワードに変更
-            user.save()
             notification.update(is_read=True)
+            
             return redirect(self.success_url)
         return render(request, self.template_name)
     
