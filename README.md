@@ -89,18 +89,18 @@ python -m spacy download ja_core_news_sm
 # static
 python manage.py collectstatic
 
-# 機械学習に関するインストール
-pip install pandas
-pip install joblib
-pip install scikit-learn
-
 # Pillowのインストール
 python -m pip install Pillow
 
 # jwtのインストール
 pip install djangorestframework-simplejwt
 
+# しなくても良い ↓↓↓
+# 感情分析のインストール
 pip install nltk
-
 pip install transformers
 pip install torch
+# 機械学習に関するインストール
+pip install pandas
+pip install joblib
+pip install scikit-learn
