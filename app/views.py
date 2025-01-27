@@ -23,10 +23,10 @@ import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
-from transformers import BertForSequenceClassification, BertTokenizer
-import torch
-import torch.nn.functional as F
-from decimal import Decimal, ROUND_DOWN
+# from transformers import BertForSequenceClassification, BertTokenizer
+# import torch
+# import torch.nn.functional as F
+# from decimal import Decimal, ROUND_DOWN
 
 # メール送信関数
 def send_email(to_email, subject, message):
@@ -322,35 +322,35 @@ class DetectionView(LoginRequiredMixin,TemplateView):
         if form.is_valid():
             input_text = form.cleaned_data['input_text'] # 入力されたテキスト
 
-            # 日本語BERTモデルとトークナイザーをロード
-            model_name = "cl-tohoku/bert-base-japanese"
-            model = BertForSequenceClassification.from_pretrained(model_name)
-            tokenizer = BertTokenizer.from_pretrained(model_name)
+            # # 日本語BERTモデルとトークナイザーをロード
+            # model_name = "cl-tohoku/bert-base-japanese"
+            # model = BertForSequenceClassification.from_pretrained(model_name)
+            # tokenizer = BertTokenizer.from_pretrained(model_name)
 
-            # テキストをトークン化
-            input = tokenizer(input_text, return_tensors="pt", truncation=True, padding=True)
+            # # テキストをトークン化
+            # input = tokenizer(input_text, return_tensors="pt", truncation=True, padding=True)
 
-             # モデルで予測
-            with torch.no_grad():
-                logits = model(**input).logits
+            #  # モデルで予測
+            # with torch.no_grad():
+            #     logits = model(**input).logits
 
-            # softmaxを適用して確率を計算
-            probabilities = F.softmax(logits, dim=-1)
+            # # softmaxを適用して確率を計算
+            # probabilities = F.softmax(logits, dim=-1)
 
-            # 各クラスの確率（感情スコア）
-            positive_prob = probabilities[0][1].item()  # Positiveクラスの確率
-            negative_prob = probabilities[0][0].item()  # Negativeクラスの確率
+            # # 各クラスの確率（感情スコア）
+            # positive_prob = probabilities[0][1].item()  # Positiveクラスの確率
+            # negative_prob = probabilities[0][0].item()  # Negativeクラスの確率
 
-            # 予測された感情（0 = Negative, 1 = Positive）
-            predicted_class = torch.argmax(logits, dim=1).item()
+            # # 予測された感情（0 = Negative, 1 = Positive）
+            # predicted_class = torch.argmax(logits, dim=1).item()
 
-            sentiment = "Positive" if predicted_class == 1 else "Negative"
-            print('🔥')
-            print(f"Text: {input_text}")
-            print(f"Sentiment: {sentiment}")
-            print(f"Positive Probability: {positive_prob:.4f}")
-            print(f"Negative Probability: {negative_prob:.4f}")
-            print("-" * 50)
+            # sentiment = "Positive" if predicted_class == 1 else "Negative"
+            # print('🔥')
+            # print(f"Text: {input_text}")
+            # print(f"Sentiment: {sentiment}")
+            # print(f"Positive Probability: {positive_prob:.4f}")
+            # print(f"Negative Probability: {negative_prob:.4f}")
+            # print("-" * 50)
             
             nlp = spacy.load("ja_core_news_sm") # モデルのロード
             doc = nlp(input_text) # 入力テキストを単語に分割
@@ -370,21 +370,21 @@ class DetectionView(LoginRequiredMixin,TemplateView):
                     detected_words=', '.join(detected_words) if detected_words else None
                 )
 
-                if sentiment == "Positive":
-                    sentiment = "ポジティブ"
-                elif sentiment == "Negative":
-                    sentiment = "ネガティブ"
+                # if sentiment == "Positive":
+                #     sentiment = "ポジティブ"
+                # elif sentiment == "Negative":
+                #     sentiment = "ネガティブ"
 
-                # 小数点第3位まで表示
-                positive_prob = Decimal(positive_prob*100).quantize(Decimal('0.01'))
-                negative_prob = Decimal(negative_prob*100).quantize(Decimal('0.01'))
+                # # 小数点第3位まで表示
+                # positive_prob = Decimal(positive_prob*100).quantize(Decimal('0.01'))
+                # negative_prob = Decimal(negative_prob*100).quantize(Decimal('0.01'))
 
                 return render(request, self.template_name, {
                     'form': form,
                     'text': text_instance,
-                    'sentiment': sentiment,
-                    'positive_prob': positive_prob,
-                    'negative_prob': negative_prob,
+                    # 'sentiment': sentiment,
+                    # 'positive_prob': positive_prob,
+                    # 'negative_prob': negative_prob,
                     })
             
             # 検出単語がない場合
@@ -690,7 +690,7 @@ class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
 class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
 
-# PWリセット通知
+# 通知
 class NotificationView(LoginRequiredMixin,TemplateView):
     template_name = 'notification.html'
 
@@ -698,24 +698,15 @@ class NotificationView(LoginRequiredMixin,TemplateView):
         # スーパーユーザーの場合
         if request.user.superuser_flag:
             # 条件に一致する通知を取得
-            notifications = Notification.objects.filter(
-                Q(
-                company_id=request.user.company.id,
-                destination=request.user.account_name, # 送り先が自分
-                genre='1',
-                is_read=False,
-                ) | Q(
-                    company_id=request.user.company.id,
-                    genre='2',
-                )
-            )
+            notifications = Notification.objects.filter(company_id=request.user.company.id,).order_by('-created_at')
+
         # 管理者の場合  
         elif request.user.admin_flag:
             # 条件に一致する通知を取得
             notifications = Notification.objects.filter(
                 genre='2',
                 is_read=False
-            )
+            ).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
         paginator = Paginator(notifications, 10) # 1ページ当たり10件
@@ -777,6 +768,7 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
     def get(self, request, sender_name):
         if not request.user.superuser_flag:
             return HttpResponseForbidden(render(request, '403.html'))
+        
         user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
         if not user:
             return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
@@ -787,14 +779,14 @@ class PasswordReset(LoginRequiredMixin, TemplateView):
             user = Users.objects.filter(account_name=sender_name).first() # 選択したユーザーの情報を取得
             if not user:
                 return render(request, self.template_name, {"error": "ユーザーが見つかりません。"})
+            user.password = user.start_password # 現在のPWを初期パスワードに変更
+            user.save()
             
             notification = Notification.objects.filter(sender_name=sender_name) # 選択した報告の情報を取得
             if not notification.exists():
                 return render(request, self.template_name, {"error": "通知が見つかりません。"})
-            
-            user.password = user.start_password # 現在のPWを初期パスワードに変更
-            user.save()
             notification.update(is_read=True)
+            
             return redirect(self.success_url)
         return render(request, self.template_name)
     
