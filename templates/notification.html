@@ -5,7 +5,6 @@
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">名前</th>
             <th scope="col">受信内容</th>
             <th scope="col">受信日時</th>
             <th scope="col">操作</th>
@@ -16,10 +15,15 @@
         {% for item in page_obj %}
         {% if user.superuser_flag and user.user_flag %}
         <tr>
-            <td>{{ item.sender_name }}</td>
-            <td>パスワードリセットの申請</td>
+            {% if item.genre == '1' %}<td>パスワードリセットの申請</td>
+            {% elif item.genre == '2' and not item.is_read %}<td>削除の申請中</td>
+            {% elif item.genre == '2' and item.is_read %}<td>{{ item.sender_name }}が削除されました</td>
+            {% endif %}
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a></td>
+            <td>
+                {% if item.genre == '1' %}<a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a>
+                {% endif %}
+            </td>
         </tr>
         {% elif user.admin_flag %}
         <tr>
