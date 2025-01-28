@@ -39,6 +39,8 @@ class UserManager(BaseUserManager):
 class Company(models.Model):
     id = models.BigIntegerField(verbose_name=_("企業ID"),primary_key=True,null=False,blank=False,unique=True)
     company_name = models.CharField(verbose_name=_("企業名"),max_length=50,null=False,blank=False,unique=True)
+    address = models.CharField(verbose_name=_("住所"),max_length=255,blank=True,null=True)
+    email = models.EmailField(verbose_name=_("メールアドレス"),blank=True,null=True)
     created_at = models.DateTimeField(verbose_name=_("登録日時"),default=timezone.now)
  
     def __str__(self):

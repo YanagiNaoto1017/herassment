@@ -48,7 +48,7 @@ class AdminSignUpForm(UserCreationForm):
 class CompanySignUpForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ("id","company_name",)
+        fields = ("id","company_name","address","email")
 
 # スーパーユーザー登録
 class SuperUserSignUpForm(UserCreationForm):
