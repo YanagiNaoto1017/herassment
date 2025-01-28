@@ -56,13 +56,7 @@ class Harassment_report(models.Model):
     report_detail = models.TextField(verbose_name=_("内容"),null=False)
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
 
-# 画像
-class HarassmentReportImage(models.Model):
-    report = models.ForeignKey(Harassment_report, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(verbose_name=_("画像"),null=True,blank=True,upload_to='images/')
-    uploaded_at = models.DateTimeField(verbose_name=_("アップロード日時"),default=timezone.now)
-
-# エラー報告
+# お問い合わせ
 class Error_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
     # ドロップダウンの選択肢

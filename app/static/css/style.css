@@ -26,6 +26,7 @@ body {
 
 /* ========================== Flexコンテナ ========================== */
 .flex-container {
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,7 +34,6 @@ body {
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     background-color: #0595c5;
-    color: white;
     top: 50%;
     left: 50%;
     max-width: 90%;
@@ -190,6 +190,35 @@ button[type="submit"]:hover {
 }
 
 /* ========================== フォームの全体スタイル ========================== */
+.admin_list {
+    margin: 0 auto;
+    width: 500px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.admin_list
+label{
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.admin_list
+input[type="text"],
+input[type="date"]{
+    width: 300px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_list
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
 form {
     margin: 0 auto;
     max-width: 600px;
@@ -290,7 +319,7 @@ form button:hover {
     border: 2px solid #0595c5; /* 枠線の色 */
     border-radius: 16px; /* 角を丸くする */
     padding: 20px; /* 内側余白を増加 */
-    background-color: #ffffff; /* 背景色 */
+    /* background-color: #ffffff; 背景色 */
     margin: 30px auto; /* 中央揃え */
     max-width: 600px; /* 最大幅を指定 */
     width: 90%; /* モバイル対応で幅を調整 */
@@ -389,9 +418,8 @@ header .btn:hover {
 /* ========================== フッター全体のスタイル ========================== */
 footer {
     background-color: #00787e; /* 背景色を濃い青緑に設定 */
-    color: #f4f6f6; /* テキストを明るいグレー */
     text-align: center; /* テキストを中央揃え */
-    padding: 20px; /* 上下左右に余白 */
+    padding: 5px;
     border-top: 1px solid rgba(119, 227, 202, 0.8); /* 上部に薄い境界線 */
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* フッター上部に影を追加 */
     border-radius: 8px 8px 0 0; /* 上部左右の角を丸く */
@@ -685,7 +713,7 @@ textarea {
 /* アクティブなページアイテムのスタイル */
 .page-item.active span {
     background-color: #28a745;
-    color: white;
+    /* color: white; */
     border-color: #28a745;
 }
 
