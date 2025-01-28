@@ -35,7 +35,7 @@ class LoginForm(AuthenticationForm):
         model = Users
     
 
-# エラー報告画面
+# お問い合わせ画面
 class ErrorReportForm(forms.ModelForm):
     class Meta:
         model = Error_report

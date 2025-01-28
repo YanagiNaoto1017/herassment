@@ -239,7 +239,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
 
     def get(self, request):
         form = self.form_class
-        error_list = Error_report.objects.all() # エラー報告を取得
+        error_list = Error_report.objects.all() # お問い合わせを取得
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -368,7 +368,7 @@ class UserSignupView(LoginRequiredMixin,CreateView):
         user.save()
         return super().form_valid(form)
 
-# エラー報告画面
+# お問い合わせ画面
 class ErrorReportView(LoginRequiredMixin,TemplateView):
     template_name = "error_report.html"
     form_class = ErrorReportForm
