@@ -21,10 +21,24 @@
             {% csrf_token %}
             <a href="javascript:logout.submit()" class="btn btn-logout">ログアウト</a>
         </form>
+
+        <!-- ハンバーガーメニュー -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
     </header>
+
+    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
     <!-- サイドバー -->
     {% if user.superuser_flag and user.user_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -46,6 +60,11 @@
     </ul>
     {% elif user.user_flag and not user.superuser_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -61,6 +80,11 @@
     </ul>
     {% else %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -106,6 +130,7 @@
     <!-- コンテンツラッパーの終了 -->
     </div>
     <!-- ページラッパーの終了 -->
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>
