@@ -532,7 +532,8 @@ class CheckIdView(TemplateView):
         if form.is_valid():
             account_id = form.cleaned_data['account_id'] # 入力されたアカウントID
             user = Users.objects.filter(account_id=account_id).first()  # 条件に一致するユーザー情報を取得
-
+            if 'user_type' in request.session:
+                del request.session['user_type']
 
             # 入力されたアカウントIDが存在した場合
             if user:
@@ -542,13 +543,18 @@ class CheckIdView(TemplateView):
                     email = user.email
                     print(f'{email}')
                     send_email(email, user)
+                    print("スーパーユーザーと判断")
+                    request.session['user_type'] = 'super'
                     return redirect("app:send_email")
                 # ユーザーの場合
                 if user. user_flag and not user.superuser_flag:
+                    print("ユーザーと判断")
+                    request.session['user_type'] = 'user'
                     return redirect("app:send_superuser")
             
             # 入力されたアカウントIDが存在しない場合
             else:
+                print("用輪から")
                 return render(request, self.template_name, {"form": form})
         return render(request, self.template_name, {"form": form})
         

@@ -170,7 +170,9 @@ class CheckIdForm(forms.Form):
 
 # メール送信
 class SendEmailForm(forms.Form):
-    email = forms.EmailField(label='メールアドレスを入力してください')
+    # email = forms.EmailField(label='メールアドレス', max_length=100)
+    label = "登録の際に使用したメールアドレスにパスワード再設定用URLを記載したメールを送信しました" #これ表示されません　気にしないで
+
 
 # スーパーユーザーへ送信
 class SendSuperuserForm(forms.Form):
