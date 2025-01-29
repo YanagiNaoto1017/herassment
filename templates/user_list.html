@@ -7,7 +7,7 @@
     {% csrf_token %}
     <div>
         <label for="search_text">名前:</label>
-        <input type="text" id="search_text" name="search_text" placeholder="名前で検索"
+        <input type="text" id="search_text" name="search_text" placeholder="IDまたは名前で検索"
             value="{{ form.search_text.value|default:'' }}">
         <label for="start_date">開始日:</label>
         <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">

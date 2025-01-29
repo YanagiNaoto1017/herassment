@@ -2,12 +2,47 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Company,Users,Harassment_report,Error_report,Text
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ValidationError
+import re
+from django.core.validators import RegexValidator
 
 # 管理者新規登録
 class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = Users
-        fields = ("account_id","account_name","email",)
+        fields = ("account_id","account_name","email","password1","password2")
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
+    
+    password1 = forms.CharField(
+        label=("パスワード"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
+
+    password2 = forms.CharField(
+        label=("パスワードの確認"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
 
 # 企業登録
 class CompanySignUpForm(forms.ModelForm):
@@ -20,14 +55,78 @@ class SuperUserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","account_name","company","email")
+        fields = ("account_id","account_name","company","email","password1","password2")
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
+    
+    password1 = forms.CharField(
+        label=("パスワード"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
+
+    password2 = forms.CharField(
+        label=("パスワードの確認"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
     
 # ユーザー登録
 class UserSignUpForm(UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ("account_id","account_name")
+        fields = ("account_id","account_name","password1","password2")
+
+    def clean_account_id(self):
+        account_id = self.cleaned_data.get('account_id')
+        if re.search(r'[ぁ-んァ-ン一-龥]', account_id):
+            raise ValidationError("アカウントIDに日本語を含めることはできません。")
+        return account_id
+    
+    password1 = forms.CharField(
+        label=("パスワード"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
+
+    password2 = forms.CharField(
+        label=("パスワードの確認"),
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
     
 # ログイン
 class LoginForm(AuthenticationForm):
@@ -39,17 +138,35 @@ class LoginForm(AuthenticationForm):
 class ErrorReportForm(forms.ModelForm):
     class Meta:
         model = Error_report
-        fields = ("id","error_detail","report_time")
+        fields = ("id","inquiry_type","error_detail",)
 
 # ハラスメント報告画面
 class HarassmentReportForm(forms.ModelForm):
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail","report_image","report_time")
+        fields = ("id","report_title","report_detail")
+
+    # 画像アップロード
+    images = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        required=False,
+        label="画像を追加"
+    )
+
+    report_title = forms.CharField(
+        label=("タイトル"),
+        max_length=100,
+    )
+
+    report_detail = forms.CharField(
+        label=("内容"),
+        max_length=500,
+        widget=forms.Textarea(attrs={'placeholder': '報告内容を入力してください'},),
+    )
 
 # ID確認
 class CheckIdForm(forms.Form):
-    account_id = forms.CharField(label='IDを入力してください', max_length=100)
+    account_id = forms.CharField(label='ユーザーID', max_length=100)
 
 # メール送信
 class SendEmailForm(forms.Form):
@@ -66,20 +183,74 @@ class SendSuperuserForm(forms.Form):
 
 #検出
 class DetectionForm(forms.Form):
-    input_text = forms.CharField(label='検出', max_length=500)
+    input_text = forms.CharField(
+        label='検出',
+        max_length=500,
+        widget=forms.Textarea()
+    )
 
 #パスワード変更
 class CustomPasswordChangeForm(forms.Form):
     new_password = forms.CharField(
         label=("新しいパスワード"),
-        max_length=500,
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+
     )
     new_password2 = forms.CharField(
         label=("パスワードの確認"),
-        max_length=500,
+        min_length=8,
+        max_length=16,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
     )
+
+# メールアドレス変更
+class MailChangeForm(forms.Form):
+    new_email = forms.EmailField(label='新しいメールアドレス')
         
 class SearchForm(forms.Form):
     search_text = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={'type': 'text'}))
     start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    search_text = forms.CharField(required=False, label='名前', widget=forms.TextInput(attrs={'placeholder': '名前で検索'}))
+
+
+#メールからのパスワード変更
+class MailPWChangeForm(forms.Form):
+    new_password = forms.CharField(
+        label=("新しいパスワード"),
+        min_length=8,
+        max_length=500,
+        widget=forms.PasswordInput(attrs={'placeholder': '8〜16文字の半角英数字および記号を使用できます',}),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )
+    new_password2 = forms.CharField(
+        label=("パスワードの確認"),
+        min_length=8,
+        max_length=500,
+        widget=forms.PasswordInput(),
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"\'<>?,./~`-]+$',
+                message='パスワードは8〜16文字の半角英数字および記号で入力してください。',
+            )
+        ],
+    )

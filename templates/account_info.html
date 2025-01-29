@@ -17,7 +17,10 @@
         </tr>
         {% if user.superuser_flag %}
         <tr>
-            <td>メールアドレス: {{ user.email }}</td>
+            <td>
+                メールアドレス: {{ user.email }}
+                <a href="{% url 'app:email_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
+            </td>
         </tr>
         {% endif %}
         <tr>
@@ -25,6 +28,9 @@
                 パスワード:
                 <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
             </td>
+        </tr>
+        <tr>
+            <td>登録日: {{ user.created_at }}</td>
         </tr>
     </tbody>
 </table>

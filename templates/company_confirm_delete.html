@@ -10,7 +10,7 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit">削除</button>
-        <a href="{% url 'app:company_list' %}">キャンセル</a>
+        <button onclick="history.back()">戻る</button>
     </form>
 </div>
 
