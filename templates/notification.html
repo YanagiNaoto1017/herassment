@@ -5,7 +5,6 @@
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col">名前</th>
             <th scope="col">受信内容</th>
             <th scope="col">受信日時</th>
             <th scope="col">操作</th>
@@ -16,14 +15,24 @@
         {% for item in page_obj %}
         {% if user.superuser_flag and user.user_flag %}
         <tr>
-            <td>{{ item.sender_name }}</td>
-            <td>パスワードリセットの申請</td>
+            <!-- パスワードリセット未完了 -->
+            {% if item.genre == '1' and not item.is_read %}<td>パスワードリセットの申請</td>
+            <!-- パスワードリセット完了 -->
+            {% elif item.genre == '1' and item.is_read %}<td>{{ item.sender_name }}のパスワードをリセットしました。</td>
+            <!-- スーパーユーザ削除申請中 -->
+            {% elif item.genre == '2' and not item.is_read %}<td>{{ item.sender }}削除の申請中</td>
+            <!-- スーパーユーザ削除完了 -->
+            {% elif item.genre == '2' and item.is_read %}<td>{{ item.sender_name }}が削除されました</td>
+            {% endif %}
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a></td>
+            <td>
+                {% if item.genre == '1' and not item.is_read %}
+                <a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a>
+                {% endif %}
+            </td>
         </tr>
         {% elif user.admin_flag %}
         <tr>
-            <td>{{ item.sender_name }}</td>
             <td>スーパーユーザー削除の申請</td>
             <td>{{ item.created_at }}</td>
             <td><a href="{% url 'app:superuser_delete' item.sender_name %}">削除</a></td>

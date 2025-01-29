@@ -47,9 +47,9 @@ class Company(models.Model):
 # ハラスメント報告
 class Harassment_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
-    company_id = models.CharField(
-        verbose_name=_("企業ID"),
-        max_length=50,
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE,
+        verbose_name=_("企業id"),
         null=True,
     )
     report_title = models.CharField(verbose_name=_("タイトル"),null=False,blank=False,max_length=50,default="",)
@@ -65,7 +65,23 @@ class HarassmentReportImage(models.Model):
 # エラー報告
 class Error_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
-    error_detail = models.TextField(verbose_name=_("内容"),null=False) # 報告内容
+    # ドロップダウンの選択肢
+    INQUIRY_TYPE_CHOICES = [
+        ('type1', 'サービスについて'),
+        ('type2', 'アカウント・ログインについて'),
+        ('type3', '不具合について'),
+        ('type4', '改善要望'),
+        ('type5', 'その他'),
+    ]
+    inquiry_type = models.CharField(
+        verbose_name=_("お問い合わせ種類"),
+        max_length=50,
+        null=False,
+        blank=False,
+        default='type1',
+        choices=INQUIRY_TYPE_CHOICES,
+    )
+    error_detail = models.TextField(verbose_name=_("内容"),null=False)
     report_time = models.DateTimeField(verbose_name=_("報告日時"),default=timezone.now)
  
 # 文章
@@ -114,6 +130,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(
         verbose_name=_("メールアドレス"),
         null=True,
+        unique=True,
     )
     user_flag = models.BooleanField(
         verbose_name=_("ユーザーフラグ"),
