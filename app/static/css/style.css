@@ -134,7 +134,7 @@ body {
 
 #content {
     background-color: #ffffff;
-    min-height: 65vh;
+    min-height: 79vh;
     padding: 20px;
 }
 
@@ -331,6 +331,26 @@ form button:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* ホバー時の影の強調 */
 }
 
+.center-box:focus {
+    background-color: #e0f7fa; /* フォーカス時の背景色 */
+    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+}
+/* .center-box内のリンクのスタイル */
+.center-box a {
+    color: #0595c5; /* リンクの色 */
+    text-decoration: none; /* 下線を削除 */
+    transition: color 0.3s ease; /* 色のトランジション */
+}
+
+.center-box a:hover {
+    color: #76a0b0; /* ホバー時のリンクの色 */
+    text-decoration: underline; /* ホバー時に下線を追加 */
+}
+
+.center-box a:focus {
+    background-color: #e0f7fa; /* フォーカス時の背景色 */
+    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+}
 /* ========================== 中央コンテナのスタイル ========================== */
 .center-container {
     display: flex; /* フレックスボックスで子要素を配置 */
@@ -417,7 +437,7 @@ header .btn:hover {
 footer {
     background-color: #00787e; /* 背景色を濃い青緑に設定 */
     text-align: center; /* テキストを中央揃え */
-    padding: 5px;
+    padding: 20px;
     border-top: 1px solid rgba(119, 227, 202, 0.8); /* 上部に薄い境界線 */
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* フッター上部に影を追加 */
     border-radius: 8px 8px 0 0; /* 上部左右の角を丸く */

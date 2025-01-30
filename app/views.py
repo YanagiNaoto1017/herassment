@@ -275,11 +275,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
         if not request.user.admin_flag:
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
-<<<<<<< HEAD
         error_list = Error_report.objects.all().order_by('-report_time') # エラー報告を取得
-=======
-        error_list = Error_report.objects.all() # お問い合わせを取得
->>>>>>> 44057ba66215e78227b1163a0433c7d63ccbef15
         paginator = Paginator(error_list, 10) # 1ページ当たり10件
         page_number = request.GET.get('page') # 現在のページ番号を取得
         page_obj = paginator.get_page(page_number)
@@ -421,7 +417,7 @@ class UserSignupView(LoginRequiredMixin,CreateView):
         user.save()
         return super().form_valid(form)
 
-# お問い合わせ画面
+# エラー報告画面
 class ErrorReportView(LoginRequiredMixin,TemplateView):
     template_name = "error_report.html"
     form_class = ErrorReportForm
