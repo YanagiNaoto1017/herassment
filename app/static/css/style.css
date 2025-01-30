@@ -189,7 +189,7 @@ button[type="submit"]:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 固定ボタン用の影 */
 }
 
-/* ========================== フォームの全体スタイル ========================== */
+/* ========================== フォームのスタイル ========================== */
 .admin_list {
     margin: 0 auto;
     width: 500px;
@@ -219,19 +219,138 @@ button[type="submit"] {
     display: block;
 }
 
-form {
+.admin_signup {
+    max-width: 500px;
     margin: 0 auto;
-    max-width: 600px;
-    width: 100%;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.admin_signup
+input[type="text"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+input[type="email"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+input[type="password"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
 }
 
-form:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+.check_id{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.check_id
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.reset_pw{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.reset_pw
+h2{
+    text-align: center;
+}
+.reset_pw
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.send_fpw{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.login_form{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.login_form
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.login_form
+link{
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.company_del{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.company_del
+p{
+    text-align: center;
+}
+.company_del
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.company_del
+button[onclick="history.back()"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
 }
 
 /* ========================== フォーム内要素のスタイル ========================== */
@@ -812,23 +931,6 @@ textarea {
 
 .proofreading-box .list-group-item a:hover {
     color: #2980b9;
-}
-
-.link {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.link a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 0.9rem;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-
-.link a:hover {
-    color: #0056b3;
-    text-decoration: underline;
 }
 
 /* .report-time のスタイル */
