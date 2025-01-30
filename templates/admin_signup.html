@@ -1,21 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>
-    <h1 style="text-align: center;">管理者登録</h1>
-    <form method="POST">
+    <form method="POST" class="admin_signup">
+        <h1 style="text-align: center;">管理者登録</h1>
         {% csrf_token %}
         {{ form.non_field_errors }}
         {% for field in form %}
-        <div style="margin-bottom: 15px;">
+        <div>
             {{ field.label }}
             {{ field }}
             {{ field.errors }}
         </div>
         {% endfor %}
-        <div style="text-align: center;">
             <button type="submit">新規登録</button>
-        </div>
     </form>
-</div>
 {% endblock %}

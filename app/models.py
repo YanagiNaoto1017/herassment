@@ -62,6 +62,7 @@ class HarassmentReportImage(models.Model):
     image = models.ImageField(verbose_name=_("画像"),null=True,blank=True,upload_to='images/')
     uploaded_at = models.DateTimeField(verbose_name=_("アップロード日時"),default=timezone.now)
 
+# エラー報告
 # お問い合わせ
 class Error_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
@@ -201,4 +202,3 @@ class Notification(models.Model):
         verbose_name=_("送信日時"),
         default=timezone.now,
     )
- 

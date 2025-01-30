@@ -9,8 +9,8 @@
 </head>
 <body>
     <container>
-        <h2>ユーザーIDを入力してください</h2>
-        <form method="post">
+        <form method="post" class="check_id">
+            <h2>ユーザーIDを入力してください</h2>
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% for field in form %}
@@ -21,7 +21,6 @@
             {% endfor %}
             <br>    
             <button type="submit">次へ</button>
-            
         </form>
     </container>
 </body>
