@@ -103,6 +103,23 @@ def pagenator(request, queryset):
     page_obj = paginator.get_page(page_number)
     return page_obj
 
+# 検索条件をQオブジェクトとして構築する関数
+def build_search_filters(search_text, start_date, end_date, name_field, id_field, company_field, date_field):
+    filters = Q()
+    if search_text:
+        search_conditions = Q(**{f"{name_field}__icontains": search_text})
+        if id_field:
+            search_conditions |= Q(**{f"{id_field}__icontains": search_text})
+        if company_field:
+            search_conditions |= Q(**{f"{company_field}__icontains": search_text})
+        filters &= search_conditions
+    if start_date:
+        filters &= Q(**{f"{date_field}__gte": start_date})
+    if end_date:
+        end_date += timedelta(days=1)  # 終了日を含めるため+1日
+        filters &= Q(**{f"{date_field}__lte": end_date})
+    return filters
+
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,TemplateView):
     template_name = "admin_list.html"
@@ -123,21 +140,9 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if search_text:
-                filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text)
-            if start_date:
-                filters &= Q(created_at__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 選択した終了日が含まれないため1日加算
-                filters &= Q(created_at__lte=end_date)
-
+            filters = build_search_filters(search_text, start_date, end_date, 'account_name', 'account_id', None, 'created_at')
             # フィルタを適用してクエリセットを取得
-            admin_list = admin_list.filter(filters).order_by('-created_at')
+            admin_list = Users.objects.filter(admin_flag=True).filter(filters).order_by('-created_at')
             page_obj = pagenator(request, admin_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
@@ -161,21 +166,9 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            company_list = Company.objects.all().order_by('-created_at')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if search_text:
-                filters &= Q(company_name__icontains=search_text) | Q(id__icontains=search_text)
-            if start_date:
-                filters &= Q(created_at__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                filters &= Q(created_at__lte=end_date)
-
+            filters = build_search_filters(search_text, start_date, end_date, 'company_name', 'id', None , 'created_at')
             # フィルタを適用してクエリセットを取得
-            company_list = company_list.filter(filters).order_by('-created_at')
+            company_list = Company.objects.filter(filters).order_by('-created_at')
             page_obj = pagenator(request, company_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj,"form": form})
 
@@ -188,13 +181,12 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')  # 条件に一致するユーザーを取得
+            user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')
         # 管理者の場合
         elif request.user.admin_flag:
-            user_list = Users.objects.filter(user_flag=True).order_by('-created_at')  # ユーザーを取得
+            user_list = Users.objects.filter(user_flag=True).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
-
         page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
@@ -205,41 +197,16 @@ class UserListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')
-
-                filters = Q()  # 空のQオブジェクトを作成
-
-                if search_text:
-                    filters &= Q(account_name__icontains=search_text)
-                if start_date:
-                    filters &= Q(created_at__gte=start_date)
-                if end_date:
-                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                    filters &= Q(created_at__lte=end_date)
-
+                filters = build_search_filters(search_text, start_date, end_date, 'account_name', None, None, 'created_at')
                 # フィルタを適用してクエリセットを取得
-                user_list = user_list.filter(filters)
-
+                user_list = Users.objects.filter(user_flag=True,company=request.user.company).filter(filters).order_by('-created_at')
             # 管理者の場合
             elif request.user.admin_flag:
-                user_list = Users.objects.filter(user_flag=True).order_by('-created_at')
-                
-                filters = Q()  # 空のQオブジェクトを作成
-
-                if search_text:
-                    filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text) | Q(company__company_name__icontains=search_text)
-                if start_date:
-                    filters &= Q(created_at__gte=start_date)
-                if end_date:
-                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                    filters &= Q(created_at__lte=end_date)
-
+                filters = build_search_filters(search_text, start_date, end_date, 'account_name', 'account_id', 'company__company_name', 'created_at')
                 # フィルタを適用してクエリセットを取得
-                user_list = user_list.filter(filters).order_by('-created_at')
-
+                user_list = Users.objects.filter(user_flag=True).filter(filters).order_by('-created_at')
             page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
@@ -263,19 +230,9 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             # 検索フォームで入力されたものを取得
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            error_report = Error_report.objects.all().order_by('-report_time')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if start_date:
-                filters &= Q(report_time__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                filters &= Q(report_time__lte=end_date)
-
+            filters = build_search_filters(None, start_date, end_date, None, None, None, 'report_time')
             # フィルタを適用してクエリセットを取得
-            error_list = error_report.filter(filters).order_by('-report_time')
+            error_list = Error_report.objects.filter(filters).order_by('-report_time')
             page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
@@ -299,18 +256,9 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
             # 検索フォームで入力されたものを取得
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if start_date:
-                filters &= Q(report_time__gte=start_date)
-            if end_date:
-                filters &= Q(report_time__lte=end_date)
-
+            filters = build_search_filters(None, start_date, end_date, None, None, None, 'report_time')
             # フィルタを適用してクエリセットを取得
-            harassment_list = harassment_list.filter(filters).order_by('-report_time')
+            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).filter(filters).order_by('-report_time')
             page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
