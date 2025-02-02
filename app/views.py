@@ -24,16 +24,6 @@ import spacy
 from django.core.mail import send_mail
 from django.conf import settings
 
-# メール送信関数
-def send_email(to_email, subject, message):
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,  # 送信者のメールアドレス
-        [to_email],  # 受信者のメールアドレス
-        fail_silently=False,
-    )
-
 # ホーム画面表示
 class IndexView(LoginRequiredMixin,TemplateView):
     template_name = "index.html"
@@ -487,6 +477,16 @@ class CheckIdView(TemplateView):
             else:
                 return render(request, self.template_name, {"form": form})
         return render(request, self.template_name, {"form": form})
+
+# メール送信関数
+def send_email(to_email, subject, message):
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,  # 送信者のメールアドレス
+        [to_email],  # 受信者のメールアドレス
+        fail_silently=False,
+    )
         
 # Email送信
 def send_email(to_email, user):
@@ -506,6 +506,7 @@ def send_email(to_email, user):
         fail_silently=False,
     )
 
+# パスワード再設定時のメール送信
 class SendEmailView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendEmailForm
