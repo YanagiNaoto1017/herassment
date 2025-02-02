@@ -23,10 +23,6 @@ import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
-# from transformers import BertForSequenceClassification, BertTokenizer
-# import torch
-# import torch.nn.functional as F
-# from decimal import Decimal, ROUND_DOWN
 
 # メール送信関数
 def send_email(to_email, subject, message):
