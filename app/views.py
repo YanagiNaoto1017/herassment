@@ -485,7 +485,6 @@ class SendSuperuserView(TemplateView):
     form_class = SendSuperuserForm
     success_url = reverse_lazy("app:pw_send_comp")
 
-
     def get(self, request):
         form = self.form_class
         return render(request, self.template_name, {"form": form})
@@ -703,6 +702,7 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
             return redirect(self.success_url)
         return render(request, self.template_name, {"object": delete_user})
 
+# メールからのパスワード変更画面
 class MailPWChangeView(TemplateView):
     template_name = 'mail_PWchange.html'
     success_url = reverse_lazy('app:mail_PWcomp')
@@ -735,9 +735,6 @@ class MailPWChangeView(TemplateView):
                 form.add_error('new_password2', "パスワードが一致しません。")
         
         return render(request, self.template_name, {'form': form})
-    
-class MailPwCompleteView(TemplateView):
-    template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
 
 
 ### 完了画面 ###
@@ -765,6 +762,10 @@ class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
 # メール送信完了
 class PwSendCompleteView(TemplateView):
     template_name = "pw_send_comp.html"
+
+# メールからのパスワード変更完了画面
+class MailPwCompleteView(TemplateView):
+    template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
 
 
 ### エラーハンドリング ###
