@@ -280,6 +280,52 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
+# ハラスメント一覧画面
+class HarassmentReportListView(LoginRequiredMixin,TemplateView):
+    template_name = "harassment_list.html"
+    form_class = SearchForm
+
+    def get(self, request):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
+        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
+        page_number = request.GET.get('page') # 現在のページ番号を取得
+        page_obj = paginator.get_page(page_number)
+        return render(request, self.template_name, {"page_obj": page_obj})
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # 検索フォームで入力されたものを取得
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+
+            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
+
+            filters = Q()  # 空のQオブジェクトを作成
+
+            if start_date:
+                filters &= Q(report_time__gte=start_date)
+            if end_date:
+                filters &= Q(report_time__lte=end_date)
+
+            # フィルタを適用してクエリセットを取得
+            harassment_list = harassment_list.filter(filters).order_by('-report_time')
+            page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
+
+# ハラスメント詳細画面
+class HarassmentDetailView(LoginRequiredMixin, TemplateView):
+    template_name = "harassment_detail.html"
+
+    def get(self, request, pk):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
+        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
+        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
+
 # 検出画面
 class DetectionView(LoginRequiredMixin,TemplateView):
     template_name = 'detection.html'
@@ -391,53 +437,6 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
                 HarassmentReportImage.objects.create(report=harassment_report, image=img)  # 画像を保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
-    
-# ハラスメント一覧画面
-class HarassmentReportListView(LoginRequiredMixin,TemplateView):
-    template_name = "harassment_list.html"
-    form_class = SearchForm
-
-    def get(self, request):
-        if not request.user.superuser_flag:
-            return HttpResponseForbidden(render(request, '403.html'))
-        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
-        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
-        return render(request, self.template_name, {"page_obj": page_obj})
-    
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # 検索フォームで入力されたものを取得
-            start_date = form.cleaned_data.get('start_date')    # 開始日
-            end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if start_date:
-                filters &= Q(report_time__gte=start_date)
-            if end_date:
-                filters &= Q(report_time__lte=end_date)
-
-            # フィルタを適用してクエリセットを取得
-            harassment_list = harassment_list.filter(filters).order_by('-report_time')
-            page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
-        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
-    
-# ハラスメント詳細画面
-class HarassmentDetailView(LoginRequiredMixin, TemplateView):
-    template_name = "harassment_detail.html"
-
-    def get(self, request, pk):
-        if not request.user.superuser_flag:
-            return HttpResponseForbidden(render(request, '403.html'))
-        harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
-        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
-        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
-
 
 # アカウント情報確認画面
 class AccountInfoView(LoginRequiredMixin,TemplateView):
