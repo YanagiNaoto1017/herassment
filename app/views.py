@@ -510,11 +510,7 @@ class SendSuperuserView(TemplateView):
             notification.save() # 保存
             return redirect(self.success_url)
         return render(self.template_name, {"form": form})
-        
-# メール送信完了
-class PwSendCompleteView(TemplateView):
-    template_name = "pw_send_comp.html"
-    
+
 #アカウント情報からのパスワード変更画面
 class PasswordChangeView(LoginRequiredMixin,TemplateView):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
@@ -765,6 +761,10 @@ class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
 # メールアドレス変更完了画面
 class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
     template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
+
+# メール送信完了
+class PwSendCompleteView(TemplateView):
+    template_name = "pw_send_comp.html"
 
 
 ### エラーハンドリング ###
