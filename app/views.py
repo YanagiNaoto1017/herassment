@@ -1,24 +1,33 @@
-
-
-from pyexpat.errors import messages
-from django.contrib.auth import login, authenticate, update_session_auth_hash
-from django.views.generic import TemplateView, CreateView, ListView, DeleteView
+from django.contrib.auth import login, update_session_auth_hash
+from django.views.generic import TemplateView, CreateView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm,MailChangeForm
+from .forms import (
+    AdminSignUpForm,
+    CompanySignUpForm,
+    SuperUserSignUpForm,
+    LoginForm,
+    UserSignUpForm,
+    HarassmentReportForm,
+    ErrorReportForm,
+    CheckIdForm,
+    SendEmailForm,
+    SendSuperuserForm,
+    DetectionForm,
+    CustomPasswordChangeForm,
+    SearchForm,
+    MailPWChangeForm,
+    MailChangeForm,
+    )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.views import View
+from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Q
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.utils import timezone
 from django.http import HttpResponseForbidden
-
 import jwt
 import spacy
 from django.core.mail import send_mail
