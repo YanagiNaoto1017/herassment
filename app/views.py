@@ -107,6 +107,13 @@ class ReportCompleteView(LoginRequiredMixin,TemplateView):
 class DeleteCompleteView(LoginRequiredMixin,TemplateView):
     template_name = "delete_complete.html"
 
+# 1ページの表示件数を10件に設定ための関数
+def pagenator(request, queryset):
+    paginator = Paginator(queryset, 10) # 1ページ当たり10件
+    page_number = request.GET.get('page') # 現在のページ番号を取得
+    page_obj = paginator.get_page(page_number)
+    return page_obj
+
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,TemplateView):
     template_name = "admin_list.html"
@@ -117,9 +124,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')  # 管理者を取得
-        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, admin_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -139,15 +144,12 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             if start_date:
                 filters &= Q(created_at__gte=start_date)
             if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
+                end_date = end_date + timedelta(days=1) # 選択した終了日が含まれないため1日加算
                 filters &= Q(created_at__lte=end_date)
 
             # フィルタを適用してクエリセットを取得
             admin_list = admin_list.filter(filters).order_by('-created_at')
-
-            paginator = Paginator(admin_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            page_obj = pagenator(request, admin_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
@@ -160,9 +162,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         company_list = Company.objects.all().order_by('-created_at') # 企業を取得
-        paginator = Paginator(company_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, company_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj,"form": form})
     
     def post(self, request):
@@ -187,10 +187,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
 
             # フィルタを適用してクエリセットを取得
             company_list = company_list.filter(filters).order_by('-created_at')
-
-            paginator = Paginator(company_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            page_obj = pagenator(request, company_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
@@ -209,9 +206,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
         else:
             return HttpResponseForbidden(render(request, '403.html'))
 
-        paginator = Paginator(user_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -256,9 +251,7 @@ class UserListView(LoginRequiredMixin,TemplateView):
                 # フィルタを適用してクエリセットを取得
                 user_list = user_list.filter(filters).order_by('-created_at')
 
-            paginator = Paginator(user_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 
@@ -272,9 +265,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         error_list = Error_report.objects.all().order_by('-report_time') # エラー報告を取得
-        paginator = Paginator(error_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -296,10 +287,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
 
             # フィルタを適用してクエリセットを取得
             error_list = error_report.filter(filters).order_by('-report_time')
-
-            paginator = Paginator(error_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 # 検出画面
@@ -446,10 +434,7 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
 
             # フィルタを適用してクエリセットを取得
             harassment_list = harassment_list.filter(filters).order_by('-report_time')
-
-            paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
 # ハラスメント詳細画面
@@ -660,9 +645,7 @@ class NotificationView(LoginRequiredMixin,TemplateView):
             ).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
-        paginator = Paginator(notifications, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, notifications) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj})
     
 # ユーザー削除
