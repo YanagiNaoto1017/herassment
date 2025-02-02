@@ -85,17 +85,7 @@ class LoginView(BaseLoginView):
     form_class = LoginForm
     template_name = 'login.html'
 
-# 登録完了画面
-class CompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "complete.html"
-
-# 報告完了画面
-class ReportCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "report_complete.html"
-
-# 削除完了画面
-class DeleteCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "delete_complete.html"
+### 一覧画面 ###
 
 # 1ページの表示件数を10件に設定ための関数
 def pagenator(request, queryset):
@@ -618,14 +608,6 @@ class EmailChangeView(LoginRequiredMixin,TemplateView):
             return redirect(self.success_url) 
         return render(request, self.template_name, {"form": form})
 
-# PWリセット完了画面
-class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
-
-# メールアドレス変更完了画面
-class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
-
 # 通知
 class NotificationView(LoginRequiredMixin,TemplateView):
     template_name = 'notification.html'
@@ -807,8 +789,31 @@ class MailPwCompleteView(TemplateView):
     template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
 
 
+### 完了画面 ###
 
-# エラー
+# 登録完了画面
+class CompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "complete.html"
+
+# 報告完了画面
+class ReportCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "report_complete.html"
+
+# 削除完了画面
+class DeleteCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "delete_complete.html"
+
+# PWリセット完了画面
+class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
+
+# メールアドレス変更完了画面
+class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
+
+
+### エラーハンドリング ###
+
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)
 
