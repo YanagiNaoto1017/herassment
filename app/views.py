@@ -244,10 +244,8 @@ class HarassmentReportListView(LoginRequiredMixin,TemplateView):
     def get(self, request):
         if not request.user.superuser_flag:
             return HttpResponseForbidden(render(request, '403.html'))
-        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
-        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
+        page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj})
     
     def post(self, request):
