@@ -56,6 +56,7 @@ urlpatterns = [
     path('delete_complete', views.DeleteCompleteView.as_view(), name='delete_complete'), # 削除完了画面
     path('pw_send_comp', views.PwSendCompleteView.as_view(), name='pw_send_comp'), # メール送信完了画面
     path('pw_change_complete', views.PwChangeCompleteView.as_view(), name='pw_change_complete'), # PWリセット完了画面
+    path('mail_PWcomp/', views.MailPwCompleteView.as_view(), name='mail_PWcomp'), #パスワード再設定完了画面
     
     # ユーザーのみ
     path('user/detection/', views.DetectionView.as_view(), name='detection'), # 検出画面
@@ -73,5 +74,4 @@ urlpatterns = [
     path('user/password_reset<str:sender_name>/', views.PasswordReset.as_view(), name='password_reset'), # パスワードリセット
     path('user/superuser_delete<int:pk>/', views.SendSuperuserDeleteView.as_view(), name='send_superuser_delete'), # スーパーユーザー削除要請
     path('mail_PWchange/', views.MailPWChangeView.as_view(), name='mail_PWchange'), #パスワード変更画面
-    path('mail_PWcomp/', views.MailPwCompleteView.as_view(), name='mail_PWcomp') #パスワード再設定完了画面
  ]
