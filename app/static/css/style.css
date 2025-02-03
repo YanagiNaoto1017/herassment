@@ -24,6 +24,19 @@ body {
     margin: 50px auto; /* 上下の余白と中央揃え */
 }
 
+.pw_container{
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin: 50px auto; /* 上下の余白と中央揃え */
+}
+
 /* ========================== Flexコンテナ ========================== */
 .flex-container {
     color: black;
@@ -352,6 +365,16 @@ button[onclick="history.back()"] {
 }
 
 /* ========================== フォーム内要素のスタイル ========================== */
+form {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 form div {
     margin-bottom: 20px;
 }
@@ -598,35 +621,6 @@ p {
     color: #333; /* 落ち着いた文字色 */
     margin-bottom: 15px; /* 統一されたマージン */
     text-align: left; /* デフォルトは左揃え */
-}
-
-.login a {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 1rem; /* 基本フォントサイズ */
-    padding: 12px 24px; /* 余白設定 */
-    border-radius: 8px; /* 角を丸く */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を付ける */
-    transition: all 0.3s ease-in-out; /* アニメーション */
-    margin: 2px; /* マージン */
-    color: #ffffff; /* 文字色 */
-    background: linear-gradient(to right, #007bff, #0056b3); /* 背景グラデーション */
-    border: 2px solid transparent; /* 初期状態では透明なボーダー */
-}
-
-/* ホバー・フォーカス時 */
-a:hover,
-a:focus {
-    background: linear-gradient(to right, #0056b3, #007bff); /* 背景色の逆転 */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* 影を強調 */
-    transform: translateY(-2px); /* 浮き上がるエフェクト */
-}
-
-/* アクティブ時 */
-a:active {
-    background: #2980b9; /* 単色の背景 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影 */
-    transform: translateY(0); /* 押し込まれる効果 */
 }
 
 /* 入力フィールド全般 */
