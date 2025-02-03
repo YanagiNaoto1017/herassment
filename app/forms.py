@@ -144,11 +144,11 @@ class ErrorReportForm(forms.ModelForm):
 class HarassmentReportForm(forms.ModelForm):
     class Meta:
         model = Harassment_report
-        fields = ("id","report_title","report_detail")
+        fields = ("id","report_title","report_detail","images")
 
     # 画像アップロード
     images = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),  # ClearableFileInputを使用
         required=False,
         label="画像を追加"
     )
