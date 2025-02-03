@@ -1,42 +1,37 @@
-
-
-from pyexpat.errors import messages
-from django.contrib.auth import login, authenticate, update_session_auth_hash
-from django.views.generic import TemplateView, CreateView, ListView, DeleteView
+from django.contrib.auth import login, update_session_auth_hash
+from django.views.generic import TemplateView, CreateView, DeleteView
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import AdminSignUpForm,CompanySignUpForm,SuperUserSignUpForm,LoginForm,UserSignUpForm,HarassmentReportForm,ErrorReportForm,CheckIdForm,SendEmailForm,SendSuperuserForm,DetectionForm,CustomPasswordChangeForm,SearchForm,MailPWChangeForm,MailChangeForm
+from .forms import (
+    AdminSignUpForm,
+    CompanySignUpForm,
+    SuperUserSignUpForm,
+    LoginForm,
+    UserSignUpForm,
+    HarassmentReportForm,
+    ErrorReportForm,
+    CheckIdForm,
+    SendEmailForm,
+    SendSuperuserForm,
+    DetectionForm,
+    CustomPasswordChangeForm,
+    SearchForm,
+    MailPWChangeForm,
+    MailChangeForm,
+    )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company,Users,Error_report,Text,Harassment_report,Dictionary,Notification,HarassmentReportImage
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.views import View
+from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Q
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.utils import timezone
 from django.http import HttpResponseForbidden
-
 import jwt
 import spacy
 from django.core.mail import send_mail
 from django.conf import settings
-# from transformers import BertForSequenceClassification, BertTokenizer
-# import torch
-# import torch.nn.functional as F
-# from decimal import Decimal, ROUND_DOWN
-
-# メール送信関数
-def send_email(to_email, subject, message):
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,  # 送信者のメールアドレス
-        [to_email],  # 受信者のメールアドレス
-        fail_silently=False,
-    )
 
 # ホーム画面表示
 class IndexView(LoginRequiredMixin,TemplateView):
@@ -99,17 +94,31 @@ class LoginView(BaseLoginView):
     form_class = LoginForm
     template_name = 'login.html'
 
-# 登録完了画面
-class CompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "complete.html"
+### 一覧画面 ###
 
-# 報告完了画面
-class ReportCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "report_complete.html"
+# 1ページの表示件数を10件に設定ための関数
+def pagenator(request, queryset):
+    paginator = Paginator(queryset, 10) # 1ページ当たり10件
+    page_number = request.GET.get('page') # 現在のページ番号を取得
+    page_obj = paginator.get_page(page_number)
+    return page_obj
 
-# 削除完了画面
-class DeleteCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = "delete_complete.html"
+# 検索条件をQオブジェクトとして構築する関数
+def build_search_filters(search_text, start_date, end_date, name_field, id_field, company_field, date_field):
+    filters = Q()
+    if search_text:
+        search_conditions = Q(**{f"{name_field}__icontains": search_text})
+        if id_field:
+            search_conditions |= Q(**{f"{id_field}__icontains": search_text})
+        if company_field:
+            search_conditions |= Q(**{f"{company_field}__icontains": search_text})
+        filters &= search_conditions
+    if start_date:
+        filters &= Q(**{f"{date_field}__gte": start_date})
+    if end_date:
+        end_date += timedelta(days=1)  # 終了日を含めるため+1日
+        filters &= Q(**{f"{date_field}__lte": end_date})
+    return filters
 
 # 管理者一覧画面
 class AdminListView(LoginRequiredMixin,TemplateView):
@@ -121,9 +130,7 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')  # 管理者を取得
-        paginator = Paginator(admin_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, admin_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -133,25 +140,10 @@ class AdminListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            admin_list = Users.objects.filter(admin_flag=True).order_by('-created_at')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if search_text:
-                filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text)
-            if start_date:
-                filters &= Q(created_at__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                filters &= Q(created_at__lte=end_date)
-
+            filters = build_search_filters(search_text, start_date, end_date, 'account_name', 'account_id', None, 'created_at')
             # フィルタを適用してクエリセットを取得
-            admin_list = admin_list.filter(filters).order_by('-created_at')
-
-            paginator = Paginator(admin_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            admin_list = Users.objects.filter(admin_flag=True).filter(filters).order_by('-created_at')
+            page_obj = pagenator(request, admin_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 # 企業一覧画面
@@ -164,9 +156,7 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         company_list = Company.objects.all().order_by('-created_at') # 企業を取得
-        paginator = Paginator(company_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, company_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj,"form": form})
     
     def post(self, request):
@@ -176,25 +166,10 @@ class CompanyListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            company_list = Company.objects.all().order_by('-created_at')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if search_text:
-                filters &= Q(company_name__icontains=search_text) | Q(id__icontains=search_text)
-            if start_date:
-                filters &= Q(created_at__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                filters &= Q(created_at__lte=end_date)
-
+            filters = build_search_filters(search_text, start_date, end_date, 'company_name', 'id', None , 'created_at')
             # フィルタを適用してクエリセットを取得
-            company_list = company_list.filter(filters).order_by('-created_at')
-
-            paginator = Paginator(company_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            company_list = Company.objects.filter(filters).order_by('-created_at')
+            page_obj = pagenator(request, company_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj,"form": form})
 
 # ユーザー一覧画面
@@ -206,16 +181,13 @@ class UserListView(LoginRequiredMixin,TemplateView):
         form = self.form_class
         # スーパーユーザーの場合
         if request.user.superuser_flag:
-            user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')  # 条件に一致するユーザーを取得
+            user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')
         # 管理者の場合
         elif request.user.admin_flag:
-            user_list = Users.objects.filter(user_flag=True).order_by('-created_at')  # ユーザーを取得
+            user_list = Users.objects.filter(user_flag=True).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
-
-        paginator = Paginator(user_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -225,44 +197,17 @@ class UserListView(LoginRequiredMixin,TemplateView):
             search_text = form.cleaned_data.get('search_text')  # 入力されたテキスト
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
             # スーパーユーザーの場合
             if request.user.superuser_flag:
-                user_list = Users.objects.filter(user_flag=True,company=request.user.company).order_by('-created_at')
-
-                filters = Q()  # 空のQオブジェクトを作成
-
-                if search_text:
-                    filters &= Q(account_name__icontains=search_text)
-                if start_date:
-                    filters &= Q(created_at__gte=start_date)
-                if end_date:
-                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                    filters &= Q(created_at__lte=end_date)
-
+                filters = build_search_filters(search_text, start_date, end_date, 'account_name', None, None, 'created_at')
                 # フィルタを適用してクエリセットを取得
-                user_list = user_list.filter(filters)
-
+                user_list = Users.objects.filter(user_flag=True,company=request.user.company).filter(filters).order_by('-created_at')
             # 管理者の場合
             elif request.user.admin_flag:
-                user_list = Users.objects.filter(user_flag=True).order_by('-created_at')
-                
-                filters = Q()  # 空のQオブジェクトを作成
-
-                if search_text:
-                    filters &= Q(account_name__icontains=search_text) | Q(account_id__icontains=search_text) | Q(company__company_name__icontains=search_text)
-                if start_date:
-                    filters &= Q(created_at__gte=start_date)
-                if end_date:
-                    end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                    filters &= Q(created_at__lte=end_date)
-
+                filters = build_search_filters(search_text, start_date, end_date, 'account_name', 'account_id', 'company__company_name', 'created_at')
                 # フィルタを適用してクエリセットを取得
-                user_list = user_list.filter(filters).order_by('-created_at')
-
-            paginator = Paginator(user_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+                user_list = Users.objects.filter(user_flag=True).filter(filters).order_by('-created_at')
+            page_obj = pagenator(request, user_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
 
 
@@ -276,9 +221,7 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             return HttpResponseForbidden(render(request, '403.html'))
         form = self.form_class
         error_list = Error_report.objects.all().order_by('-report_time') # エラー報告を取得
-        paginator = Paginator(error_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
     
     def post(self, request):
@@ -287,24 +230,46 @@ class ErrorReportListView(LoginRequiredMixin,TemplateView):
             # 検索フォームで入力されたものを取得
             start_date = form.cleaned_data.get('start_date')    # 開始日
             end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            error_report = Error_report.objects.all().order_by('-report_time')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if start_date:
-                filters &= Q(report_time__gte=start_date)
-            if end_date:
-                end_date = end_date + timedelta(days=1) # 終了日を1日加算
-                filters &= Q(report_time__lte=end_date)
-
+            filters = build_search_filters(None, start_date, end_date, None, None, None, 'report_time')
             # フィルタを適用してクエリセットを取得
-            error_list = error_report.filter(filters).order_by('-report_time')
-
-            paginator = Paginator(error_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
+            error_list = Error_report.objects.filter(filters).order_by('-report_time')
+            page_obj = pagenator(request, error_list) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj, "form": form})
+
+# ハラスメント一覧画面
+class HarassmentReportListView(LoginRequiredMixin,TemplateView):
+    template_name = "harassment_list.html"
+    form_class = SearchForm
+
+    def get(self, request):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
+        page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
+        return render(request, self.template_name, {"page_obj": page_obj})
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # 検索フォームで入力されたものを取得
+            start_date = form.cleaned_data.get('start_date')    # 開始日
+            end_date = form.cleaned_data.get('end_date')        # 終了日
+            filters = build_search_filters(None, start_date, end_date, None, None, None, 'report_time')
+            # フィルタを適用してクエリセットを取得
+            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).filter(filters).order_by('-report_time')
+            page_obj = pagenator(request, harassment_list) # 1ページの表示件数を設定
+        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
+
+# ハラスメント詳細画面
+class HarassmentDetailView(LoginRequiredMixin, TemplateView):
+    template_name = "harassment_detail.html"
+
+    def get(self, request, pk):
+        if not request.user.superuser_flag:
+            return HttpResponseForbidden(render(request, '403.html'))
+        harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
+        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
+        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
 
 # 検出画面
 class DetectionView(LoginRequiredMixin,TemplateView):
@@ -321,36 +286,6 @@ class DetectionView(LoginRequiredMixin,TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             input_text = form.cleaned_data['input_text'] # 入力されたテキスト
-
-            # # 日本語BERTモデルとトークナイザーをロード
-            # model_name = "cl-tohoku/bert-base-japanese"
-            # model = BertForSequenceClassification.from_pretrained(model_name)
-            # tokenizer = BertTokenizer.from_pretrained(model_name)
-
-            # # テキストをトークン化
-            # input = tokenizer(input_text, return_tensors="pt", truncation=True, padding=True)
-
-            #  # モデルで予測
-            # with torch.no_grad():
-            #     logits = model(**input).logits
-
-            # # softmaxを適用して確率を計算
-            # probabilities = F.softmax(logits, dim=-1)
-
-            # # 各クラスの確率（感情スコア）
-            # positive_prob = probabilities[0][1].item()  # Positiveクラスの確率
-            # negative_prob = probabilities[0][0].item()  # Negativeクラスの確率
-
-            # # 予測された感情（0 = Negative, 1 = Positive）
-            # predicted_class = torch.argmax(logits, dim=1).item()
-
-            # sentiment = "Positive" if predicted_class == 1 else "Negative"
-            # print('🔥')
-            # print(f"Text: {input_text}")
-            # print(f"Sentiment: {sentiment}")
-            # print(f"Positive Probability: {positive_prob:.4f}")
-            # print(f"Negative Probability: {negative_prob:.4f}")
-            # print("-" * 50)
             
             nlp = spacy.load("ja_core_news_sm") # モデルのロード
             doc = nlp(input_text) # 入力テキストを単語に分割
@@ -370,21 +305,9 @@ class DetectionView(LoginRequiredMixin,TemplateView):
                     detected_words=', '.join(detected_words) if detected_words else None
                 )
 
-                # if sentiment == "Positive":
-                #     sentiment = "ポジティブ"
-                # elif sentiment == "Negative":
-                #     sentiment = "ネガティブ"
-
-                # # 小数点第3位まで表示
-                # positive_prob = Decimal(positive_prob*100).quantize(Decimal('0.01'))
-                # negative_prob = Decimal(negative_prob*100).quantize(Decimal('0.01'))
-
                 return render(request, self.template_name, {
                     'form': form,
                     'text': text_instance,
-                    # 'sentiment': sentiment,
-                    # 'positive_prob': positive_prob,
-                    # 'negative_prob': negative_prob,
                     })
             
             # 検出単語がない場合
@@ -459,56 +382,6 @@ class HarassmentReportView(LoginRequiredMixin,TemplateView):
                 HarassmentReportImage.objects.create(report=harassment_report, image=img)  # 画像を保存
             return redirect(self.success_url)
         return render(request, self.template_name, {"form": form})
-    
-# ハラスメント一覧画面
-class HarassmentReportListView(LoginRequiredMixin,TemplateView):
-    template_name = "harassment_list.html"
-    form_class = SearchForm
-
-    def get(self, request):
-        if not request.user.superuser_flag:
-            return HttpResponseForbidden(render(request, '403.html'))
-        harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time') # 同じ企業IDのハラスメント報告を取得
-        paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
-        return render(request, self.template_name, {"page_obj": page_obj})
-    
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # 検索フォームで入力されたものを取得
-            start_date = form.cleaned_data.get('start_date')    # 開始日
-            end_date = form.cleaned_data.get('end_date')        # 終了日
-
-            harassment_list = Harassment_report.objects.filter(company_id=request.user.company.id).order_by('-report_time')
-
-            filters = Q()  # 空のQオブジェクトを作成
-
-            if start_date:
-                filters &= Q(report_time__gte=start_date)
-            if end_date:
-                filters &= Q(report_time__lte=end_date)
-
-            # フィルタを適用してクエリセットを取得
-            harassment_list = harassment_list.filter(filters).order_by('-report_time')
-
-            paginator = Paginator(harassment_list, 10) # 1ページ当たり10件
-            page_number = request.GET.get('page') # 現在のページ番号を取得
-            page_obj = paginator.get_page(page_number)
-        return render(request, self.template_name, {"page_obj": page_obj, "form": form})
-    
-# ハラスメント詳細画面
-class HarassmentDetailView(LoginRequiredMixin, TemplateView):
-    template_name = "harassment_detail.html"
-
-    def get(self, request, pk):
-        if not request.user.superuser_flag:
-            return HttpResponseForbidden(render(request, '403.html'))
-        harassment_report = Harassment_report.objects.get(pk=pk) # 一覧画面で選択したハラスメント報告を取得
-        harassment_report_img = HarassmentReportImage.objects.filter(report=harassment_report) # ハラスメント報告に紐づく画像を取得
-        return render(request, self.template_name, {"harassment_report": harassment_report, "harassment_report_img": harassment_report_img})
-
 
 # アカウント情報確認画面
 class AccountInfoView(LoginRequiredMixin,TemplateView):
@@ -548,6 +421,16 @@ class CheckIdView(TemplateView):
             else:
                 return render(request, self.template_name, {"form": form})
         return render(request, self.template_name, {"form": form})
+
+# メール送信関数
+def send_email(to_email, subject, message):
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,  # 送信者のメールアドレス
+        [to_email],  # 受信者のメールアドレス
+        fail_silently=False,
+    )
         
 # Email送信
 def send_email(to_email, user):
@@ -567,6 +450,7 @@ def send_email(to_email, user):
         fail_silently=False,
     )
 
+# パスワード再設定時のメール送信
 class SendEmailView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendEmailForm
@@ -580,9 +464,6 @@ class SendEmailView(TemplateView):
         
         form = self.form_class
         return render(request, self.template_name, {"form": form})
-    
-        form = self.form_class()
-        return render(request, self.template_name, {"form": form})  
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -603,7 +484,6 @@ class SendSuperuserView(TemplateView):
     template_name = "forget_password.html"
     form_class = SendSuperuserForm
     success_url = reverse_lazy("app:pw_send_comp")
-
 
     def get(self, request):
         form = self.form_class
@@ -629,11 +509,7 @@ class SendSuperuserView(TemplateView):
             notification.save() # 保存
             return redirect(self.success_url)
         return render(self.template_name, {"form": form})
-        
-# メール送信完了
-class PwSendCompleteView(TemplateView):
-    template_name = "pw_send_comp.html"
-    
+
 #アカウント情報からのパスワード変更画面
 class PasswordChangeView(LoginRequiredMixin,TemplateView):
     template_name = 'password_change.html'  # パスワード変更用のテンプレート
@@ -682,14 +558,6 @@ class EmailChangeView(LoginRequiredMixin,TemplateView):
             return redirect(self.success_url) 
         return render(request, self.template_name, {"form": form})
 
-# PWリセット完了画面
-class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
-
-# メールアドレス変更完了画面
-class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
-    template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
-
 # 通知
 class NotificationView(LoginRequiredMixin,TemplateView):
     template_name = 'notification.html'
@@ -709,9 +577,7 @@ class NotificationView(LoginRequiredMixin,TemplateView):
             ).order_by('-created_at')
         else:
             return HttpResponseForbidden(render(request, '403.html'))
-        paginator = Paginator(notifications, 10) # 1ページ当たり10件
-        page_number = request.GET.get('page') # 現在のページ番号を取得
-        page_obj = paginator.get_page(page_number)
+        page_obj = pagenator(request, notifications) # 1ページの表示件数を設定
         return render(request, self.template_name, {"page_obj": page_obj})
     
 # ユーザー削除
@@ -836,6 +702,7 @@ class SuperuserDeleteView(LoginRequiredMixin, TemplateView):
             return redirect(self.success_url)
         return render(request, self.template_name, {"object": delete_user})
 
+# メールからのパスワード変更画面
 class MailPWChangeView(TemplateView):
     template_name = 'mail_PWchange.html'
     success_url = reverse_lazy('app:mail_PWcomp')
@@ -868,13 +735,41 @@ class MailPWChangeView(TemplateView):
                 form.add_error('new_password2', "パスワードが一致しません。")
         
         return render(request, self.template_name, {'form': form})
-    
+
+
+### 完了画面 ###
+
+# 登録完了画面
+class CompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "complete.html"
+
+# 報告完了画面
+class ReportCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "report_complete.html"
+
+# 削除完了画面
+class DeleteCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = "delete_complete.html"
+
+# PWリセット完了画面
+class PwChangeCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'pw_complete.html'  # パスワード変更完了用のテンプレート
+
+# メールアドレス変更完了画面
+class EmailChangeCompleteView(LoginRequiredMixin,TemplateView):
+    template_name = 'email_change_comp.html'  # メールアドレス変更完了用のテンプレート
+
+# メール送信完了
+class PwSendCompleteView(TemplateView):
+    template_name = "pw_send_comp.html"
+
+# メールからのパスワード変更完了画面
 class MailPwCompleteView(TemplateView):
     template_name = 'mail_PWcomp.html'  # パスワード変更完了用のテンプレート
 
 
+### エラーハンドリング ###
 
-# エラー
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)
 
