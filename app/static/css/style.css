@@ -1208,6 +1208,9 @@ textarea {
     display: none;
     cursor: pointer;
     padding: 15px;
+    position: absolute; /* 追加 */
+    top: 20px; /* 追加 */
+    left: 20px; /* 追加 */
 }
 
 .bar {
@@ -1263,7 +1266,11 @@ textarea {
         left: 0;
         top: 0;
     }
-    
+
+    /* ハンバーガーメニューを非表示にするスタイルを追加 */
+    .overlay.active ~ .hamburger {
+        display: none;
+    }
 
     @media (max-width: 768px) {
         .hamburger {
