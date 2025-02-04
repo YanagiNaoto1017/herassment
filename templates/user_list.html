@@ -3,7 +3,7 @@
 {% block content %}
 <h1>登録者一覧</h1>
 
-<form method="post">
+<form method="post" class="admin_list">
     {% csrf_token %}
     <div>
         <label for="search_text">名前:</label>
@@ -14,13 +14,12 @@
         <label for="end_date">終了日:</label>
         <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
     </div>
-    <button type="submit" class="btn btn-primary">検索</button>
+    <button type="submit">検索</button>
 </form>
 
 <table class="table">
     <thead class="table-dark">
         <tr>
-            {% comment %} <th scope="col"></th> {% endcomment %}
             {% if user.admin_flag %} <th scope="col">ID</th> {% endif %}
             <th scope="col">ユーザー名</th>
             {% if user.admin_flag %} <th scope="col">会社名</th> {% endif %}
@@ -33,7 +32,6 @@
         {% csrf_token %}
         {% for item in page_obj %}
         <tr>
-            {% comment %} <td>{% if item.superuser_flag %} ★ {% endif %}</td> {% endcomment %}
             {% if user.admin_flag %} <td>{{ item.account_id }}</td> {% endif %}
             <td>{{ item.account_name }}</td>
             {% if user.admin_flag %} <td>{{ item.company }}</td> {% endif %}

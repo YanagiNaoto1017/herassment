@@ -407,6 +407,22 @@ button[onclick="history.back()"] {
     display: block;
 }
 
+.user_list{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.user_list,
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
 /* ========================== フォーム内要素のスタイル ========================== */
 form {
     margin: 0 auto;
@@ -1021,6 +1037,10 @@ textarea {
 
 /* ========================== モバイル対応 ========================== */
 @media (max-width: 768px) {
+    .admin_signup{
+        max-width: 90%;
+    }
+
     .container {
         max-width: 90%; /* モバイル時に幅を90%に調整 */
         margin: 20px auto; /* 上下の余白を縮小 */
@@ -1174,15 +1194,20 @@ textarea {
     }
     
     .table {
-        padding: 15px;
+        padding: 15%;
     }
 
     th,
     td {
-        font-size: 14px;
-        padding: 8px 12px;
+        font-size: 8px;
+        padding: 10px 3px;
     }
 
+    tr,
+    td{
+        font-size: 9px;
+        font-weight: bold;
+    }
     td,
     th {
         word-wrap: break-word;
