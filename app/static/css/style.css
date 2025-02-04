@@ -1,32 +1,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap');
 
-/* グローバルスタイル */
-html, body {
-    height: 100%; /* ページ全体を100%の高さに */
-    margin: 0; /* ページ全体の余白を削除 */
+/* ========================== 全体のリセットと初期設定 ========================== */
+html,
+body {
+    height: 100%;
+    margin: 0;
     display: flex;
-    flex-direction: column; /* コンテンツを縦に並べる */
+    flex-direction: column;
     font-family: 'Roboto', sans-serif;
 }
 
-/* サイドバーの基本スタイル */
+/* ========================== コンテナ ========================== */
+.container {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin: 50px auto; /* 上下の余白と中央揃え */
+}
+
+.pw_container{
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin: 50px auto; /* 上下の余白と中央揃え */
+}
+
+.pw_container{
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin: 50px auto; /* 上下の余白と中央揃え */
+}
+
+/* ========================== Flexコンテナ ========================== */
+.flex-container {
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    margin: 0 auto;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    max-width: 90%;
+    max-height: 90%;
+    height: auto;
+}
+
+/* ========================== サイドバー ========================== */
 .sidebar {
     width: 230px;
     height: 100vh;
-    background: linear-gradient(180deg, #f9f9f9, #e6f7f4); /* 優しいグラデーション */
-    color: rgb(34, 112, 93); /* 調和の取れた色合い */
+    background: linear-gradient(180deg, #f9f9f9, #e6f7f4);
+    color: rgb(34, 112, 93);
     position: fixed;
-    top: -20px;
+    top: 0;
     left: 0;
     padding: 20px;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2); /* 柔らかな影 */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     z-index: 1000;
+    border: 1px solid rgba(119, 227, 202, 0.8);
+    border-radius: 8px;
     transition: all 0.3s ease-in-out;
-    border: 1px solid rgba(119, 227, 202, 0.8); /* 控えめな枠線 */
-    border-radius: 8px; /* 角を丸める */
 }
-
 
 .sidebar-heading {
     font-size: 1.5em;
@@ -35,53 +91,12 @@ html, body {
     text-align: center;
 }
 
-/* サイドバーの区切り線 */
 .sidebar-divider {
     border-top: 1px solid rgb(119, 227, 202);
     margin: 5px 0;
 }
 
-/* リストアイテムのスタイル */
-.nav-item {
-    margin: 5px 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-/* アイコンとテキストの配置 */
-.nav-item .icon {
-    margin-right: 10px;
-    font-size: 1.2em;
-}
-
-.nav-link {
-    color: rgb(85, 167, 148);
-    text-decoration: none;
-    display: flex;
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: center; /* 横方向中央揃え */
-    padding: 12px 24px; /* 左右の余白を16pxに設定 */
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-size: 1.0em; /* 少し小さくする */
-    border: 1px solid rgb(119, 227, 202);
-    width: 200px; /* 幅を200pxに設定 */
-    /* box-sizing: border-box; padding や border の分も考慮する */
-}
-/* ホバー時のスタイル */
-.nav-link:hover {
-    background-color:rgb(85, 167, 148);
-    transform: translateX(5px);
-}
-
-/* アクティブリンクのスタイル */
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.3);
-    font-weight: bold;
-}
-
-/* スクロールバーのカスタマイズ */
+/* サイドバーのスクロールバー */
 .sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -94,159 +109,586 @@ html, body {
 .sidebar::-webkit-scrollbar-track {
     background: transparent;
 }
-/* コンテンツラッパーのスタイル */
+
+/* ========================== ナビゲーションアイテム ========================== */
+.nav-item {
+    margin: 5px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+/* アイコンのスタイル */
+.nav-item .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* ナビゲーションリンクの基本スタイル */
+.nav-link {
+    color: rgb(85, 167, 148);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 1.0em;
+    border: 1px solid rgb(119, 227, 202);
+    width: 200px;
+    background-color: white;
+}
+
+/* ナビゲーションリンクのホバー時のスタイル */
+.nav-link:hover {
+    background-color: rgb(85, 167, 148);
+    transform: translateX(5px);
+}
+
+/* アクティブなリンクのスタイル */
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* aタグのスタイル */
+a.nav-link {
+    color: rgb(85, 167, 148);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    border-radius: 18px;
+    transition: all 0.3s ease;
+    font-size: 1.0em;
+    border: 2px solid rgb(119, 227, 202);
+    width: 200px;
+}
+
+/* aタグのホバー時のスタイル */
+a.nav-link:hover {
+    background-color: rgb(161, 223, 209);
+    transform: translateX(5px);
+    color: cadetblue
+    ;
+}
+
+/* aタグのアクティブなリンクのスタイル */
+a.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* ========================== コンテンツエリア ========================== */
 #content-wrapper {
     margin-left: 275px;
     flex: 1;
+    transition: margin-left 0.3s ease;
 }
 
-/* メインコンテンツのスタイル */
 #content {
     background-color: #ffffff;
-    min-height: 83vh;
-}
-
-/* フレックスコンテナのスタイル */
-.flex-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 20px 0;
-}
-
-/* リストグループのスタイル */
-.list-group {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: center; /* 横方向中央揃え */
-}
-
-/* 中央ボックスのスタイル */
-.center-box {
-    border: 2px solid #0595c5;
-    border-radius: 16px;
-    padding: 10px;
-    background-color: #ffffff;
-    margin: 30px auto;
-    flex: 0 0 600px;
-    text-align: center;
-}
-
-/* ヘッダーのスタイル */
-header {
-    background-color: #ffffff;
-    text-align: center;
-}
-
-/* ヘッダー内のタイトルスタイル */
-header h1 {
-    margin: 0;
-    font-size: 2em;
-    background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
-    -webkit-background-clip: text; /* WebKitブラウザ向け */
-    background-clip: text; /* 標準プロパティ */
-    -webkit-text-fill-color: transparent; /* WebKitブラウザ向け */
-}
-
-/* フッターのスタイル */
-footer {
-    background: #00787e;/* サイドバーと調和するグラデーション */
-    color: rgb(244, 246, 246); /* サイドバーと一致する色 */
-    text-align: center;
+    min-height: 79vh;
     padding: 20px;
-    border-top: 1px solid rgba(119, 227, 202, 0.8); /* サイドバーと統一した枠線 */
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 上部に柔らかな影 */
-    position: relative;
-    border-radius: 8px 8px 0 0; /* 上部角を丸める */
 }
 
-
-/* フォームやボタンのスタイル */
-button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    font-size: 1em;
-    padding: 12px 25px;
+/* ========================== ボタンの基本スタイル ========================== */
+button {
+    font-family: 'Roboto', sans-serif; /* 共通フォント */
+    padding: 10px 15px; /* ベーシックな内側余白 */
     border: none;
-    border-radius: 6px;
+    border-radius: 5px; /* 角丸 */
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s, box-shadow 0.3s ease; /* スムーズな変化 */
+    color: white; /* テキストの色 */
+    width: 100%; /* デフォルトはフル幅 */
+    background-color: #007bff; /* プライマリカラー */
+}
+
+/* ========================== ボタンのホバー・アクティブスタイル ========================== */
+button:hover {
+    background-color: #0056b3; /* 濃い色に変更 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+button:active {
+    background-color: #004494; /* さらに濃い色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* アクティブ時の影を減らす */
+}
+
+/* ========================== 送信ボタン（type="submit"）のスタイル ========================== */
+button[type="submit"] {
+    font-size: 1rem; /* フォントサイズ */
+    padding: 10px 20px; /* 送信ボタン専用の余白 */
+    background: linear-gradient(to right, #007bff, #0056b3); /* グラデーション背景 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影 */
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #0056b3, #007bff); /* ホバー時の逆グラデーション */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* ホバー時の影を強調 */
 }
 
-button[type="submit"]:active {
-    background-color: #004494;
+/* ========================== 固定ボタンのスタイル ========================== */
+.fixed-button {
+    position: fixed;
+    bottom: 20px; /* ビューポート下部に固定 */
+    right: 20px; /* ビューポート右側に固定 */
+    z-index: 1000; /* 上層に配置 */
+    padding: 12px 25px;
+    background-color: #007bff;
+    border-radius: 50px; /* 丸みを強調 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 固定ボタン用の影 */
 }
 
-/* フォームスタイル */
-form {
+/* ========================== フォームのスタイル ========================== */
+.admin_list {
+    margin: 0 auto;
+    width: 500px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.admin_list
+label{
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.admin_list
+input[type="text"],
+input[type="date"]{
+    width: 300px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_list
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.admin_signup {
     max-width: 500px;
     margin: 0 auto;
-    padding: 30px;
-    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.admin_signup
+input[type="text"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+input[type="email"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+input[type="password"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.admin_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
 }
 
-/* 見出しスタイル */
-h1 {
+.check_id{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.check_id
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.reset_pw{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.reset_pw
+h2{
     text-align: center;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 20px;
+}
+.reset_pw
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
 }
 
-/* リンクのスタイル */
-a {
-    display: inline-block;
-    text-decoration: none; /* 下線なし */
-    font-size: 1rem;
-    color: #3498db; /* リンク色 */
-    padding: 12px 24px; /* より広いパディング */
-    border-radius: 8px; /* 角を丸く */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* より柔らかい影 */
-    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #ffffff; /* 背景色 */
-    margin: 2px;
-    
+.send_fpw{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
 }
 
-a:hover,
-a:focus {
-    background-color: #3498db; /* ホバー時の背景色 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時に影を強く */
-    transform: translateY(-2px); /* ホバー時に少し浮き上がる */
-    color: #ffffff; 
+.login_form{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.login_form
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.login_form
+link{
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
 }
 
-a:active {
-    background-color: #2980b9; /* クリック時の背景色 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* クリック時の影 */
-    transform: translateY(0); /* クリック時に元に戻る */
-    color: #ffffff; 
+.link {
+    text-align: center;
+    margin-top: 20px;
 }
 
+.company_del{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.company_del
+p{
+    text-align: center;
+}
+.company_del
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.company_del
+button[onclick="history.back()"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
 
-/* フォームフィールドとラベルのスタイル */
+.user_list{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.user_list,
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+/* ========================== フォーム内要素のスタイル ========================== */
+form {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 form div {
     margin-bottom: 20px;
 }
 
-label {
-    display: block;
+form label {
+    font-size: 1rem;
     font-weight: bold;
-    color: #666;
-    margin-bottom: 8px;
-    font-size: 0.9em;
+    color: #555;
 }
 
-/* 入力フィールドのスタイル */
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* ========================== エラーメッセージのスタイル ========================== */
+form .errorlist {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+
+/* ========================== ボタンおよびリンクのスタイル ========================== */
+form a {
+    text-decoration: none;
+    background-color: #5bc0de;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+form a:hover {
+    background-color: #31b0d5;
+}
+
+form button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #c9302c;
+}
+
+/* ========================== モバイル対応 ========================== */
+.list-group {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================== 中央ボックスのスタイル ========================== */
+.center-box {
+    border: 2px solid #0595c5; /* 枠線の色 */
+    border-radius: 16px; /* 角を丸くする */
+    padding: 20px; /* 内側余白を増加 */
+    background-color: #a5f0fa; 
+    margin: 30px auto; /* 中央揃え */
+    max-width: 600px; /* 最大幅を指定 */
+    width: 90%; /* モバイル対応で幅を調整 */
+    text-align: center; /* テキストを中央揃え */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ボックスの影 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 視覚効果のトランジション */
+}
+
+.center-box:focus {
+    background-color: #e0f7fa; /* フォーカス時の背景色 */
+    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+}
+/* .center-box内のリンクのスタイル */
+.center-box a {
+    color: #0595c5; /* リンクの色 */
+    text-decoration: none; /* 下線を削除 */
+    transition: color 0.3s ease; /* 色のトランジション */
+    border: 2px solid #bce9f8; /* 枠線の色 */
+    border-radius: 16px; /* 角を丸くする */
+}
+
+.center-box a:hover {
+    color: #76a0b0; /* ホバー時のリンクの色 */
+    text-decoration: none; /* ホバー時に下線を削除 */
+    background-color: #baf7ff; /* フォーカス時の背景色 */
+}
+
+.center-box a:focus {
+    background-color: #e0f7fa; /* フォーカス時の背景色 */
+    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+}
+/* ========================== 中央コンテナのスタイル ========================== */
+.center-container {
+    display: flex; /* フレックスボックスで子要素を配置 */
+    justify-content: center; /* 子要素を中央揃え */
+    align-items: center; /* 垂直方向も中央揃え */
+    margin: 0 auto; /* 中央配置 */
+    padding: 0;
+    min-height: 100vh; /* 画面全体の高さを占有 */
+    background-color: #f8f9fa; /* 背景色を追加 */
+}
+
+/* ========================== ヘッダー全体のスタイル ========================== */
+header {
+    background-color: #ffffff; /* 背景色を白に設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* ========================== ヘッダータイトルのスタイル ========================== */
+header h1 {
+    margin: 0;
+    font-size: 2.5em; /* フォントサイズを少し大きく */
+    background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
+    -webkit-background-clip: text; /* グラデーションテキスト */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* 背景をテキスト色に反映 */
+}
+
+/* ========================== ボタンの共通スタイル ========================== */
+header .btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+/* ========================== プライマリーボタン ========================== */
+header .btn-primary {
+    background-color: #20aa60; /* 緑色の背景 */
+    color: white;
+    text-decoration: none; /* 下線を削除 */
+}
+
+header .btn-primary:hover {
+    background-color: #b0b300;}
+
+/* ========================== ログアウトボタン ========================== */
+header .btn-logout {
+    background-color: #dc3545; /* 赤色の背景 */
+    color: white;
+    text-decoration: none; /* 下線を削除 */
+}
+
+header .btn-logout:hover {
+    background-color: #b0b300;}
+
+/* ========================== ボタンの共通ホバースタイル ========================== */
+header .btn:hover {
+    transform: translateY(-3px); /* ホバー時に軽く浮き上がる */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ボタンに影を追加 */
+}
+
+/* ========================== サブヘッダーのスタイル ========================== */
+.harassment-header {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 2px solid #f0f0f0; /* 下線を追加 */
+}
+
+.harassment-header h2 {
+    font-size: 1.5em; /* 適切なフォントサイズ */
+    color: #333; /* ダークグレー */
+    margin: 0;
+}
+
+.harassment-detail {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================== フッター全体のスタイル ========================== */
+footer {
+    background-color: #00787e; /* 背景色を濃い青緑に設定 */
+    text-align: center; /* テキストを中央揃え */
+    padding: 20px;
+    border-top: 1px solid rgba(119, 227, 202, 0.8); /* 上部に薄い境界線 */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* フッター上部に影を追加 */
+    border-radius: 8px 8px 0 0; /* 上部左右の角を丸く */
+    position: relative; /* 相対位置に設定 */
+}
+
+span.footer-area {
+    color: white;
+}
+
+/* ========================== 共通スタイル ========================== */
+
+h1 {
+    text-align: center; /* テキストを中央揃え */
+    font-family: 'Arial', 'Playfair Display', sans-serif; /* フォントスタックを統合 */
+    color: #2c3e50; /* テキストカラーを落ち着いた濃いグレーに設定 */
+    font-size: 2rem; /* ベースのフォントサイズ */
+    font-weight: bold; /* 太字設定 */
+    margin: 20px auto; /* 上下の余白を統一し、中央揃え */
+    position: relative; /* 必要に応じて位置調整が可能 */
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+p {
+    font-family: 'Roboto', sans-serif; /* 一貫したフォント */
+    font-size: 1rem; /* ベースのフォントサイズ */
+    font-weight: 400; /* 標準の太さ */
+    color: #333; /* 落ち着いた文字色 */
+    margin-bottom: 15px; /* 統一されたマージン */
+    text-align: left; /* デフォルトは左揃え */
+}
+
+
+
+/* 入力フィールド全般 */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -254,15 +696,15 @@ input[type="number"],
 select,
 textarea {
     width: 100%;
-    padding: 12px 16px; /* 少し広めのパディング */
-    border: 2px solid #ccc; /* 明るいボーダー */
-    border-radius: 12px; /* 角を丸く、少し大きく */
-    font-size: 1rem; /* 適切なフォントサイズ */
-    background-color: #f9f9f9; /* 明るい背景色 */
-    color: #333; /* 文字色を少し濃く */
-    transition: all 0.3s ease; /* ボーダーと影のスムーズな遷移 */
-    box-sizing: border-box; /* パディングを含めた幅の計算 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを統一 */
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* フォーカス時のスタイル */
@@ -272,20 +714,20 @@ input[type="email"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #4CAF50; /* フォーカス時のボーダー色 */
-    outline: none; /* フォーカス時のアウトラインを消す */
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* フォーカス時のボックスシャドウ */
-    background-color: #ffffff; /* フォーカス時の背景色変更 */
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+    background-color: #ffffff;
 }
 
-/* 入力フィールドのホバー時のスタイル */
+/* ホバー時のスタイル */
 input[type="text"]:hover,
 input[type="password"]:hover,
 input[type="email"]:hover,
 input[type="number"]:hover,
 select:hover,
 textarea:hover {
-    border-color: #888; /* ホバー時のボーダー色 */
+    border-color: #888;
 }
 
 /* プレースホルダーテキストのスタイル */
@@ -294,71 +736,134 @@ input[type="password"]::placeholder,
 input[type="email"]::placeholder,
 input[type="number"]::placeholder,
 textarea::placeholder {
-    color: #bbb; /* 薄いグレーでプレースホルダーテキストを表示 */
-    font-style: italic; /* イタリック体にして目立たせる */
+    color: #bbb;
+    font-style: italic;
 }
 
-/* 選択フィールドのスタイル */
+/* 追加のスタイル */
+input {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    padding: 12px;
+    resize: vertical; /* 縦方向のリサイズを可能に */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1rem;
+}
+
+/* 基本のテーブルスタイル */
+.table {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    table-layout: fixed;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* テーブルのセルスタイル */
+td,
+th {
+    padding: 12px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+td {
+    background-color: #fafafa;
+}
+
+/* 行ごとの背景色 */
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+tr:hover td {
+    background-color: #f0f8ff;
+    cursor: pointer;
+}
+
+/* ヘッダーのスタイル */
+th {
+    background-color: #3498db;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #2980b9;
+}
+
+/* フォーカス時のスタイル */
+td:focus,
+th:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+}
+
+.content-column {
+    width: 60%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.date-column {
+    width: 20%;
+    white-space: nowrap;
+}
+
+/* 基本のラベルスタイル */
+label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
 select {
-    -webkit-appearance: none; /* Safariなどでデフォルトのスタイルを無効化 */
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #f9f9f9; /* 背景色 */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>'); /* ドロップダウンアイコン */
+    background-color: #f9f9f9;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5"><polygon points="0,0 5,0 2.5,5" fill="#888"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 10px center; /* アイコンの位置 */
-    padding-right: 35px; /* アイコンの余白 */
+    background-position: right 10px center;
+    padding-right: 35px;
 }
 
-/* テキストエリアのスタイル */
 textarea {
-    resize: vertical; /* 縦のリサイズを可能に */
-    min-height: 120px; /* 最小高さを設定 */
+    resize: vertical;
+    min-height: 120px;
 }
 
-
-/* エラーメッセージのスタイル */
 .error {
     color: #e74c3c;
-    font-size: 0.85em;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
 }
 
-/* ボタンスタイル */
-button {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: var(--primary-hover);
-}
-
-header .btn {
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-header .btn-primary {
-    background-color: #20aa60;
-    color: white;
-}
-
-header .btn-logout {
-    background-color: #dc3545;
-    color: white;
-}
-
-header .btn:hover {
-    background-color: #b0b300;
-}
-
-/* ページネーション */
+/* ページネーション全体のスタイル */
 .pagination {
     display: flex;
     justify-content: center;
@@ -366,14 +871,15 @@ header .btn:hover {
     margin: 30px 0;
     list-style: none;
     font-family: 'Arial', sans-serif;
+    text-align: center;
 }
 
-/* ページアイテム */
+/* 各ページアイテムの間隔 */
 .page-item {
     margin: 0 6px;
 }
 
-/* ページリンク */
+/* ページリンクのスタイル */
 .page-item a,
 .page-item span {
     display: inline-flex;
@@ -384,36 +890,36 @@ header .btn:hover {
     font-weight: 600;
     text-decoration: none;
     color: #fff;
-    background-color: #007bff; /* 初期背景色 */
+    background-color: #007bff;
     border: 1px solid #007bff;
-    border-radius: 50px; /* 丸みを強調 */
+    border-radius: 50px;
     transition: all 0.3s ease;
 }
 
-/* ホバー時のスタイル */
+/* ページリンクホバー時のスタイル */
 .page-item a:hover,
 .page-item span:hover {
-    background-color: #0056b3; /* 少し濃い青に */
+    background-color: #0056b3;
     color: #fff;
     cursor: pointer;
-    transform: scale(1.1); /* ホバー時に少し大きく */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* アクティブページのスタイル */
+/* アクティブなページアイテムのスタイル */
 .page-item.active span {
-    background-color: #28a745; /* アクティブなページは緑 */
-    color: white;
+    background-color: #28a745;
+    /* color: white; */
     border-color: #28a745;
 }
 
-/* 無効なページのスタイル */
+/* 無効なページアイテムのスタイル */
 .page-item.disabled a,
 .page-item.disabled span {
     color: #6c757d;
-    background-color: #f8f9fa; /* グレーの背景色 */
+    background-color: #f8f9fa;
     border-color: #ddd;
-    pointer-events: none; /* クリック不可 */
+    pointer-events: none;
 }
 
 /* フォーカス時のスタイル */
@@ -423,7 +929,7 @@ header .btn:hover {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
 
-/* 「前へ」「次へ」ボタン */
+/* "Previous" と "Next" ボタンのスタイル */
 .page-item a[aria-label="Previous"],
 .page-item a[aria-label="Next"] {
     font-size: 18px;
@@ -431,21 +937,13 @@ header .btn:hover {
     font-weight: bold;
 }
 
-/* アイコンボタンのスタイル (例: ページ番号の隣に矢印などを追加) */
+/* "Previous" と "Next" ボタンのアイコンサイズ */
 .page-item a[aria-label="Previous"]::before,
 .page-item a[aria-label="Next"]::before {
     font-size: 18px;
     margin: 0 6px;
 }
 
-/* 固定ボタン */
-.fixed-button {
-    position: fixed;
-    margin: 20px 0;
-    z-index: 1000;
-}
-
-/* プライマリボタンのスタイル */
 .primary-btn {
     background-color: #007bff;
     color: white;
@@ -463,197 +961,390 @@ header .btn:hover {
     background-color: #f8fbff;
 }
 
-/* 検出・校正ボックスのスタイル */
+/* 共通のスタイル */
 .detect-box,
 .proofreading-box {
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブル風の影を追加 */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* 検出ボックス */
+/* detect-boxのスタイル */
 .detect-box {
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #f4f8fb; /* 背景色 */
+    border: 2px solid #3498db;
+    background-color: #f4f8fb;
 }
 
 .detect-box:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .detect-box .list-group-item a {
-    color: #3498db; /* リンク色 */
+    color: #3498db;
     text-decoration: none;
 }
 
 .detect-box .list-group-item a:hover {
-    color: #f8f8f8; /* ホバー時のリンク色 */
+    color: #f8f8f8;
 }
 
-/* 校正ボックス */
+/* proofreading-boxのスタイル */
 .proofreading-box {
-    border: 2px solid #3498db; /* ボーダー色 */
-    background-color: #f4f8fb; /* 背景色 */
+    border: 2px solid #3498db;
+    background-color: #f4f8fb;
 }
 
 .proofreading-box:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時に影が強くなる */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .proofreading-box .list-group-item a {
-    color: #3498db; /* リンク色 */
+    color: #3498db;
     text-decoration: none;
 }
 
 .proofreading-box .list-group-item a:hover {
-    color: #2980b9; /* ホバー時のリンク色 */
+    color: #2980b9;
 }
 
-/* 新しいセクション */
-.detect-box,
-.proofreading-box {
-    border-radius: 8px; /* 丸みを持たせる */
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #ffffff; /* 白い背景に変更 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* アニメーション */
-}
-
-.detect-box .list-group-item a,
-.proofreading-box .list-group-item a {
-    color: #3498db; /* デフォルトのリンク色 */
-}
-
-.detect-box .list-group-item a:hover,
-.proofreading-box .list-group-item a:hover {
-    color: #eff2f3; /* ホバー時のリンク色 */
-}
-
-/* テーブルのスタイル */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* テーブルに影をつけて立体感 */
-}
-
-/* テーブルのヘッダー */
-th {
-    background-color: #3498db; /* ヘッダーの背景色 */
-    color: #fff; /* ヘッダー文字色 */
-    font-size: 16px;
-    font-weight: 600;
-    padding: 12px 20px;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 1px; /* ヘッダー文字の間隔を広げる */
-    border-bottom: 2px solid #2980b9; /* ヘッダー下に強調されたボーダー */
-}
-
-/* テーブルのセル */
-td {
-    padding: 12px 20px;
+/* .report-time のスタイル */
+.report-time {
     font-size: 14px;
-    text-align: left;
-    color: #333; /* テーブルの文字色 */
-    background-color: #fafafa; /* セルの背景色 */
-    border-bottom: 1px solid #ddd;
+    color: #777;
+    margin-top: 5px;
 }
 
-/* 偶数行の背景色を少し変更 */
-tr:nth-child(even) td {
-    background-color: #f9f9f9;
-}
-
-/* ホバー時の行の背景色 */
-tr:hover td {
-    background-color: #f0f8ff; /* ホバー時に薄い青色 */
-    cursor: pointer; /* ポインタが手のひらに変わる */
-}
-
-/* テーブルのボーダー */
-td, th {
-    border: 1px solid #ddd;
-}
-
-/* テーブル全体に枠線を設定 */
-table {
-    border-radius: 8px; /* 丸い角を追加 */
-    overflow: hidden; /* 角の丸みを維持 */
-}
-
-/* フォーカス時のセル */
-td:focus, th:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 青いシャドウで焦点を合わせる */
-}
-
-/* 親要素を中央揃え */
-.center-container {
-    display: flex;
-    justify-content: center; /* 横方向の中央揃え */
-    margin: 0;
-    padding: 0;
-}
-
-/* テーブルのカラムスタイル */
-.date-column {
-    width: 20%; /* 日付カラムを狭める */
-    white-space: nowrap; /* 内容が折り返されないようにする */
-}
-
-.content-column {
-    width: 60%; /* 内容カラムを広げる */
-    word-wrap: break-word; /* 必要に応じて折り返しを有効にする */
-    white-space: normal; /* テキストが長すぎる場合は折り返す */
-}
-
-/* テーブルの全体的なスタイル調整 */
-.table {
-    table-layout: fixed; /* 固定レイアウトでカラム幅を制御 */
-    width: 100%; /* テーブル全体の幅を確保 */
-}
-
-.table tbody tr {
-    height: 80.98px; /* すべての行の高さを固定 */
-}
-
-/* 見出し1のフォントスタイル */
-h1 {
-    font-family: 'Playfair Display', serif; /* 高級感あるフォント */
-    font-size: 2.5rem; /* 見出し1の文字サイズ */
-    font-weight: 700;
-    color: #2c3e50; /* ダークブルー系の色 */
+/* .harassment-body .report-detail のスタイル */
+.harassment-body .report-detail {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
     margin-bottom: 20px;
 }
 
-/* 見出し2のフォントスタイル */
-h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #34495e; /* 少し薄めの色 */
-    margin-bottom: 15px;
+/* .report-image img のスタイル */
+.report-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-/* 見出し3のフォントスタイル */
-h3 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: #7f8c8d; /* グレー寄りの色 */
-    margin-bottom: 10px;
+/* ========================== モバイル対応 ========================== */
+@media (max-width: 768px) {
+    .admin_signup{
+        max-width: 90%;
+    }
+
+    .container {
+        max-width: 90%; /* モバイル時に幅を90%に調整 */
+        margin: 20px auto; /* 上下の余白を縮小 */
+    }
+
+    .flex-container {
+        width: 100%; /* モバイルでは幅を100%に */
+        height: auto; /* 高さを自動調整 */
+        padding: 10px; /* モバイルでのパディング調整 */
+        box-shadow: none; /* スマホでは影をなくす */
+    }
+
+    /* サイドバーの設定 */
+    .sidebar {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: -100%; /* 初期状態でサイドバーは非表示 */
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    /* ハンバーガーメニューの表示 */
+    .menu-icon {
+        display: block;
+    }
+
+    /* ナビゲーションリンクの幅を100%に調整してモバイル対応 */
+    .nav-link {
+        width: 100%; /* 画面いっぱいに広がる */
+        padding: 12px; /* 上下左右のパディングを均等に */
+        font-size: 1.1em; /* モバイルで少し大きく見えるように調整 */
+    }
+
+    /* アイコンのサイズを少し小さく */
+    .nav-item .icon {
+        font-size: 1.0em;
+    }
+
+    /* ナビゲーションリンクの並びを縦に変更 */
+    .nav-item {
+        flex-direction: column;
+        align-items: flex-start; /* アイテムを左揃え */
+    }
+
+    /* コンテンツの余白調整 */
+    #content-wrapper {
+        margin-left: 0;
+    }
+
+    #content {
+        min-height: auto;
+    }
+
+    /* サイドバーを開いた時の動作 */
+    .sidebar.open {
+        left: 0; /* サイドバーが表示される */
+    }
+
+    /* モバイル画面用のスタイル */
+    #content-wrapper {
+        margin-left: 0; /* サイドバーが非表示のときにコンテンツを全幅に */
+    }
+
+    button {
+        width: auto; /* モバイルでは幅を自動調整 */
+        padding: 8px 16px; /* パディングを調整 */
+    }
+
+    .fixed-button {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 20px; /* モバイル用のサイズ調整 */
+        font-size: 0.9rem; /* フォントサイズを縮小 */
+    }
+
+    form input,
+    form select,
+    form textarea {
+        font-size: 0.9rem;
+    }
+
+    form button {
+        font-size: 0.9rem;
+    }
+
+    form a {
+        font-size: 0.9rem;
+    }
+
+    .list-group {
+        flex-direction: column; /* モバイルでは縦並びを維持 */
+    }
+
+    .center-box {
+        padding: 15px; /* モバイルで内側余白を調整 */
+        border-radius: 12px; /* 角丸をやや小さく */
+    }
+    .center-container {
+        flex-direction: column; /* モバイルでは縦並びを強制 */
+    }
+
+    header h1 {
+        font-size: 2em; /* モバイルで少し小さく */
+    }
+    header .btn {
+        padding: 8px 15px; /* モバイルでボタンのサイズ調整 */
+        font-size: 0.9rem; /* フォントサイズを調整 */
+    }
+    .harassment-header h2 {
+        font-size: 1.2em; /* モバイルでサブヘッダーを調整 */
+    }
+
+    footer {
+        padding: 15px; /* モバイルで余白を少し縮小 */
+        font-size: 0.9rem; /* テキストサイズを小さく */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* モバイル画面でフォントサイズを小さく */
+        margin: 15px auto; /* 余白を調整 */
+    }
+
+    h2 {
+        font-size: 1.75rem; /* モバイルでフォントサイズを縮小 */
+        margin: 15px auto; /* 余白を調整 */
+    }
+
+    h3 {
+        font-size: 1.5rem; /* モバイルでサブ見出しも調整 */
+        margin: 15px auto; /* 余白を調整 */
+    }
+
+    p {
+        font-size: 0.9rem; /* モバイルで文字サイズを少し小さく */
+        margin-bottom: 12px; /* 間隔も調整 */
+    }
+
+    .table {
+        padding: 10px;
+    }
+
+    .table tbody tr {
+        height: auto; /* 行の高さを自動調整 */
+    }
+
+    .content-column {
+        width: 100%;
+        padding-left: 10px; /* 左右の余白を調整 */
+        padding-right: 10px; /* 同様に右側も調整 */
+    }
+    
+    .table {
+        padding: 15%;
+    }
+
+    th,
+    td {
+        font-size: 8px;
+        padding: 10px 3px;
+    }
+
+    tr,
+    td{
+        font-size: 9px;
+        font-weight: bold;
+    }
+    td,
+    th {
+        word-wrap: break-word;
+    }
+
+    label {
+        font-size: 1.1em;
+        margin-bottom: 5px;
+    }
+
+    select {
+        font-size: 1.2rem;
+        padding: 14px 28px 14px 14px;
+    }
+
+    textarea {
+        font-size: 1.2rem;
+        padding: 16px 20px;
+        min-height: 160px;
+    }
+
+    .page-item a,
+    .page-item span {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .primary-btn {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
+
+    .detect-box,
+    .proofreading-box {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .detect-box .list-group-item a,
+    .proofreading-box .list-group-item a {
+        font-size: 14px;
+    }
+    
+    .link a {
+        font-size: 0.85rem;
+    }
+
+    .report-time {
+        font-size: 13px;
+    }
+
+    .harassment-body .report-detail {
+        font-size: 15px;
+    }
+
 }
 
-/* パラグラフのスタイル */
-p {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: #333;
-    margin-bottom: 15px;
+.hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .sidebar.active {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #343a40;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        padding-top: 60px;
+    }
+    .hamburger {
+        display: none;
+        cursor: pointer;
+        padding: 15px;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 2px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: #333;
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .overlay.active {
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        left: 0;
+        top: 0;
+    }
+    
+
+    @media (max-width: 768px) {
+        .hamburger {
+            display: block;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .sidebar.active {
+            display: block;
+            position: absolute;
+            width: 230px;
+            height: 100%;
+            background-color: #343a40;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            padding-top: 60px;
+        }
+    }
 }

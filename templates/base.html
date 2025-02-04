@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>へらすめんと</title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
@@ -21,10 +22,24 @@
             {% csrf_token %}
             <a href="javascript:logout.submit()" class="btn btn-logout">ログアウト</a>
         </form>
+
+        <!-- ハンバーガーメニュー -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
     </header>
+
+    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
     <!-- サイドバー -->
     {% if user.superuser_flag and user.user_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -46,6 +61,11 @@
     </ul>
     {% elif user.user_flag and not user.superuser_flag %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -61,6 +81,11 @@
     </ul>
     {% else %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+        <div class="close-btn" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
         <hr class="sidebar-divider my-0">
         <hr class="sidebar-divider">
         <div class="sidebar-heading">アカウント</div>
@@ -72,7 +97,7 @@
         <div class="sidebar-heading">一覧</div>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:user_list' %}">登録者</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:company_list' %}">企業</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'app:error_list' %}">エラー報告</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'app:error_list' %}">お問い合わせ</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'app:admin_list' %}">管理者</a></li>
         <hr class="sidebar-divider d-none d-md-block">
     </ul>
@@ -94,18 +119,19 @@
         </div>
 
         <!-- フッター -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
+        <footer class="footer-area">
+           
                 <div class="copyright text-center my-auto">
-                    <span>© へらすめんと</span>
+                    <span class="footer-area">© へらすめんと</span>
                 </div>
-            </div>
+            
         </footer>
         <!-- フッターの終了 -->
     </div>
     <!-- コンテンツラッパーの終了 -->
     </div>
     <!-- ページラッパーの終了 -->
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>
