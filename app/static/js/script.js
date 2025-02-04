@@ -1,5 +1,4 @@
-
-       document.getElementById('harassmentForm').onsubmit = async (event) => {
+document.getElementById('harassmentForm').onsubmit = async (event) => {
            event.preventDefault();
            const content = document.getElementById('content').value;
            const response = await fetch('/analyze-content/', {
@@ -12,16 +11,10 @@
                ? "ハラスメントが検出されました。"
                : "ハラスメントは検出されませんでした。";
        };
-       
+
         function toggleMenu() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('overlay');
-            var hamburger = document.querySelector('.hamburger');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
-            if (overlay.classList.contains('active')) {
-                hamburger.style.display = 'none';
-            } else {
-                hamburger.style.display = 'block';
-            }
         }

@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 600px; margin: 30px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-    <h1 style="text-align: center; font-size: 1.8em; margin-bottom: 20px; color: #333;">校正画面</h1>
+<div class="proofreading-form">
+    <h1>校正画面</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
-        <div style="margin-bottom: 20px;">
-            <label for="text_to_proofreading" style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 1.1em; color: #555;">校正したい文:</label>
-            <input type="text" id="text_to_proofreading" name="text_to_proofreading" required style="width: 100%; padding: 10px; font-size: 1.1em; border: 1px solid #ccc; border-radius: 4px;">
+        <div>
+            <label for="text_to_proofreading">校正したい文:</label>
+            <input type="text" id="text_to_proofreading" name="text_to_proofreading" required>
         </div>
 
-        <div style="margin-bottom: 20px;">
-            <label for="result" style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 1.1em; color: #555;">結果:</label>
-            <input type="text" id="result" name="result" readonly style="width: 100%; padding: 10px; font-size: 1.1em; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
+        <div>
+            <label for="result">結果:</label>
+            <input type="text" id="result" name="result" readonly>
         </div>
 
-        <div style="text-align: center;">
-            <button type="submit" style="padding: 10px 20px; font-size: 1.1em; color: #fff; background-color: #007bff; border: none; border-radius: 4px; cursor: pointer;">校正</button>
+        <div>
+            <button type="submit">校正</button>
         </div>
     </form>
 </div>

@@ -15,7 +15,7 @@
         {% if harassment_report_img %}
         {% for image in harassment_report_img.all %}
         <div class="report-image">
-            <img src="{{ image.image.url }}" alt="Report Image" alt="報告画像" style="max-width: 400px; height: auto;">
+            <img src="{{ image.image.url }}" alt="報告画像">
         </div>
         {% endfor %}
         {% endif %}
