@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>管理者一覧</h1>
-<form method="post">
+<form method="post" class="admin_list">
     {% csrf_token %}
     <div>
         <label for="search_text">検索:</label>
@@ -13,7 +13,7 @@
         <label for="end_date">終了日:</label>
         <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
     </div>
-    <button type="submit" class="btn btn-primary">検索</button>
+    <button type="submit">検索</button>
 </form>
 
 <table class="table">
