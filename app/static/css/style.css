@@ -10,6 +10,16 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.header_area{
+    text-align: right;
+    padding: 20px;
+    border-bottom: 1px solid #b2efe3;
+}
+
+.logout_line{
+    display: inline;
+}
+
 /* ========================== コンテナ ========================== */
 .container {
     display: block;
@@ -273,6 +283,35 @@ button[type="submit"] {
     display: block;
 }
 
+.user_list {
+    margin: 0 auto;
+    width: 500px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.user_list
+label{
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.user_list
+input[type="text"],
+input[type="date"]{
+    width: 300px;
+    margin: 0 auto;
+    display: block;
+}
+.user_list
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
 .admin_signup {
     max-width: 500px;
     margin: 0 auto;
@@ -300,6 +339,38 @@ input[type="password"]{
     display: block;
 }
 .admin_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.company_signup {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.company_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.error_report{
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.error_report
 button[type="submit"] {
     color: white;
     width: auto;
@@ -407,7 +478,7 @@ button[onclick="history.back()"] {
     display: block;
 }
 
-.user_list{
+.harassment_report{
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -415,10 +486,66 @@ button[onclick="history.back()"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.user_list,
+.harassment_report
 button[type="submit"] {
     color: white;
     width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.user_signup{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.user_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.superuser_signup{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.superuser_signup
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.superuser_signup
+input[type="text"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.superuser_signup
+select{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.superuser_signup
+input[type="email"]{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+.superuser_signup
+input[type="password"]{
+    width: 400px;
     margin: 0 auto;
     display: block;
 }

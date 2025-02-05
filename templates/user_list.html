@@ -2,12 +2,11 @@
 
 {% block content %}
 <h1>登録者一覧</h1>
-
-<form method="post" class="admin_list">
+<form method="post" class="user_list">
     {% csrf_token %}
     <div>
-        <label for="search_text">名前:</label>
-        <input type="text" id="search_text" name="search_text" placeholder="IDまたは名前で検索"
+        <label for="search_text">検索:</label>
+        <input type="text" id="search_text" name="search_text" placeholder="IDまたはユーザー名で検索"
             value="{{ form.search_text.value|default:'' }}">
         <label for="start_date">開始日:</label>
         <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}">
