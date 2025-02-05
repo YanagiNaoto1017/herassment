@@ -433,7 +433,6 @@ class CheckIdView(TemplateView):
             
             # 入力されたアカウントIDが存在しない場合
             else:
-                print("用輪から")
                 return render(request, self.template_name, {"form": form})
         return render(request, self.template_name, {"form": form})
 
