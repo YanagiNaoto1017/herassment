@@ -35,7 +35,7 @@
         <tr>
             <td>スーパーユーザー削除の申請</td>
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:superuser_delete' item.sender_name %}">削除</a></td>
+            <td><a href="{% url 'app:superuser_delete' item.sender_name %}" class="btn">削除</a></td>
         </tr>
         {% endif %}
         {% endfor %}
