@@ -16,7 +16,7 @@
         {% if user.superuser_flag and user.user_flag %}
         <tr>
             <!-- パスワードリセット未完了 -->
-            {% if item.genre == '1' and not item.is_read %}<td>パスワードリセットの申請</td>
+            {% if item.genre == '1' and not item.is_read %}<td>{{ item.sender_name }}パスワードリセットの申請</td>
             <!-- パスワードリセット完了 -->
             {% elif item.genre == '1' and item.is_read %}<td>{{ item.sender_name }}のパスワードをリセットしました。</td>
             <!-- スーパーユーザ削除申請中 -->
