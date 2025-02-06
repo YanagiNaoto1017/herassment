@@ -637,6 +637,16 @@ button[type="submit"] {
     display: block;
 }
 
+.complete{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
 /* ========================== フォーム内要素のスタイル ========================== */
 form {
     margin: 0 auto;
