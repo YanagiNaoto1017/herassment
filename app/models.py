@@ -63,6 +63,7 @@ class HarassmentReportImage(models.Model):
     uploaded_at = models.DateTimeField(verbose_name=_("アップロード日時"),default=timezone.now)
 
 # エラー報告
+# お問い合わせ
 class Error_report(models.Model):
     id = models.AutoField(verbose_name=_("ID"),primary_key=True)
     # ドロップダウンの選択肢
@@ -201,4 +202,3 @@ class Notification(models.Model):
         verbose_name=_("送信日時"),
         default=timezone.now,
     )
- 

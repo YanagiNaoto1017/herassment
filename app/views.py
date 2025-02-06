@@ -289,10 +289,13 @@ class DetectionView(LoginRequiredMixin,TemplateView):
             
             nlp = spacy.load("ja_core_news_sm") # モデルのロード
             doc = nlp(input_text) # 入力テキストを単語に分割
+            print(doc)
 
             keywords = Dictionary.objects.values_list('keyword', flat=True) # 辞書からキーワードを取得
+            print(keywords)
 
             detected_words = [token.text for token in doc if token.text in keywords] # 辞書との照合
+            print(detected_words)
 
             # 検出単語がある場合
             if detected_words:
@@ -439,7 +442,7 @@ def send_email(to_email, user):
         settings.SECRET_KEY,
         algorithm='HS256'
     )
-    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
+    url = f'http://127.0.0.1:8000/mail/password_change/?token={token}'
     subject = 'へらすめんと　パスワード再設定'  # メールの件名
     message = f'パスワード再設定用のURLです: {url}'  # 内容
     send_mail(
