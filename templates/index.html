@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
 {% if user.user_flag %}
 <div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
     <div class="center-box detect-box" style="flex: 1; margin: 10px;">
@@ -37,6 +38,25 @@
             </p>
             <p style="text-align: left;">プライバシーは厳守し、適切な対応を行います。</p>
         </ul>
+=======
+{% if user.superuser_flag and user.user_flag %}
+<div class="flex-container">
+    <div class="center-box detect-box">
+    <ul class="list-group">
+        <li class="main">
+            <a href="{% url 'app:detection' %}" class="btn">検出</a>
+        </li>
+        
+        <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
+        <ul>
+            <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
+            <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
+            <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
+            <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
+        </ul>
+        <p>プライバシーは厳守し、適切な対応を行います。</p>
+    </ul>
+>>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
     </div>
 </div>
 <div class="mt-4">
@@ -51,8 +71,19 @@
 <div class="flex-container">
     <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
+            <li class="main">
+                <a href="{% url 'app:detection' %}" class="btn">検出</a>
+            </li>
+            <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
+            <ul>
+                <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
+                <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
+                <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
+                <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
+            </ul>
+            <p>プライバシーは厳守し、適切な対応を行います。</p>
         </ul>
+<<<<<<< HEAD
         <p style="text-align: left;">このシステムは、不適切な発言を検出し、問題の早期発見を支援します。</p>
     </div>
 </div>
@@ -62,28 +93,45 @@
         <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
             <li class="list-group-item" style="padding: 10px; text-align: center;">
                 <a href="{% url 'app:superuser_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">ユーザー登録</a>
+=======
+    </div>
+</div>
+{% else %}
+<div class="flex-container">
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'app:superuser_signup' %}">ユーザー登録</a>
+>>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
             </li>
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:company_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">企業登録</a>
+            <li class="list-group-item">
+                <a href="{% url 'app:company_signup' %}">企業登録</a>
             </li>
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:admin_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">管理者登録</a>
+            <li class="list-group-item">
+                <a href="{% url 'app:admin_signup' %}">管理者登録</a>
             </li>
         </ul>
     </div>
+<<<<<<< HEAD
     <div class="center-box" style="flex: 1; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;">
         <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
             <li class="list-group-item" style="padding: 10px; text-align: center;">
                 <a href="{% url 'app:user_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">登録者</a>
+=======
+    <div class="center-box">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'app:user_list' %}">登録者</a>
+>>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
             </li>
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:company_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">企業</a>
+            <li class="list-group-item">
+                <a href="{% url 'app:company_list' %}">企業</a>
             </li>
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:error_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">お問い合わせ</a>
+            <li class="list-group-item">
+                <a href="{% url 'app:error_list' %}">お問い合わせ</a>
             </li>
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:admin_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">管理者</a>
+            <li class="list-group-item">
+                <a href="{% url 'app:admin_list' %}">管理者</a>
             </li>
         </ul>
     </div>

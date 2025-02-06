@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>管理者一覧</h1>
+
 <form method="post" class="admin_list">
+    <h1>管理者一覧</h1>
     {% csrf_token %}
     <div>
         <label for="search_text">検索:</label>
@@ -36,7 +37,7 @@
             <td>{{ item.created_at }}</td>
             <td>
                 {% if not item.id == user.id %}
-                <a href="{% url 'app:admin_delete' item.pk %}">削除</a>
+                <a href="{% url 'app:admin_delete' item.pk %}" class="bth">削除</a>
                 {% endif %}
             </td>
         </tr>

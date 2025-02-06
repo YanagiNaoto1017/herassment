@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>企業一覧</h1>
-<form method="post">
+
+<form method="post" class="company_list">
+    <h1>企業一覧</h1>
     {% csrf_token %}
     <div>
         <label for="search_text">検索:</label>
@@ -37,7 +38,7 @@
             <td>{{ item.email|default:"-" }}</td>
             <td>{{ item.created_at }}</td>
             <td>
-                <a href="{% url 'app:company_delete' item.pk %}">削除</a>
+                <a href="{% url 'app:company_delete' item.pk %}" class="btn">削除</a>
             </td>
         </tr>
         {% endfor %}
