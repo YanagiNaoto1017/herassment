@@ -10,43 +10,38 @@
 {% if user.superuser_flag and user.user_flag %}
 <div class="flex-container">
     <div class="center-box detect-box">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:detection' %}" class="btn">検出</a></li>
-        </ul>
-        <p>このシステムは、みんなが安心して会話できるように、コミュニケーションの中で不適切な言動をチェックします！<br>
-            不快な言動をすぐに見つけて、早めに対応できるようお手伝いします。<br><br>対象となる言動はこんな感じです：
+    <ul class="list-group">
+        <li class="main">
+            <a href="{% url 'app:detection' %}" class="btn">検出</a>
+        </li>
+        
+        <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
         <ul>
-            <li><strong>攻撃的な言葉:</strong> 侮辱的な言葉や悪口。</li>
-            <li><strong>差別的な発言:</strong> 性別や人種、宗教などに基づく偏見や差別的な言葉。</li>
-            <li><strong>セクシャルハラスメント:</strong> 性的な言動や不適切な接触。</li>
-            <li><strong>パワハラ:</strong> 権力を使って不当な要求をしたり、精神的・肉体的にプレッシャーをかける行為。</li>
+            <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
+            <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
+            <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
+            <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
         </ul>
-        </p>
-        <p>
-            このシステムは、AIの力を借りて、会話の中でこうした不適切な言葉を見逃しません！<br> もし何か問題があれば、すぐに管理者に通知され、必要に応じて警告や通報が行われます。<br> <br>
-            もちろん、プライバシーはしっかり守りますので、見つかった情報は厳重に管理されます。<br> 違反行為があれば、警告や行動についてのフィードバックをユーザーに届けます。<br> <br> <b>目的：</b><br>
-            ハラスメントを防いで、みんなが安心して過ごせる場を作ることです！<br> 健康的で楽しいコミュニケーションをみんなで広げていきましょう！</p>
+        <p>プライバシーは厳守し、適切な対応を行います。</p>
+    </ul>
     </div>
 </div>
 {% elif user.user_flag and not user.superuser_flag %}
 <div class="flex-container">
     <div class="center-box detect-box">
         <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'app:detection' %}" class="btn">検出</a></li>
+            <li class="main">
+                <a href="{% url 'app:detection' %}" class="btn">検出</a>
+            </li>
+            <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
+            <ul>
+                <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
+                <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
+                <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
+                <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
+            </ul>
+            <p>プライバシーは厳守し、適切な対応を行います。</p>
         </ul>
-        <p>このシステムは、みんなが安心して会話できるように、コミュニケーションの中で不適切な言動をチェックします！<br>
-            不快な言動をすぐに見つけて、早めに対応できるようお手伝いします。<br><br>対象となる言動はこんな感じです：
-        <ul>
-            <li><strong>攻撃的な言葉:</strong> 侮辱的な言葉や悪口。</li>
-            <li><strong>差別的な発言:</strong> 性別や人種、宗教などに基づく偏見や差別的な言葉。</li>
-            <li><strong>セクシャルハラスメント:</strong> 性的な言動や不適切な接触。</li>
-            <li><strong>パワハラ:</strong> 権力を使って不当な要求をしたり、精神的・肉体的にプレッシャーをかける行為。</li>
-        </ul>
-        </p>
-        <p>
-            このシステムは、AIの力を借りて、会話の中でこうした不適切な言葉を見逃しません！<br> もし何か問題があれば、すぐに管理者に通知され、必要に応じて警告や通報が行われます。<br> <br>
-            もちろん、プライバシーはしっかり守りますので、見つかった情報は厳重に管理されます。<br> 違反行為があれば、警告や行動についてのフィードバックをユーザーに届けます。<br> <br> <b>目的：</b><br>
-            ハラスメントを防いで、みんなが安心して過ごせる場を作ることです！<br> 健康的で楽しいコミュニケーションをみんなで広げていきましょう！</p>
     </div>
 </div>
 {% else %}

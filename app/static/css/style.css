@@ -76,6 +76,7 @@ body {
     height: auto;
 }
 
+
 /* ========================== サイドバー ========================== */
 .sidebar {
     width: 230px;
@@ -517,6 +518,9 @@ link{
     transition: background-color 0.3s;
 }
 
+.main{
+    text-align: center;
+}
 
 .company_del{
     max-width: 500px;
@@ -719,26 +723,53 @@ form button:hover {
     list-style: none;
     padding: 0;
     margin: 0;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
 }
 
 /* ========================== 中央ボックスのスタイル ========================== */
 .center-box {
-    border: 2px solid #0595c5; /* 枠線の色 */
-    border-radius: 16px; /* 角を丸くする */
-    padding: 20px; /* 内側余白を増加 */
-    background-color: #a5f0fa; 
+    border: none; /* 枠線を削除 */
+    border-radius: 25px; /* 角を丸くする */
+    padding: 30px; /* 内側余白を増加 */
+    background-color: #ffffff; /* 背景色を白に */
     margin: 30px auto; /* 中央揃え */
     max-width: 600px; /* 最大幅を指定 */
     width: 90%; /* モバイル対応で幅を調整 */
     text-align: center; /* テキストを中央揃え */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ボックスの影 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* ボックスの影を強調 */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* 視覚効果のトランジション */
+    border: 1px;
 }
 
 .center-box:focus {
     background-color: #e0f7fa; /* フォーカス時の背景色 */
+    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+}
+
+.center-box a {
+    color: #ffffff; /* リンクの文字色を白に */
+    background-color: #0595c5; /* リンクの背景色 */
+    text-decoration: none; /* 下線を削除 */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* 色と変形のトランジション */
+    border: none; /* 枠線を削除 */
+    border-radius: 8px; /* 角を丸くする */
+    padding: 15px 30px; /* 内側余白を増加 */
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.1em; /* フォントサイズを少し大きく */
+    font-weight: bold; /* フォントを太字に */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* ボタンの影 */
+}
+
+.center-box a:hover {
+    background-color: #036a91; /* ホバー時の背景色 */
+    transform: translateY(-5px); /* ホバー時の浮き上がり効果 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時の影の強調 */
+}
+
+.center-box a:focus {
+    background-color: #036a91; /* フォーカス時の背景色 */
     outline: none; /* デフォルトのフォーカスアウトラインを削除 */
 }
 
@@ -1258,6 +1289,10 @@ textarea {
         right: 10px;
         padding: 10px 20px; /* モバイル用のサイズ調整 */
         font-size: 0.9rem; /* フォントサイズを縮小 */
+    }
+
+    form{
+        max-width: 90%;
     }
 
     form input,
