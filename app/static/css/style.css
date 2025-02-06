@@ -834,6 +834,21 @@ header .btn:hover {
 }
 
 /* ========================== サブヘッダーのスタイル ========================== */
+.harassment-detail {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.harassment-detail
+.report-detail{
+    word-wrap: break-word;
+}
+
 .harassment-header {
     margin-bottom: 20px;
     text-align: center;
@@ -845,16 +860,6 @@ header .btn:hover {
     font-size: 1.5em; /* 適切なフォントサイズ */
     color: #333; /* ダークグレー */
     margin: 0;
-}
-
-.harassment-detail {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* ========================== フッター全体のスタイル ========================== */
@@ -1191,13 +1196,6 @@ textarea {
     margin-top: 5px;
 }
 
-/* .harassment-body .report-detail のスタイル */
-.harassment-body .report-detail {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 20px;
-}
 
 /* .report-image img のスタイル */
 .report-image img {
