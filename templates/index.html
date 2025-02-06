@@ -8,11 +8,15 @@
 
 {% block content %}
 {% if user.user_flag %}
-<div class="flex-container">
-    <div class="center-box detect-box">
+<div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
+    <div class="center-box detect-box" style="flex: 1; margin: 10px;">
         <ul class="list-group">
-                <li class="list-group-item"><a href="{% url 'app:detection' %}">検出</a></li>
-            <p style="text-align: left;">このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
+            <li class="list-group-item">
+                <a href="{% url 'app:detection' %}">検出</a>
+            </li>
+            <p style="text-align: left;">
+                このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。
+            </p>
             <ul style="text-align: left;">
                 <li><strong>攻撃的な言葉:</strong> 侮辱や悪口。</li>
                 <li><strong>差別的発言:</strong> 偏見や差別的な表現。</li>
@@ -22,15 +26,27 @@
             <p style="text-align: left;">プライバシーは厳守し、適切な対応を行います。</p>
         </ul>
     </div>
-</div>
-<div class="consultation" style="text-align: center;">
-    <h2>ハラスメント相談窓口</h2>
-    <p>ハラスメントに関する相談は、以下の窓口をご利用ください。</p>
-    <div style="display: inline-block; text-align: center;">
-        <p><a href="https://www.no-harassment.mhlw.go.jp/" target="_blank">厚生労働省 ハラスメント対策</a></p>
-        <p><a href="https://www.gender.go.jp/" target="_blank">内閣府 男女共同参画局</a></p>
+    <div class="center-box detect-box" style="flex: 1; margin: 10px;">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'app:harassment_report' %}">ハラスメント報告</a>
+            </li>
+            <p style="text-align: left;">
+                不適切な発言やハラスメント行為が発生した場合は、こちらからご報告ください。<br>
+                報告内容は厳正に管理され、迅速な対応を行います。
+            </p>
+            <p style="text-align: left;">プライバシーは厳守し、適切な対応を行います。</p>
+        </ul>
     </div>
 </div>
+<div class="mt-4">
+    <p style="text-align: center; font-size: 1.1em;">
+        いつもご利用いただきありがとうございます。<br>
+        本サイトは、ユーザーの皆様に安全かつ快適な環境を提供することを目的としております。<br>
+        ご意見やご質問がございましたら、お気軽にお問い合わせください。
+    </p>
+</div>
+
 {% elif user.user_flag and not user.superuser_flag %}
 <div class="flex-container">
     <div class="center-box detect-box">
