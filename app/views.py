@@ -442,7 +442,7 @@ def send_email(to_email, user):
         settings.SECRET_KEY,
         algorithm='HS256'
     )
-    url = f'http://127.0.0.1:8000/mail_PWchange/?token={token}'
+    url = f'http://127.0.0.1:8000/mail/password_change/?token={token}'
     subject = 'へらすめんと　パスワード再設定'  # メールの件名
     message = f'パスワード再設定用のURLです: {url}'  # 内容
     send_mail(
