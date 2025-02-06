@@ -2,7 +2,7 @@
 
 {% block content %}
     <form method="POST" class="admin_signup">
-        <h1 style="text-align: center;">管理者登録</h1>
+        <h1>管理者登録</h1>
         {% csrf_token %}
         {{ form.non_field_errors }}
         {% for field in form %}
