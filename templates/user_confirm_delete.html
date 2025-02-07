@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="container">
-    <h1>削除確認</h1>
-    <p>本当に"{{ object.account_name }}"を削除しますか?</p>
-    <form method="post">
+    <form method="post" class="user_delete">
+        <h1>削除確認</h1>
+        <p>本当に"{{ object.account_name }}"を削除しますか?</p>
         {% csrf_token %}
         <button type="submit">削除</button>
+        <br>
         <button onclick="history.back()">戻る</button>
     </form>
-</div>
 
 {% endblock %}
