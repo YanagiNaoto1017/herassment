@@ -477,6 +477,13 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
+.send_fpw
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
 
 .login_form{
     max-width: 500px;
@@ -512,10 +519,10 @@ link{
     font-size: 16px;
     color: white;
     background-color: #007bff;
-    text-align: center;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
+    text-align: center;
 }
 
 .main{
@@ -637,6 +644,91 @@ button[type="submit"] {
     display: block;
 }
 
+.suser_delete{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.suser_delete
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.suser_delete
+p{
+    text-align: center;
+}
+.suser_delete
+a{
+    margin: 10px;
+}
+
+.user_delete{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.user_delete
+p{
+    text-align: center;
+}
+.user_delete
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.user_delete
+button[onclick="history.back()"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.email_change{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.email_change
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.password_change{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.password_change
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
 .complete{
     max-width: 500px;
     margin: 20px auto;
@@ -645,6 +737,35 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
     text-align: center;
+}
+.complete
+p{
+    text-align: center;
+}
+
+.pw_reset{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.pw_reset
+button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+.pw_reset
+p{
+    text-align: center;
+}
+.pw_reset
+a{
+    margin: 10px;
 }
 
 /* ========================== フォーム内要素のスタイル ========================== */
@@ -696,36 +817,6 @@ form .errorlist {
     font-size: 0.9rem;
     margin-top: -8px;
     margin-bottom: 8px;
-}
-
-/* ========================== ボタンおよびリンクのスタイル ========================== */
-form a {
-    text-decoration: none;
-    background-color: #5bc0de;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-form a:hover {
-    background-color: #31b0d5;
-}
-
-form button {
-    background-color: #d9534f;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-form button:hover {
-    background-color: #c9302c;
 }
 
 /* ========================== モバイル対応 ========================== */

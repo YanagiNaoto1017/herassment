@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="container">
-    <h1>リセット確認</h1>
-    <p>本当に"{{ object.account_name }}"のパスワードをリセットしますか?</p>
-    <form method="post">
+    <form method="post" class="pw_reset">
+        <h1>リセット確認</h1>
+        <p>本当に"{{ object.account_name }}"のパスワードをリセットしますか?</p>
         {% csrf_token %}
         <button type="submit">パスワードリセット</button>
-        <a href="{% url 'app:notification' %}">キャンセル</a>
+        <a href="{% url 'app:notification' %}" class="btn">キャンセル</a>
     </form>
-</div>
+
 
 {% endblock %}
