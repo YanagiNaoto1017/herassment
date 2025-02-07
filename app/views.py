@@ -587,7 +587,7 @@ class NotificationView(LoginRequiredMixin,TemplateView):
 class UserDeleteView(DeleteView):
     model = Users
     template_name = 'user_confirm_delete.html'
-    success_url = reverse_lazy('app:user_list')
+    success_url = reverse_lazy('app:delete_complete')
 
     def get(self, request, *args, **kwargs):
         if not request.user.superuser_flag:
