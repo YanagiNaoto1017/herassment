@@ -7,134 +7,122 @@
 {% endblock %}
 
 {% block content %}
-<<<<<<< HEAD
-{% if user.user_flag %}
-<div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
-    <div class="center-box detect-box" style="flex: 1; margin: 10px;">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'app:detection' %}">検出</a>
-            </li>
-            <p style="text-align: left;">
-                このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。
-            </p>
-            <ul style="text-align: left;">
-                <li><strong>攻撃的な言葉:</strong> 侮辱や悪口。</li>
-                <li><strong>差別的発言:</strong> 偏見や差別的な表現。</li>
-                <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触。</li>
-                <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力。</li>
-            </ul>
-            <p style="text-align: left;">プライバシーは厳守し、適切な対応を行います。</p>
-        </ul>
-    </div>
-    <div class="center-box detect-box" style="flex: 1; margin: 10px;">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'app:harassment_report' %}">ハラスメント報告</a>
-            </li>
-            <p style="text-align: left;">
-                不適切な発言やハラスメント行為が発生した場合は、こちらからご報告ください。<br>
-                報告内容は厳正に管理され、迅速な対応を行います。
-            </p>
-            <p style="text-align: left;">プライバシーは厳守し、適切な対応を行います。</p>
-        </ul>
-=======
 {% if user.superuser_flag and user.user_flag %}
-<div class="flex-container">
-    <div class="center-box detect-box">
-    <ul class="list-group">
-        <li class="main">
-            <a href="{% url 'app:detection' %}" class="btn">検出</a>
-        </li>
-        
-        <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
-        <ul>
-            <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
-            <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
-            <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
-            <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
-        </ul>
-        <p>プライバシーは厳守し、適切な対応を行います。</p>
-    </ul>
->>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
-    </div>
-</div>
-<div class="mt-4">
-    <p style="text-align: center; font-size: 1.1em;">
-        いつもご利用いただきありがとうございます。<br>
-        本サイトは、ユーザーの皆様に安全かつ快適な環境を提供することを目的としております。<br>
-        ご意見やご質問がございましたら、お気軽にお問い合わせください。
-    </p>
-</div>
-
-{% elif user.user_flag and not user.superuser_flag %}
-<div class="flex-container">
-    <div class="center-box detect-box">
-        <ul class="list-group">
-            <li class="main">
-                <a href="{% url 'app:detection' %}" class="btn">検出</a>
-            </li>
-            <p>このシステムは、不適切な発言を検出し、早期対応をサポートします。対象となる言動は以下の通りです。</p>
+    <div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
+        <div class="center-box detect-box" style="flex: 1; padding: 10px; border: 1px solid #ccc;">
+            <ul class="list-group">
+                <li class="main">
+                    <a href="{% url 'app:detection' %}" class="btn">検出</a>
+                </li>
+            </ul>
+            <p>
+                このシステムは、不適切な発言を検出し、早期対応をサポートします。<br>
+                対象となる言動は以下の通りです。
+            </p>
             <ul>
                 <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
                 <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
                 <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
                 <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
             </ul>
+        </div>
+
+        <div class="center-box detect-box" style="flex: 1; padding: 10px; border: 1px solid #ccc;">
+            <ul class="list-group">
+                <li class="main">
+                    <a href="{% url 'app:harassment_report' %}" class="btn">ハラスメント報告</a>
+                </li>
+            </ul>
+            <p>
+                不適切な行為やハラスメント行為を発見した場合は、<br>
+                こちらから報告してください。<br>
+                報告内容は厳正に審査され、迅速な対応が行われます。
+            </p>
             <p>プライバシーは厳守し、適切な対応を行います。</p>
-        </ul>
-<<<<<<< HEAD
-        <p style="text-align: left;">このシステムは、不適切な発言を検出し、問題の早期発見を支援します。</p>
+        </div>
     </div>
-</div>
+
+    <div class="mt-4">
+        <p style="text-align: center; font-size: 1.1em;">
+            いつもご利用いただきありがとうございます。<br>
+            本サイトは、ユーザーの皆様に安全かつ快適な環境を提供することを目的としております。<br>
+            ご意見やご質問がございましたら、お気軽にお問い合わせください。
+        </p>
+    </div>
+
+{% elif user.user_flag and not user.superuser_flag %}
+    <div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
+        <div class="center-box detect-box" style="flex: 1; padding: 10px; border: 1px solid #ccc;">
+            <ul class="list-group">
+                <li class="main">
+                    <a href="{% url 'app:detection' %}" class="btn">検出</a>
+                </li>
+            </ul>
+            <p>
+                このシステムは、不適切な発言を検出し、早期対応をサポートします。<br>
+                対象となる言動は以下の通りです。
+            </p>
+            <ul>
+                <li><strong>攻撃的な言葉:</strong> 侮辱や悪口</li>
+                <li><strong>差別的な発言:</strong> 偏見や差別的な表現</li>
+                <li><strong>セクシャルハラスメント:</strong> 性的な発言や接触</li>
+                <li><strong>パワハラ:</strong> 権力を利用した不当な要求や圧力</li>
+            </ul>
+        </div>
+
+        <div class="center-box detect-box" style="flex: 1; padding: 10px; border: 1px solid #ccc;">
+            <ul class="list-group">
+                <li class="main">
+                    <a href="{% url 'app:harassment_report' %}" class="btn">ハラスメント報告</a>
+                </li>
+            </ul>
+            <p>
+                不適切な行為やハラスメント行為を発見した場合は、<br>
+                こちらから報告してください。<br>
+                報告内容は厳正に審査され、迅速な対応が行われます。
+            </p>
+            <p>プライバシーは厳守し、適切な対応を行います。</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <p style="text-align: center; font-size: 1.1em;">
+            いつもご利用いただきありがとうございます。<br>
+            本サイトは、ユーザーの皆様に安全かつ快適な環境を提供することを目的としております。<br>
+            ご意見やご質問がございましたら、お気軽にお問い合わせください。
+        </p>
+    </div>
 {% else %}
-<div class="flex-container" style="display: flex; justify-content: space-between; gap: 20px;">
-    <div class="center-box" style="flex: 1; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;">
-        <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:superuser_signup' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">ユーザー登録</a>
-=======
+    <div class="flex-container">
+        <div class="center-box">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{% url 'app:superuser_signup' %}">ユーザー登録</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'app:company_signup' %}">企業登録</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'app:admin_signup' %}">管理者登録</a>
+                </li>
+            </ul>
+        </div>
+        <div class="center-box">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{% url 'app:user_list' %}">登録者</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'app:company_list' %}">企業</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'app:error_list' %}">お問い合わせ</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'app:admin_list' %}">管理者</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-{% else %}
-<div class="flex-container">
-    <div class="center-box">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'app:superuser_signup' %}">ユーザー登録</a>
->>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'app:company_signup' %}">企業登録</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'app:admin_signup' %}">管理者登録</a>
-            </li>
-        </ul>
-    </div>
-<<<<<<< HEAD
-    <div class="center-box" style="flex: 1; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;">
-        <ul class="list-group" style="padding: 0; margin: 0; list-style: none;">
-            <li class="list-group-item" style="padding: 10px; text-align: center;">
-                <a href="{% url 'app:user_list' %}" style="display: inline-block; width: 80%; height: 50px; line-height: 50px; text-align: center;">登録者</a>
-=======
-    <div class="center-box">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'app:user_list' %}">登録者</a>
->>>>>>> a62b90cb2616023e63ed93901dfaf4651ec3c212
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'app:company_list' %}">企業</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'app:error_list' %}">お問い合わせ</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'app:admin_list' %}">管理者</a>
-            </li>
-        </ul>
-    </div>
-</div>
 {% endif %}
 {% endblock %}
