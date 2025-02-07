@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>パスワードが変更されました</h2>
-<p>パスワードが正常に変更されました。</p>
-<div class="center-container">
-    <a href="{% url 'app:account_info' %}">アカウント情報へ</a>
+
+<div class="complete">
+    <h2>パスワードが変更されました</h2>
+    <p>パスワードが正常に変更されました。</p>
+    <a href="{% url 'app:account_info' %}" class="btn">アカウント情報へ</a>
 </div>
 {% endblock %}

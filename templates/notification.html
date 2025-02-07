@@ -27,7 +27,7 @@
             <td>{{ item.created_at }}</td>
             <td>
                 {% if item.genre == '1' and not item.is_read %}
-                <a href="{% url 'app:password_reset' item.sender_name %}">パスワードリセット</a>
+                <a href="{% url 'app:password_reset' item.sender_name %}" class="btn">パスワードリセット</a>
                 {% endif %}
             </td>
         </tr>

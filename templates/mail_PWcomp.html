@@ -1,61 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>へらすめんと</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 400px; /* 最大幅を設定 */
-            margin: 50px auto; /* 中央に配置 */
-            padding: 20px;
-            background-color: #fff; /* 背景色 */
-            border-radius: 8px; /* 角を丸くする */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
-        }
-
-        h2 {
-            text-align: center; /* 中央揃え */
-            color: #333; /* テキスト色 */
-        }
-
-        p {
-            text-align: center; /* 中央揃え */
-            color: #555; /* テキスト色 */
-            margin: 15px 0; /* 上下のマージン */
-        }
-
-        .center-container {
-            text-align: center; /* 中央揃え */
-            margin-top: 20px; /* 上部のマージン */
-        }
-
-        a {
-            display: inline-block; /* インラインブロックにする */
-            padding: 10px 15px; /* 内側の余白 */
-            background-color: #007bff; /* 背景色 */
-            color: white; /* テキスト色 */
-            border-radius: 4px; /* 角を丸くする */
-            text-decoration: none; /* 下線を消す */
-        }
-
-        a:hover {
-            background-color: #0056b3; /* ホバー時の背景色 */
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h2>パスワードが変更されました</h2>
-    <p>パスワードが正常に変更されました。</p>
-    <div class="center-container">
-        <a href="{% url 'app:login' %}">ログイン画面へ</a>
+    <div class="complete">
+        <h2>パスワードが変更されました</h2>
+        <p>パスワードが正常に変更されました。</p>
+        <a href="{% url 'app:login' %}" class="btn">ログイン</a>
     </div>
 </body>
 </html>
