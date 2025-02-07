@@ -45,9 +45,6 @@
                 <a href="{% url 'app:user_delete' item.pk %}" class="btn">削除</a>
                 {% endif %}
                 {% elif user.admin_flag %}
-                {% if item.superuser_flag %}
-                <a href="{% url 'app:user_delete' item.pk %}" class="btn">削除</a>
-                {% endif %}
                 {% endif %}
             </td>
         </tr>

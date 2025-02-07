@@ -11,7 +11,9 @@
     </div>
 
     <div class="harassment-body">
+        <div>
         <p class="report-detail">{{ harassment_report.report_detail }}</p>
+        </div>
         {% if harassment_report_img %}
         {% for image in harassment_report_img.all %}
         <div class="report-image">
