@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>メールアドレス変更</h1>
-<div class="container">
-    <form method="post">
-        <form method="post">
+        <form method="post" class="email_change">
+            <h1>メールアドレス変更</h1>
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% for field in form %}
@@ -14,6 +12,4 @@
             {% endfor %}
             <button type="submit">変更</button>
         </form>
-    </form>
-</div>
 {% endblock %}
