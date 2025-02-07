@@ -605,6 +605,7 @@ class UserDeleteView(DeleteView):
                 genre = '2',
                 is_read = True,
             )
+            user.delete() # 選択したユーザーを削除
         return redirect(self.success_url)
 
 # 管理者削除
