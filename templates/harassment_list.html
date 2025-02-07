@@ -3,7 +3,7 @@
 {% block content %}
 <h1>ハラスメント報告一覧</h1>
 
-<form method="post">
+<form method="post" class="harassment_list">
     {% csrf_token %}
     <div>
         <label for="start_date">開始日:</label>
@@ -28,7 +28,7 @@
         <tr>
             <td class="date-column">{{ item.report_time }}</td>
             <td class="content-column">{{ item.report_title }}</td>
-            <td><a href="{% url 'app:harassment_detail' item.id %}">詳細</a></td>
+            <td><a href="{% url 'app:harassment_detail' item.id %}" class="btn">詳細</a></td>
         </tr>
         {% endfor %}
     </tbody>

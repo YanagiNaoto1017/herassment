@@ -12,3 +12,10 @@
                ? "ハラスメントが検出されました。"
                : "ハラスメントは検出されませんでした。";
        };
+
+       function toggleMenu() {
+        var sidebar = document.getElementById('sidebar');
+        var overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }

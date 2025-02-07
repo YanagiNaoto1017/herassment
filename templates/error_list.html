@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>エラー報告一覧</h1>
-<form method="post">
+
+<form method="post" class="error_list">
+    <h1>お問い合わせ一覧</h1>
     {% csrf_token %}
     <div>
         <label for="start_date">開始日:</label>
@@ -10,7 +11,7 @@
         <label for="end_date">終了日:</label>
         <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}">
     </div>
-    <button type="submit" class="btn btn-primary">検索</button>
+    <button type="submit">検索</button>
 </form>
 
 <table class="table">

@@ -16,7 +16,7 @@
         {% if user.superuser_flag and user.user_flag %}
         <tr>
             <!-- パスワードリセット未完了 -->
-            {% if item.genre == '1' and not item.is_read %}<td>パスワードリセットの申請</td>
+            {% if item.genre == '1' and not item.is_read %}<td>{{ item.sender_name }}がパスワードリセットの申請</td>
             <!-- パスワードリセット完了 -->
             {% elif item.genre == '1' and item.is_read %}<td>{{ item.sender_name }}のパスワードをリセットしました。</td>
             <!-- スーパーユーザ削除申請中 -->
@@ -33,9 +33,13 @@
         </tr>
         {% elif user.admin_flag %}
         <tr>
-            <td>スーパーユーザー削除の申請</td>
+            <!-- スーパーユーザ削除申請 -->
+            {% if item.genre == '2' and not item.is_read %}<td>{{ item.sender_name }}スーパーユーザー削除の申請</td>
+            <!-- スーパーユーザ削除完了 -->
+            {% elif item.genre == '2' and item.is_read %}<td>{{ item.sender_name }}が削除されました</td>
+            {% endif %}
             <td>{{ item.created_at }}</td>
-            <td><a href="{% url 'app:superuser_delete' item.sender_name %}">削除</a></td>
+            <td><a href="{% url 'app:superuser_delete' item.sender_name %}" class="btn">削除</a></td>
         </tr>
         {% endif %}
         {% endfor %}

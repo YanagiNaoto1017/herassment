@@ -1,16 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<style>
-    .table {
-        max-width: 800px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-</style>
 <h1>アカウント情報</h1>
 <table class="table">
     <thead class="table-dark">
@@ -30,14 +19,14 @@
         <tr>
             <td>
                 メールアドレス: {{ user.email }}
-                <a href="{% url 'app:email_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
+                <a href="{% url 'app:email_change' %}" class="btn">変更</a>
             </td>
         </tr>
         {% endif %}
         <tr>
             <td>
                 パスワード:
-                <a href="{% url 'app:password_change' %}" class="btn btn-primary btn-sm ms-2">変更</a>
+                <a href="{% url 'app:password_change' %}" class="btn">変更</a>
             </td>
         </tr>
         <tr>

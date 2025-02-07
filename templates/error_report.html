@@ -1,21 +1,17 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div
-    style="max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
-    <h1 style="text-align: center;">お問い合わせ</h1>
-    <form method="POST">
+    <form method="POST" class="error_report">
+        <h1>お問い合わせ</h1>
         {% csrf_token %}
         {{ form.non_field_errors }}
         {% for field in form %}
-        <div style="margin-bottom: 15px;">
+        <div>
             {{ field.label }}
             {{ field }}
             {{ field.errors }}
         </div>
         {% endfor %}
-        <div style="text-align: center;">
-            <button type="submit">送信</button>
-        </div>
+        <button type="submit">送信</button>
     </form>
-</div>
 {% endblock %}

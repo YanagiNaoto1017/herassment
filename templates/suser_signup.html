@@ -1,64 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <title>スーパーユーザー登録</title>
-    <style>
-        h1 {
-            color: black;
-            font-family: Arial, sans-serif;
-            display: flex;
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            margin: 50;
-            font-size: 5ch;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        form {
-            background: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            margin-bottom: 15px;
-            padding: 10px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .flex-container {
-            width: 250px; /* サイドバーの幅 */
-            height: 100vh; /* ビューポートの高さに合わせる */
-            background-color: #0595c5; /* 背景色 */
-            color: white; /* テキストの色 */
-            position: fixed; /* 固定位置 */
-            top: 0;
-            left: 0;
-            padding: 20px; /* 内側の余白 */
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 影の効果 */
-        }
-    </style>
 </head>
 <h1>ユーザー新規登録</h1>
 <body>
@@ -77,25 +24,4 @@
     </form>
 
 </body>
-<div class="flex-container">
-    <div class="center-box">
-        <p>アカウント</p>
-        <ul class="list-group">
-            <li class="list-group-item"><a href="user_signup.html">ユーザー登録</a></li>
-            <li class="list-group-item"><a href="company_signup.html">企業登録</a></li>
-            <li class="list-group-item"><a href="admin_signup.html">管理者登録</a></li>
-            <li class="list-group-item"><a href="admin_delete.html">管理者削除</a></li>
-        </ul>
-    </div>
-    <div class="center-box">
-        <p>一覧</p>
-        <ul class="list-group">
-            <li class="list-group-item"><a href="user_list.html">登録者</a></li>
-            <li class="list-group-item"><a href="company_list.html">企業</a></li>
-            <li class="list-group-item"><a href="error_list.html">エラー報告</a></li>
-            <li class="list-group-item"><a href="harassment_list.html">ハラスメント報告一覧</a></li>
-            <li class="list-group-item"><a href="admin_list.html">管理者</a></li>
-        </ul>
-    </div>
-</div>
 </html>
