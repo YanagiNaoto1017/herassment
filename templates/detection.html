@@ -3,7 +3,7 @@
 {% block content %}
 
 <div>
-    
+
     <form method="POST" class="detection">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -20,7 +20,11 @@
         {% if text.detected_words %}
         <div>
             疑いのある単語を検出しました<br>
-            疑いのある単語：{{ text.detected_words }}
+            <span>
+                疑いのある単語：</span>
+            <span>
+                <div class="detected-words">{{ text.detected_words }}</div>
+            </span>
         </div>
         {% elif not text.detected_words %}
         <div>
