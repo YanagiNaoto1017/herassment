@@ -1,5 +1,5 @@
-## システムを動かす手順↓
-# インストール
+# システムを動かす手順↓
+## インストール
 ・サイトから3.12以上のバージョンのPythonのインストール
 バージョン確認のコマンド
 python --version
@@ -28,8 +28,8 @@ pip install djangorestframework-simplejwt
 ・サイトからXAMMPをインストール
 　phpMyAdminにアクセスし、DBを新規作成する
 
-・マイグレートを行う
+## マイグレートを行う
 python manage.py migrate
 
-・Djangoサーバー起動
+## Djangoサーバー起動
 python manage.py runserver
