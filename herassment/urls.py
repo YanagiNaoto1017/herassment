@@ -23,3 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("app.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# カスタムエラービューの登録
+handler403 = 'app.views.custom_403_view'
+handler404 = 'app.views.custom_404_view'
+handler500 = 'app.views.custom_500_view'
