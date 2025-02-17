@@ -10,13 +10,13 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.header_area{
+.header_area {
     text-align: right;
     padding: 20px;
     border-bottom: 1px solid #b2efe3;
 }
 
-.logout_line{
+.logout_line {
     display: inline;
 }
 
@@ -30,11 +30,13 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 600px; /* 最大幅を600pxに設定 */
-    margin: 50px auto; /* 上下の余白と中央揃え */
+    max-width: 600px;
+    /* 最大幅を600pxに設定 */
+    margin: 50px auto;
+    /* 上下の余白と中央揃え */
 }
 
-.pw_container{
+.pw_container {
     display: block;
     text-align: center;
     padding: 20px;
@@ -43,11 +45,13 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 600px; /* 最大幅を600pxに設定 */
-    margin: 50px auto; /* 上下の余白と中央揃え */
+    max-width: 600px;
+    /* 最大幅を600pxに設定 */
+    margin: 50px auto;
+    /* 上下の余白と中央揃え */
 }
 
-.pw_container{
+.pw_container {
     display: block;
     text-align: center;
     padding: 20px;
@@ -56,8 +60,10 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 600px; /* 最大幅を600pxに設定 */
-    margin: 50px auto; /* 上下の余白と中央揃え */
+    max-width: 600px;
+    /* 最大幅を600pxに設定 */
+    margin: 50px auto;
+    /* 上下の余白と中央揃え */
 }
 
 /* ========================== Flexコンテナ ========================== */
@@ -66,7 +72,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center; 
+    text-align: center;
     margin: 0 auto;
     padding: 20px;
     top: 50%;
@@ -182,8 +188,7 @@ a.nav-link {
 a.nav-link:hover {
     background-color: rgb(161, 223, 209);
     transform: translateX(5px);
-    color: cadetblue
-    ;
+    color: cadetblue;
 }
 
 /* aタグのアクティブなリンクのスタイル */
@@ -207,51 +212,73 @@ a.nav-link.active {
 
 /* ========================== ボタンの基本スタイル ========================== */
 button {
-    font-family: 'Roboto', sans-serif; /* 共通フォント */
-    padding: 10px 15px; /* ベーシックな内側余白 */
+    font-family: 'Roboto', sans-serif;
+    /* 共通フォント */
+    padding: 10px 15px;
+    /* ベーシックな内側余白 */
     border: none;
-    border-radius: 5px; /* 角丸 */
+    border-radius: 5px;
+    /* 角丸 */
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s ease; /* スムーズな変化 */
-    color: white; /* テキストの色 */
-    width: 100%; /* デフォルトはフル幅 */
-    background-color: #007bff; /* プライマリカラー */
+    transition: background-color 0.3s, box-shadow 0.3s ease;
+    /* スムーズな変化 */
+    color: white;
+    /* テキストの色 */
+    width: 100%;
+    /* デフォルトはフル幅 */
+    background-color: #007bff;
+    /* プライマリカラー */
 }
 
 /* ========================== ボタンのホバー・アクティブスタイル ========================== */
 button:hover {
-    background-color: #0056b3; /* 濃い色に変更 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    background-color: #0056b3;
+    /* 濃い色に変更 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 軽い影を追加 */
 }
 
 button:active {
-    background-color: #004494; /* さらに濃い色 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* アクティブ時の影を減らす */
+    background-color: #004494;
+    /* さらに濃い色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* アクティブ時の影を減らす */
 }
 
 /* ========================== 送信ボタン（type="submit"）のスタイル ========================== */
 button[type="submit"] {
-    font-size: 1rem; /* フォントサイズ */
-    padding: 10px 20px; /* 送信ボタン専用の余白 */
-    background: linear-gradient(to right, #007bff, #0056b3); /* グラデーション背景 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影 */
+    font-size: 1rem;
+    /* フォントサイズ */
+    padding: 10px 20px;
+    /* 送信ボタン専用の余白 */
+    background: linear-gradient(to right, #007bff, #0056b3);
+    /* グラデーション背景 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 影 */
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(to right, #0056b3, #007bff); /* ホバー時の逆グラデーション */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* ホバー時の影を強調 */
+    background: linear-gradient(to right, #0056b3, #007bff);
+    /* ホバー時の逆グラデーション */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    /* ホバー時の影を強調 */
 }
 
 /* ========================== 固定ボタンのスタイル ========================== */
 .fixed-button {
     position: fixed;
-    bottom: 20px; /* ビューポート下部に固定 */
-    right: 20px; /* ビューポート右側に固定 */
-    z-index: 1000; /* 上層に配置 */
+    bottom: 20px;
+    /* ビューポート下部に固定 */
+    right: 20px;
+    /* ビューポート右側に固定 */
+    z-index: 1000;
+    /* 上層に配置 */
     padding: 12px 25px;
     background-color: #007bff;
-    border-radius: 50px; /* 丸みを強調 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 固定ボタン用の影 */
+    border-radius: 50px;
+    /* 丸みを強調 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* 固定ボタン用の影 */
 }
 
 /* ========================== フォームのスタイル ========================== */
@@ -263,28 +290,28 @@ button[type="submit"]:hover {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.admin_list
-label{
+
+.admin_list label {
     width: auto;
     margin: 0 auto;
     display: block;
 }
-.admin_list
-input[type="text"],
-input[type="date"]{
+
+.admin_list input[type="text"],
+input[type="date"] {
     width: 300px;
     margin: 0 auto;
     display: block;
 }
-.admin_list
-button[type="submit"] {
+
+.admin_list button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.company_list{
+.company_list {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -292,21 +319,21 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.company_list
-button[type="submit"] {
+
+.company_list button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
-.company_list
-input[type="text"]{
+
+.company_list input[type="text"] {
     width: 300px;
     margin: 0 auto;
     display: block;
 }
 
-.error_list{
+.error_list {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -314,8 +341,8 @@ input[type="text"]{
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.error_list
-button[type="submit"] {
+
+.error_list button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
@@ -330,28 +357,28 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.user_list
-label{
+
+.user_list label {
     width: auto;
     margin: 0 auto;
     display: block;
 }
-.user_list
-input[type="text"],
-input[type="date"]{
+
+.user_list input[type="text"],
+input[type="date"] {
     width: 300px;
     margin: 0 auto;
     display: block;
 }
-.user_list
-button[type="submit"] {
+
+.user_list button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.detection{
+.detection {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -359,8 +386,8 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.detection
-button[type="submit"] {
+
+.detection button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
@@ -375,26 +402,26 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.admin_signup
-input[type="text"]{
+
+.admin_signup input[type="text"] {
     width: 400px;
     margin: 0 auto;
     display: block;
 }
-.admin_signup
-input[type="email"]{
+
+.admin_signup input[type="email"] {
     width: 400px;
     margin: 0 auto;
     display: block;
 }
-.admin_signup
-input[type="password"]{
+
+.admin_signup input[type="password"] {
     width: 400px;
     margin: 0 auto;
     display: block;
 }
-.admin_signup
-button[type="submit"] {
+
+.admin_signup button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
@@ -409,15 +436,15 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.company_signup
-button[type="submit"] {
+
+.company_signup button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.error_report{
+.error_report {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -425,31 +452,15 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.error_report
-button[type="submit"] {
+
+.error_report button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.check_id{
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-}
-.check_id
-button[type="submit"] {
-    color: white;
-    width: auto;
-    margin: 0 auto;
-    display: block;
-}
-
-.reset_pw{
+.check_id {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -457,19 +468,35 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.reset_pw
-h2{
+
+.check_id button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.reset_pw {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.reset_pw h2 {
     text-align: center;
 }
-.reset_pw
-button[type="submit"] {
+
+.reset_pw button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.send_fpw{
+.send_fpw {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -478,7 +505,14 @@ button[type="submit"] {
     background-color: #f9f9f9;
 }
 
-.login_form{
+.send_fpw button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.login_form {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -486,15 +520,15 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.login_form
-button[type="submit"] {
+
+.login_form button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
-.login_form
-link{
+
+.login_form link {
     color: white;
     width: auto;
     margin: 0 auto;
@@ -512,44 +546,17 @@ link{
     font-size: 16px;
     color: white;
     background-color: #007bff;
-    text-align: center;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
-}
-
-.main{
     text-align: center;
 }
 
-.company_del{
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-}
-.company_del
-p{
+.main {
     text-align: center;
 }
-.company_del
-button[type="submit"] {
-    color: white;
-    width: auto;
-    margin: 0 auto;
-    display: block;
-}
-.company_del
-button[onclick="history.back()"] {
-    color: white;
-    width: auto;
-    margin: 0 auto;
-    display: block;
-}
 
-.harassment_report{
+.company_del {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -557,15 +564,26 @@ button[onclick="history.back()"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.harassment_report
-button[type="submit"] {
+
+.company_del p {
+    text-align: center;
+}
+
+.company_del button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.user_signup{
+.company_del button[onclick="history.back()"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.harassment_report {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -573,15 +591,15 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.user_signup
-button[type="submit"] {
+
+.harassment_report button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.superuser_signup{
+.user_signup {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -589,39 +607,15 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.superuser_signup
-button[type="submit"] {
+
+.user_signup button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
-.superuser_signup
-input[type="text"]{
-    width: 400px;
-    margin: 0 auto;
-    display: block;
-}
-.superuser_signup
-select{
-    width: 400px;
-    margin: 0 auto;
-    display: block;
-}
-.superuser_signup
-input[type="email"]{
-    width: 400px;
-    margin: 0 auto;
-    display: block;
-}
-.superuser_signup
-input[type="password"]{
-    width: 400px;
-    margin: 0 auto;
-    display: block;
-}
 
-.harassment_list{
+.superuser_signup {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -629,15 +623,55 @@ input[type="password"]{
     border-radius: 10px;
     background-color: #f9f9f9;
 }
-.harassment_list
-button[type="submit"] {
+
+.superuser_signup button[type="submit"] {
     color: white;
     width: auto;
     margin: 0 auto;
     display: block;
 }
 
-.complete{
+.superuser_signup input[type="text"] {
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.superuser_signup select {
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.superuser_signup input[type="email"] {
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.superuser_signup input[type="password"] {
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.harassment_list {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.harassment_list button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.suser_delete {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
@@ -645,6 +679,120 @@ button[type="submit"] {
     border-radius: 10px;
     background-color: #f9f9f9;
     text-align: center;
+}
+
+.suser_delete button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.suser_delete p {
+    text-align: center;
+}
+
+.suser_delete a {
+    margin: 10px;
+}
+
+.user_delete {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.user_delete p {
+    text-align: center;
+}
+
+.user_delete button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.user_delete button[onclick="history.back()"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.email_change {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.email_change button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.password_change {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.password_change button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.complete {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.complete p {
+    text-align: center;
+}
+
+.pw_reset {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.pw_reset button[type="submit"] {
+    color: white;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.pw_reset p {
+    text-align: center;
+}
+
+.pw_reset a {
+    margin: 10px;
 }
 
 /* ========================== フォーム内要素のスタイル ========================== */
@@ -698,36 +846,6 @@ form .errorlist {
     margin-bottom: 8px;
 }
 
-/* ========================== ボタンおよびリンクのスタイル ========================== */
-form a {
-    text-decoration: none;
-    background-color: #5bc0de;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-form a:hover {
-    background-color: #31b0d5;
-}
-
-form button {
-    background-color: #d9534f;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-form button:hover {
-    background-color: #c9302c;
-}
-
 /* ========================== モバイル対応 ========================== */
 .list-group {
     list-style: none;
@@ -739,75 +857,113 @@ form button:hover {
 
 /* ========================== 中央ボックスのスタイル ========================== */
 .center-box {
-    border: none; /* 枠線を削除 */
-    border-radius: 25px; /* 角を丸くする */
-    padding: 30px; /* 内側余白を増加 */
-    background-color: #ffffff; /* 背景色を白に */
-    margin: 30px auto; /* 中央揃え */
-    max-width: 600px; /* 最大幅を指定 */
-    width: 90%; /* モバイル対応で幅を調整 */
-    text-align: center; /* テキストを中央揃え */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* ボックスの影を強調 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 視覚効果のトランジション */
+    border: none;
+    /* 枠線を削除 */
+    border-radius: 25px;
+    /* 角を丸くする */
+    padding: 30px;
+    /* 内側余白を増加 */
+    background-color: #ffffff;
+    /* 背景色を白に */
+    margin: 30px auto;
+    /* 中央揃え */
+    max-width: 600px;
+    /* 最大幅を指定 */
+    width: 90%;
+    /* モバイル対応で幅を調整 */
+    text-align: center;
+    /* テキストを中央揃え */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    /* ボックスの影を強調 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 視覚効果のトランジション */
     border: 1px;
 }
 
 .center-box:focus {
-    background-color: #e0f7fa; /* フォーカス時の背景色 */
-    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+    background-color: #e0f7fa;
+    /* フォーカス時の背景色 */
+    outline: none;
+    /* デフォルトのフォーカスアウトラインを削除 */
 }
 
 .center-box a {
-    color: #ffffff; /* リンクの文字色を白に */
-    background-color: #0595c5; /* リンクの背景色 */
-    text-decoration: none; /* 下線を削除 */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* 色と変形のトランジション */
-    border: none; /* 枠線を削除 */
-    border-radius: 8px; /* 角を丸くする */
-    padding: 15px 30px; /* 内側余白を増加 */
+    color: #ffffff;
+    /* リンクの文字色を白に */
+    background-color: #0595c5;
+    /* リンクの背景色 */
+    text-decoration: none;
+    /* 下線を削除 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* 色と変形のトランジション */
+    border: none;
+    /* 枠線を削除 */
+    border-radius: 8px;
+    /* 角を丸くする */
+    padding: 15px 30px;
+    /* 内側余白を増加 */
     display: inline-block;
     margin-top: 20px;
-    font-size: 1.1em; /* フォントサイズを少し大きく */
-    font-weight: bold; /* フォントを太字に */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* ボタンの影 */
+    font-size: 1.1em;
+    /* フォントサイズを少し大きく */
+    font-weight: bold;
+    /* フォントを太字に */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    /* ボタンの影 */
 }
 
 .center-box a:hover {
-    background-color: #036a91; /* ホバー時の背景色 */
-    transform: translateY(-5px); /* ホバー時の浮き上がり効果 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時の影の強調 */
+    background-color: #036a91;
+    /* ホバー時の背景色 */
+    transform: translateY(-5px);
+    /* ホバー時の浮き上がり効果 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* ホバー時の影の強調 */
 }
 
 .center-box a:focus {
-    background-color: #036a91; /* フォーカス時の背景色 */
-    outline: none; /* デフォルトのフォーカスアウトラインを削除 */
+    background-color: #036a91;
+    /* フォーカス時の背景色 */
+    outline: none;
+    /* デフォルトのフォーカスアウトラインを削除 */
 }
 
 /* ========================== 中央コンテナのスタイル ========================== */
 .center-container {
-    display: flex; /* フレックスボックスで子要素を配置 */
-    justify-content: center; /* 子要素を中央揃え */
-    align-items: center; /* 垂直方向も中央揃え */
-    margin: 0 auto; /* 中央配置 */
+    display: flex;
+    /* フレックスボックスで子要素を配置 */
+    justify-content: center;
+    /* 子要素を中央揃え */
+    align-items: center;
+    /* 垂直方向も中央揃え */
+    margin: 0 auto;
+    /* 中央配置 */
     padding: 0;
-    min-height: 100vh; /* 画面全体の高さを占有 */
-    background-color: #f8f9fa; /* 背景色を追加 */
+    min-height: 100vh;
+    /* 画面全体の高さを占有 */
+    background-color: #f8f9fa;
+    /* 背景色を追加 */
 }
 
 /* ========================== ヘッダー全体のスタイル ========================== */
 header {
-    background-color: #ffffff; /* 背景色を白に設定 */
-    text-align: center; /* 中央揃え */
+    background-color: #ffffff;
+    /* 背景色を白に設定 */
+    text-align: center;
+    /* 中央揃え */
 }
 
 /* ========================== ヘッダータイトルのスタイル ========================== */
 header h1 {
     margin: 0;
-    font-size: 2.5em; /* フォントサイズを少し大きく */
+    font-size: 2.5em;
+    /* フォントサイズを少し大きく */
     background: linear-gradient(293.64deg, #007ba8 7.38%, #00797f 93.96%);
-    -webkit-background-clip: text; /* グラデーションテキスト */
+    -webkit-background-clip: text;
+    /* グラデーションテキスト */
     background-clip: text;
-    -webkit-text-fill-color: transparent; /* 背景をテキスト色に反映 */
+    -webkit-text-fill-color: transparent;
+    /* 背景をテキスト色に反映 */
 }
 
 /* ========================== ボタンの共通スタイル ========================== */
@@ -819,28 +975,36 @@ header .btn {
 
 /* ========================== プライマリーボタン ========================== */
 header .btn-primary {
-    background-color: #20aa60; /* 緑色の背景 */
+    background-color: #20aa60;
+    /* 緑色の背景 */
     color: white;
-    text-decoration: none; /* 下線を削除 */
+    text-decoration: none;
+    /* 下線を削除 */
 }
 
 header .btn-primary:hover {
-    background-color: #b0b300;}
+    background-color: #b0b300;
+}
 
 /* ========================== ログアウトボタン ========================== */
 header .btn-logout {
-    background-color: #dc3545; /* 赤色の背景 */
+    background-color: #dc3545;
+    /* 赤色の背景 */
     color: white;
-    text-decoration: none; /* 下線を削除 */
+    text-decoration: none;
+    /* 下線を削除 */
 }
 
 header .btn-logout:hover {
-    background-color: #b0b300;}
+    background-color: #b0b300;
+}
 
 /* ========================== ボタンの共通ホバースタイル ========================== */
 header .btn:hover {
-    transform: translateY(-3px); /* ホバー時に軽く浮き上がる */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ボタンに影を追加 */
+    transform: translateY(-3px);
+    /* ホバー時に軽く浮き上がる */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* ボタンに影を追加 */
 }
 
 /* ========================== サブヘッダーのスタイル ========================== */
@@ -854,8 +1018,7 @@ header .btn:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.harassment-detail
-.report-detail{
+.harassment-detail .report-detail {
     word-wrap: break-word;
 }
 
@@ -863,24 +1026,33 @@ header .btn:hover {
     margin-bottom: 20px;
     text-align: center;
     padding: 10px 0;
-    border-bottom: 2px solid #f0f0f0; /* 下線を追加 */
+    border-bottom: 2px solid #f0f0f0;
+    /* 下線を追加 */
 }
 
 .harassment-header h2 {
-    font-size: 1.5em; /* 適切なフォントサイズ */
-    color: #333; /* ダークグレー */
+    font-size: 1.5em;
+    /* 適切なフォントサイズ */
+    color: #333;
+    /* ダークグレー */
     margin: 0;
 }
 
 /* ========================== フッター全体のスタイル ========================== */
 footer {
-    background-color: #00787e; /* 背景色を濃い青緑に設定 */
-    text-align: center; /* テキストを中央揃え */
+    background-color: #00787e;
+    /* 背景色を濃い青緑に設定 */
+    text-align: center;
+    /* テキストを中央揃え */
     padding: 20px;
-    border-top: 1px solid rgba(119, 227, 202, 0.8); /* 上部に薄い境界線 */
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* フッター上部に影を追加 */
-    border-radius: 8px 8px 0 0; /* 上部左右の角を丸く */
-    position: relative; /* 相対位置に設定 */
+    border-top: 1px solid rgba(119, 227, 202, 0.8);
+    /* 上部に薄い境界線 */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+    /* フッター上部に影を追加 */
+    border-radius: 8px 8px 0 0;
+    /* 上部左右の角を丸く */
+    position: relative;
+    /* 相対位置に設定 */
 }
 
 span.footer-area {
@@ -890,13 +1062,20 @@ span.footer-area {
 /* ========================== 共通スタイル ========================== */
 
 h1 {
-    text-align: center; /* テキストを中央揃え */
-    font-family: 'Arial', 'Playfair Display', sans-serif; /* フォントスタックを統合 */
-    color: #2c3e50; /* テキストカラーを落ち着いた濃いグレーに設定 */
-    font-size: 2rem; /* ベースのフォントサイズ */
-    font-weight: bold; /* 太字設定 */
-    margin: 20px auto; /* 上下の余白を統一し、中央揃え */
-    position: relative; /* 必要に応じて位置調整が可能 */
+    text-align: center;
+    /* テキストを中央揃え */
+    font-family: 'Arial', 'Playfair Display', sans-serif;
+    /* フォントスタックを統合 */
+    color: #2c3e50;
+    /* テキストカラーを落ち着いた濃いグレーに設定 */
+    font-size: 2rem;
+    /* ベースのフォントサイズ */
+    font-weight: bold;
+    /* 太字設定 */
+    margin: 20px auto;
+    /* 上下の余白を統一し、中央揃え */
+    position: relative;
+    /* 必要に応じて位置調整が可能 */
 }
 
 h2 {
@@ -916,12 +1095,18 @@ h3 {
 }
 
 p {
-    font-family: 'Roboto', sans-serif; /* 一貫したフォント */
-    font-size: 1rem; /* ベースのフォントサイズ */
-    font-weight: 400; /* 標準の太さ */
-    color: #333; /* 落ち着いた文字色 */
-    margin-bottom: 15px; /* 統一されたマージン */
-    text-align: left; /* デフォルトは左揃え */
+    font-family: 'Roboto', sans-serif;
+    /* 一貫したフォント */
+    font-size: 1rem;
+    /* ベースのフォントサイズ */
+    font-weight: 400;
+    /* 標準の太さ */
+    color: #333;
+    /* 落ち着いた文字色 */
+    margin-bottom: 15px;
+    /* 統一されたマージン */
+    text-align: left;
+    /* デフォルトは左揃え */
 }
 
 
@@ -987,7 +1172,8 @@ input {
 
 textarea {
     padding: 12px;
-    resize: vertical; /* 縦方向のリサイズを可能に */
+    resize: vertical;
+    /* 縦方向のリサイズを可能に */
     white-space: pre-wrap;
     word-wrap: break-word;
     font-size: 1rem;
@@ -1217,22 +1403,35 @@ textarea {
     border-radius: 5px;
 }
 
+/* 検出単語のスタイル */
+.detected-words {
+    display: inline;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /* ========================== モバイル対応 ========================== */
 @media (max-width: 768px) {
-    .admin_signup{
+    .admin_signup {
         max-width: 90%;
     }
 
     .container {
-        max-width: 90%; /* モバイル時に幅を90%に調整 */
-        margin: 20px auto; /* 上下の余白を縮小 */
+        max-width: 90%;
+        /* モバイル時に幅を90%に調整 */
+        margin: 20px auto;
+        /* 上下の余白を縮小 */
     }
 
     .flex-container {
-        width: 100%; /* モバイルでは幅を100%に */
-        height: auto; /* 高さを自動調整 */
-        padding: 10px; /* モバイルでのパディング調整 */
-        box-shadow: none; /* スマホでは影をなくす */
+        width: 100%;
+        /* モバイルでは幅を100%に */
+        height: auto;
+        /* 高さを自動調整 */
+        padding: 10px;
+        /* モバイルでのパディング調整 */
+        box-shadow: none;
+        /* スマホでは影をなくす */
     }
 
     /* サイドバーの設定 */
@@ -1240,7 +1439,8 @@ textarea {
         width: 100%;
         position: fixed;
         top: 0;
-        left: -100%; /* 初期状態でサイドバーは非表示 */
+        left: -100%;
+        /* 初期状態でサイドバーは非表示 */
         box-shadow: none;
         border-radius: 0;
     }
@@ -1252,9 +1452,12 @@ textarea {
 
     /* ナビゲーションリンクの幅を100%に調整してモバイル対応 */
     .nav-link {
-        width: 100%; /* 画面いっぱいに広がる */
-        padding: 12px; /* 上下左右のパディングを均等に */
-        font-size: 1.1em; /* モバイルで少し大きく見えるように調整 */
+        width: 100%;
+        /* 画面いっぱいに広がる */
+        padding: 12px;
+        /* 上下左右のパディングを均等に */
+        font-size: 1.1em;
+        /* モバイルで少し大きく見えるように調整 */
     }
 
     /* アイコンのサイズを少し小さく */
@@ -1265,7 +1468,8 @@ textarea {
     /* ナビゲーションリンクの並びを縦に変更 */
     .nav-item {
         flex-direction: column;
-        align-items: flex-start; /* アイテムを左揃え */
+        align-items: flex-start;
+        /* アイテムを左揃え */
     }
 
     /* コンテンツの余白調整 */
@@ -1279,27 +1483,33 @@ textarea {
 
     /* サイドバーを開いた時の動作 */
     .sidebar.open {
-        left: 0; /* サイドバーが表示される */
+        left: 0;
+        /* サイドバーが表示される */
     }
 
     /* モバイル画面用のスタイル */
     #content-wrapper {
-        margin-left: 0; /* サイドバーが非表示のときにコンテンツを全幅に */
+        margin-left: 0;
+        /* サイドバーが非表示のときにコンテンツを全幅に */
     }
 
     button {
-        width: auto; /* モバイルでは幅を自動調整 */
-        padding: 8px 16px; /* パディングを調整 */
+        width: auto;
+        /* モバイルでは幅を自動調整 */
+        padding: 8px 16px;
+        /* パディングを調整 */
     }
 
     .fixed-button {
         bottom: 10px;
         right: 10px;
-        padding: 10px 20px; /* モバイル用のサイズ調整 */
-        font-size: 0.9rem; /* フォントサイズを縮小 */
+        padding: 10px 20px;
+        /* モバイル用のサイズ調整 */
+        font-size: 0.9rem;
+        /* フォントサイズを縮小 */
     }
 
-    form{
+    form {
         max-width: 90%;
     }
 
@@ -1318,51 +1528,72 @@ textarea {
     }
 
     .list-group {
-        flex-direction: column; /* モバイルでは縦並びを維持 */
+        flex-direction: column;
+        /* モバイルでは縦並びを維持 */
     }
 
     .center-box {
-        padding: 15px; /* モバイルで内側余白を調整 */
-        border-radius: 12px; /* 角丸をやや小さく */
+        padding: 15px;
+        /* モバイルで内側余白を調整 */
+        border-radius: 12px;
+        /* 角丸をやや小さく */
     }
+
     .center-container {
-        flex-direction: column; /* モバイルでは縦並びを強制 */
+        flex-direction: column;
+        /* モバイルでは縦並びを強制 */
     }
 
     header h1 {
-        font-size: 2em; /* モバイルで少し小さく */
+        font-size: 2em;
+        /* モバイルで少し小さく */
     }
+
     header .btn {
-        padding: 8px 15px; /* モバイルでボタンのサイズ調整 */
-        font-size: 0.9rem; /* フォントサイズを調整 */
+        padding: 8px 15px;
+        /* モバイルでボタンのサイズ調整 */
+        font-size: 0.9rem;
+        /* フォントサイズを調整 */
     }
+
     .harassment-header h2 {
-        font-size: 1.2em; /* モバイルでサブヘッダーを調整 */
+        font-size: 1.2em;
+        /* モバイルでサブヘッダーを調整 */
     }
 
     footer {
-        padding: 15px; /* モバイルで余白を少し縮小 */
-        font-size: 0.9rem; /* テキストサイズを小さく */
+        padding: 15px;
+        /* モバイルで余白を少し縮小 */
+        font-size: 0.9rem;
+        /* テキストサイズを小さく */
     }
 
     h1 {
-        font-size: 1.5rem; /* モバイル画面でフォントサイズを小さく */
-        margin: 15px auto; /* 余白を調整 */
+        font-size: 1.5rem;
+        /* モバイル画面でフォントサイズを小さく */
+        margin: 15px auto;
+        /* 余白を調整 */
     }
 
     h2 {
-        font-size: 1.75rem; /* モバイルでフォントサイズを縮小 */
-        margin: 15px auto; /* 余白を調整 */
+        font-size: 1.75rem;
+        /* モバイルでフォントサイズを縮小 */
+        margin: 15px auto;
+        /* 余白を調整 */
     }
 
     h3 {
-        font-size: 1.5rem; /* モバイルでサブ見出しも調整 */
-        margin: 15px auto; /* 余白を調整 */
+        font-size: 1.5rem;
+        /* モバイルでサブ見出しも調整 */
+        margin: 15px auto;
+        /* 余白を調整 */
     }
 
     p {
-        font-size: 0.9rem; /* モバイルで文字サイズを少し小さく */
-        margin-bottom: 12px; /* 間隔も調整 */
+        font-size: 0.9rem;
+        /* モバイルで文字サイズを少し小さく */
+        margin-bottom: 12px;
+        /* 間隔も調整 */
     }
 
     .table {
@@ -1370,15 +1601,18 @@ textarea {
     }
 
     .table tbody tr {
-        height: auto; /* 行の高さを自動調整 */
+        height: auto;
+        /* 行の高さを自動調整 */
     }
 
     .content-column {
         width: 100%;
-        padding-left: 10px; /* 左右の余白を調整 */
-        padding-right: 10px; /* 同様に右側も調整 */
+        padding-left: 10px;
+        /* 左右の余白を調整 */
+        padding-right: 10px;
+        /* 同様に右側も調整 */
     }
-    
+
     .table {
         padding: 15%;
     }
@@ -1390,10 +1624,11 @@ textarea {
     }
 
     tr,
-    td{
+    td {
         font-size: 9px;
         font-weight: bold;
     }
+
     td,
     th {
         word-wrap: break-word;
@@ -1436,7 +1671,7 @@ textarea {
     .proofreading-box .list-group-item a {
         font-size: 14px;
     }
-    
+
     .link a {
         font-size: 0.85rem;
     }
@@ -1481,6 +1716,7 @@ textarea {
         top: 0;
         padding-top: 60px;
     }
+
     .hamburger {
         display: none;
         cursor: pointer;
@@ -1510,7 +1746,7 @@ textarea {
         left: 0;
         top: 0;
     }
-    
+
 
     @media (max-width: 768px) {
         .hamburger {
